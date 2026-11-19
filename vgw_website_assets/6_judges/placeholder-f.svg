@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200" width="400" height="200">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#171a1e"/>
+      <stop offset="1" stop-color="#0c0d10"/>
+    </linearGradient>
+    <linearGradient id="skin" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4a535d"/>
+      <stop offset="1" stop-color="#363d45"/>
+    </linearGradient>
+    <linearGradient id="cloth" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3a424b"/>
+      <stop offset="1" stop-color="#22272d"/>
+    </linearGradient>
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M20 0H0V20" fill="none" stroke="#3cff9e" stroke-opacity=".07" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="400" height="200" fill="url(#bg)"/>
+  <rect width="400" height="200" fill="url(#grid)"/>
+  <circle cx="200" cy="96" r="88" fill="none" stroke="#3cff9e" stroke-opacity=".14" stroke-width="1" stroke-dasharray="3 7"/>
+  <!-- long hair (back layer) -->
+  <path d="M166 84c-6-34 10-54 34-54s40 20 34 54c2 22 6 40 14 56-16 8-36 6-48 0-12 6-32 8-48 0 8-16 12-34 14-56z" fill="#262b31"/>
+  <!-- neck -->
+  <path d="M188 112h24v24c-7 6-17 6-24 0z" fill="url(#skin)"/>
+  <!-- shoulders / top with round neckline -->
+  <path d="M118 200c2-32 20-50 52-58l16-4c6 12 22 12 28 0l16 4c32 8 50 26 52 58z" fill="url(#cloth)"/>
+  <path d="M186 138c6 14 22 14 28 0" fill="none" stroke="#5a646f" stroke-width="2"/>
+  <!-- head -->
+  <ellipse cx="200" cy="82" rx="28" ry="35" fill="url(#skin)"/>
+  <!-- fringe -->
+  <path d="M171 84c-4-30 10-46 30-46 20 0 34 16 29 46-6-16-18-26-34-28-8 10-16 20-25 28z" fill="#262b31"/>
+  <!-- outline -->
+  <path d="M118 200c2-32 20-50 52-58l16-4M282 200c-2-32-20-50-52-58l-16-4" fill="none" stroke="#3cff9e" stroke-opacity=".5" stroke-width="1.5"/>
+</svg>
