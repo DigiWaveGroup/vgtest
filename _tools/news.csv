@@ -1,9 +1,3 @@
 ﻿id,date,source,home,event_id,url,title_zh,title_en
-official-91,2026-04-28,official,Y,,https://www.vgwtw.com/news/all/article/?id=91,2026 放視大賞 複選入圍,
-official-88,2025-12-26,official,Y,,https://www.vgwtw.com/news/all/article/?id=88,#05 重要的抉擇：在有限的預算聚焦展覽核心,
-official-86,2025-12-17,official,Y,,https://www.vgwtw.com/news/all/article/?id=86,2026放視大賞展位圖及展位審核公告,
-event-indie-001,,event,N,talk-indie-001,,,
-event-career-003,,event,N,talk-career-003,,,
-event-portfolio,,event,N,workshop-portfolio,,,
-event-awards,,event,N,ceremony-awards,,,
-event-opening,,event,N,ceremony-opening,,,
+official-2027-dates,2026-11-24,official,Y,,,放視大賞 2027 舉辦日期,
+official-2027-exhibit,2026-11-24,official,Y,,,2027 放視大賞 參展團體報名,

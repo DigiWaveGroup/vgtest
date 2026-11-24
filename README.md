@@ -39,7 +39,7 @@
    - `id`：小寫英數與連字號，不可重複（如 `forum-01`）
    - `date`（YYYY-MM-DD）、`start`／`end`（HH:MM）
    - `type`：`forum`、`talk`、`pitch`、`workshop`
-   - `status`：`open`（報名中，必填報名網址）、`upcoming`（即將開放）、`full`（已額滿）、`closed`（已截止）
+   - `status`：`open`（報名中，必填報名網址）、`upcoming`（即將開放）、`full`（已額滿）、`closed`（已截止）、`hidden`（暫時隱藏：保留在 CSV，但不出現在網站任何頁面）
    - `register_url`：SurveyCake 表單網址，必須 `https://` 開頭
    - `featured`：`Y` 表示顯示在首頁（最多 3 場，依 CSV 列的先後順序排列；未標示時取最近 3 場）
    - 中文標題、講者、地點、語言、簡介（`_zh` 欄位；`_en` 欄位目前未使用）；`capacity` 名額

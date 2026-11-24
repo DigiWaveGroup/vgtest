@@ -46,6 +46,7 @@ STATUS = {
     "upcoming": {"label": "即將開放",   "btn": "即將開放報名"},
     "full":     {"label": "已額滿",     "btn": "已額滿"},
     "closed":   {"label": "報名已截止", "btn": "報名已截止"},
+    "tba":      {"label": "待公布",     "btn": "敬請期待"},
 }
 SOURCES = {"official": "官網公告", "facebook": "Facebook", "instagram": "Instagram", "event": "活動"}
 TBA = "日期待公布"
@@ -94,6 +95,9 @@ def parse_date(name, i, value):
 def load_events():
     rows, seen = read_csv(EVENTS_CSV), set()
     for i, r in enumerate(rows, start=2):
+        if (r.get("status") or "").strip() == "hidden":
+            r["_hidden"] = True   # kept in the CSV but not published anywhere
+            continue
         for k in ("id", "type", "status", "title_zh"):
             if not r.get(k):
                 fail("events.csv", f"第 {i} 列缺少「{k}」")
@@ -122,6 +126,7 @@ def load_events():
                 fail("events.csv", f"第 {i} 列找不到圖片 {PHOTO_DIR}{r['image']}")
             if not r.get("image_alt_zh"):
                 fail("events.csv", f"第 {i} 列有圖片但缺少替代文字 image_alt_zh")
+    rows = [r for r in rows if not r.get("_hidden")]
     rows.sort(key=lambda r: (r["_date"] or dt.date.max, r.get("start") or "99:99"))
     return rows
 
@@ -148,6 +153,8 @@ def event_card(r, hlevel, anchor):
     title = r["title_zh"]
     if r["_date"] and r.get("start"):
         when_html = f'<time datetime="{r["date"]}T{r["start"]}">{e(when_text(r))}</time>'
+    elif r["_date"]:
+        when_html = f'<time datetime="{r["date"]}">{e(when_text(r))}</time>'
     else:
         when_html = COMING
     facts = [("時間", when_html),
