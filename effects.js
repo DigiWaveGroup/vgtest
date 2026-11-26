@@ -152,40 +152,49 @@
   upd();
 })();
 
-// Mouse "target lock": a corner-bracket reticle trails the pointer; over links / buttons it snaps around
-// the element and shows LOCK. Decorative (native cursor kept); mouse only; skipped for reduced motion.
+// Camera-focus cursor: replaces the system cursor with a crosshair (exactly at the pointer) and an
+// AF frame that trails it; over links / buttons the frame hunts and locks (AF), click = shutter.
+// Mouse only; when skipped (touch / reduced motion) the normal cursor is used.
 (function () {
   if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var r = document.createElement('div'); r.className = 'reticle'; r.setAttribute('aria-hidden', 'true');
-  r.innerHTML = '<i></i><i></i><i></i><i></i><b>LOCK</b>';
-  document.body.appendChild(r);
-  var S = 26, cur = { x: -100, y: -100, w: S, h: S }, tgt = { x: -100, y: -100, w: S, h: S }, raf = 0, lockEl = null, mx = -100, my = -100;
-  var SEL = 'a, button, [role="button"], summary';
+  var root = document.documentElement;
+  var dot = document.createElement('div'); dot.className = 'cam-dot'; dot.setAttribute('aria-hidden', 'true');
+  var fr = document.createElement('div'); fr.className = 'cam-af'; fr.setAttribute('aria-hidden', 'true');
+  fr.innerHTML = '<i></i><i></i><i></i><i></i><b class="cam-af-l">AF</b><b class="cam-af-x">\u0192 2.8&nbsp;&nbsp;1/250</b>';
+  document.body.appendChild(fr); document.body.appendChild(dot);
+  root.classList.add('cam-cursor');
+  var W = 46, H = 32, cur = { x: -200, y: -200, w: W, h: H }, tgt = { x: -200, y: -200, w: W, h: H }, raf = 0, lockEl = null, mx = -200, my = -200;
+  var SEL = 'a, button, [role="button"], summary, label, input, select, textarea';
   function aim() {
-    if (lockEl && document.contains(lockEl)) {
-      var b = lockEl.getBoundingClientRect(), pad = 6;
-      tgt = { x: b.left - pad, y: b.top - pad, w: b.width + pad * 2, h: b.height + pad * 2 };
-    } else tgt = { x: mx - S / 2, y: my - S / 2, w: S, h: S };
+    if (lockEl && document.contains(lockEl)) { var b = lockEl.getBoundingClientRect(), p = 7; tgt = { x: b.left - p, y: b.top - p, w: b.width + p * 2, h: b.height + p * 2 }; }
+    else tgt = { x: mx - W / 2, y: my - H / 2, w: W, h: H };
   }
   function step() {
     aim();
-    var k = lockEl ? .28 : .22, moving = false;
-    ['x', 'y', 'w', 'h'].forEach(function (p) { var d = tgt[p] - cur[p]; cur[p] += d * k; if (Math.abs(d) > .3) moving = true; });
-    r.style.transform = 'translate(' + cur.x.toFixed(1) + 'px,' + cur.y.toFixed(1) + 'px)';
-    r.style.width = cur.w.toFixed(1) + 'px'; r.style.height = cur.h.toFixed(1) + 'px';
+    var k = lockEl ? .3 : .2, moving = false;
+    ['x', 'y', 'w', 'h'].forEach(function (q) { var d = tgt[q] - cur[q]; cur[q] += d * k; if (Math.abs(d) > .3) moving = true; });
+    fr.style.transform = 'translate(' + cur.x.toFixed(1) + 'px,' + cur.y.toFixed(1) + 'px)';
+    fr.style.width = cur.w.toFixed(1) + 'px'; fr.style.height = cur.h.toFixed(1) + 'px';
     raf = moving ? requestAnimationFrame(step) : 0;
   }
   function kick() { if (!raf) raf = requestAnimationFrame(step); }
   document.addEventListener('pointermove', function (e) {
     mx = e.clientX; my = e.clientY;
-    if (!r.classList.contains('is-on')) { cur = { x: mx - S / 2, y: my - S / 2, w: S, h: S }; r.classList.add('is-on'); }
+    dot.style.transform = 'translate(' + mx + 'px,' + my + 'px)';
+    if (!fr.classList.contains('is-on')) { cur = { x: mx - W / 2, y: my - H / 2, w: W, h: H }; fr.classList.add('is-on'); dot.classList.add('is-on'); }
     var el = e.target.closest ? e.target.closest(SEL) : null;
-    if (el !== lockEl) { lockEl = el; r.classList.toggle('is-lock', !!el); }
+    if (el !== lockEl) {
+      lockEl = el;
+      fr.classList.remove('is-lock', 'is-hunt');
+      if (el) { void fr.offsetWidth; fr.classList.add('is-hunt'); setTimeout(function () { if (lockEl === el) fr.classList.add('is-lock'); }, 380); }
+    }
     kick();
   }, { passive: true });
+  document.addEventListener('pointerdown', function () { fr.classList.remove('is-shot'); void fr.offsetWidth; fr.classList.add('is-shot'); });
   addEventListener('scroll', kick, { passive: true });
-  document.addEventListener('pointerleave', function () { r.classList.remove('is-on'); });
+  document.addEventListener('pointerleave', function () { fr.classList.remove('is-on'); dot.classList.remove('is-on'); });
+  document.addEventListener('pointerenter', function () { fr.classList.add('is-on'); dot.classList.add('is-on'); });
 })();
 
 // Top nav: transparent at the top, frosted once the page scrolls.

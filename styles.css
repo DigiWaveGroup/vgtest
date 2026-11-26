@@ -1935,3 +1935,33 @@ main .article-aside-title::after { display: none; }
 }
 /* Nav: remove the end tick marks (white dots at the far left / right) */
 @media screen { .site-header::after, .site-header.is-scrolled::after { content: none !important; display: none !important; } }
+
+/* ===== Camera-focus cursor (replaces the system cursor on mouse devices) ===== */
+.reticle { display: none !important; }
+.cam-cursor, .cam-cursor * { cursor: none !important; }
+.cam-dot { position: fixed; z-index: 81; left: 0; top: 0; width: 0; height: 0; pointer-events: none; opacity: 0; }
+.cam-dot.is-on { opacity: 1; }
+.cam-dot::before, .cam-dot::after { content: ""; position: absolute; background: #D7E9EF; box-shadow: 0 0 0 1px rgba(8,11,16,.6); }
+.cam-dot::before { left: -6px; top: -.5px; width: 13px; height: 1px; }
+.cam-dot::after { left: -.5px; top: -6px; width: 1px; height: 13px; }
+.cam-af { position: fixed; z-index: 80; left: 0; top: 0; width: 46px; height: 32px; pointer-events: none; opacity: 0; transition: opacity .2s ease; }
+.cam-af.is-on { opacity: 1; }
+.cam-af i { position: absolute; width: 9px; height: 9px; border: 0 solid rgba(215,233,239,.8); filter: drop-shadow(0 0 1px rgba(8,11,16,.8)); transition: border-color .15s ease, width .2s, height .2s; }
+.cam-af i:nth-child(1) { left: 0; top: 0; border-width: 1.5px 0 0 1.5px; }
+.cam-af i:nth-child(2) { right: 0; top: 0; border-width: 1.5px 1.5px 0 0; }
+.cam-af i:nth-child(3) { left: 0; bottom: 0; border-width: 0 0 1.5px 1.5px; }
+.cam-af i:nth-child(4) { right: 0; bottom: 0; border-width: 0 1.5px 1.5px 0; }
+.cam-af b { position: absolute; font-family: var(--mono); font-size: .56rem; font-weight: 500; letter-spacing: .14em; white-space: nowrap; text-shadow: 0 0 3px rgba(8,11,16,.9); }
+.cam-af-l { left: 0; top: -15px; color: var(--neon); opacity: 0; transition: opacity .15s; }
+.cam-af-l::after { content: " \25CF"; }
+.cam-af-x { right: 0; bottom: -15px; color: rgba(215,233,239,.6); transition: opacity .15s; }
+.cam-af.is-lock i { width: 13px; height: 13px; border-color: var(--neon); }
+.cam-af.is-lock .cam-af-l { opacity: 1; }
+.cam-af.is-lock .cam-af-x, .cam-af.is-hunt .cam-af-x { opacity: 0; }
+@keyframes cam-hunt { 0% { transform: scale(1); } 30% { transform: scale(.86); } 55% { transform: scale(1.08); } 80% { transform: scale(.97); } 100% { transform: scale(1); } }
+.cam-af.is-hunt i { animation: cam-hunt .38s ease-out 1; }
+@keyframes cam-shot { 0% { box-shadow: 0 0 0 0 rgba(215,233,239,.7); } 100% { box-shadow: 0 0 0 14px rgba(215,233,239,0); } }
+@keyframes cam-snap { 0% { transform: scale(1); } 40% { transform: scale(.8); } 100% { transform: scale(1); } }
+.cam-af.is-shot { animation: cam-shot .35s ease-out 1; }
+.cam-af.is-shot i { animation: cam-snap .25s ease-out 1; }
+@media print { .cam-dot, .cam-af { display: none; } }
