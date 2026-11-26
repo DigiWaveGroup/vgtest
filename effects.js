@@ -152,31 +152,36 @@
   upd();
 })();
 
-// 神機錯亂 lens: a small glitch window follows the mouse and distorts what is under it while the mouse moves.
-// Mouse only; user-driven (stops ~0.3 s after the mouse stops); skipped for reduced motion / paused motion.
+// 神機錯亂: while the mouse moves, a few thin fragments of the area around the cursor "break"
+// (inverted / colour-shifted slices that jump around the pointer). Mouse only; user-driven; small area.
 (function () {
   if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var root = document.documentElement;
-  var g = document.createElement('div');
-  g.className = 'psy-lens'; g.setAttribute('aria-hidden', 'true');
-  g.innerHTML = '<span></span><span></span><span></span>';
-  document.body.appendChild(g);
-  var x = -200, y = -200, tx = x, ty = y, raf = 0, stopT;
-  function step() {
-    x += (tx - x) * 0.35; y += (ty - y) * 0.35;
-    g.style.setProperty('--x', x.toFixed(1) + 'px'); g.style.setProperty('--y', y.toFixed(1) + 'px');
-    raf = (Math.abs(tx - x) > .4 || Math.abs(ty - y) > .4) ? requestAnimationFrame(step) : 0;
-  }
+  var root = document.documentElement, N = 5;
+  var box = document.createElement('div');
+  box.className = 'psy-frag'; box.setAttribute('aria-hidden', 'true');
+  for (var k = 0; k < N; k++) box.appendChild(document.createElement('span'));
+  document.body.appendChild(box);
+  var slices = box.children, last = 0, stopT;
+  function rnd(a, b) { return a + Math.random() * (b - a); }
   document.addEventListener('pointermove', function (e) {
-    if (root.classList.contains('motion-paused')) { g.classList.remove('is-on'); return; }
-    tx = e.clientX; ty = e.clientY;
-    if (!g.classList.contains('is-on')) { x = tx; y = ty; }
-    g.classList.add('is-on');
-    if (!raf) raf = requestAnimationFrame(step);
-    clearTimeout(stopT); stopT = setTimeout(function () { g.classList.remove('is-on'); }, 320);
+    if (root.classList.contains('motion-paused')) { box.classList.remove('is-on'); return; }
+    var now = performance.now();
+    if (now - last > 55) {
+      last = now;
+      for (var k = 0; k < N; k++) {
+        var sl = slices[k], show = Math.random() > .25;
+        sl.style.setProperty('--w', (show ? rnd(28, 120) : 0).toFixed(0) + 'px');
+        sl.style.setProperty('--h', rnd(2, 10).toFixed(0) + 'px');
+        sl.style.setProperty('--px', (e.clientX + rnd(-80, 50)).toFixed(0) + 'px');
+        sl.style.setProperty('--py', (e.clientY + rnd(-38, 38)).toFixed(0) + 'px');
+        sl.className = Math.random() > .5 ? 'v1' : 'v2';
+      }
+    }
+    box.classList.add('is-on');
+    clearTimeout(stopT); stopT = setTimeout(function () { box.classList.remove('is-on'); }, 240);
   }, { passive: true });
-  document.addEventListener('pointerleave', function () { g.classList.remove('is-on'); });
+  document.addEventListener('pointerleave', function () { box.classList.remove('is-on'); });
 })();
 
 // Top nav: transparent at the top, frosted once the page scrolls.
