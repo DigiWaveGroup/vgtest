@@ -1322,3 +1322,5 @@ main .article-aside-title::after { display: none; }
   .judge-card p::before { content: ""; flex: none; width: 6px; height: 6px; background: var(--neon); box-shadow: 0 0 8px rgba(241,43,32,.7); }
   @media (max-width: 650px) { .judge-card h4 { font-size: 1.1rem; } }
 }
+/* 追蹤我們: plain background (no rings / glow / grid) */
+@media screen { main > section.follow { background: #080B10 !important; } }
