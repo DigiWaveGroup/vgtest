@@ -61,7 +61,14 @@
         s.textContent = ch;
         frag.appendChild(s);
       });
-      node.parentNode.replaceChild(frag, node);
+      // Screen readers get the original text; the per-letter copy is visual only (WCAG 1.3.1)
+      frag.setAttribute('aria-hidden', 'true');
+      var sr = document.createElement('span');
+      sr.className = 'visually-hidden';
+      sr.textContent = node.textContent;
+      var wrap = document.createDocumentFragment();
+      wrap.appendChild(sr); wrap.appendChild(frag);
+      node.parentNode.replaceChild(wrap, node);
     });
     if (!n) return;
     var t;

@@ -1236,3 +1236,16 @@ main .article-aside-title::after { display: none; }
     background: linear-gradient(to bottom left, transparent calc(50% - 1px), #3E474F calc(50% - 1px), #3E474F calc(50% + .5px), transparent calc(50% + .5px)); }
   .participate-card:hover::after, .judge-card:hover::after { background: linear-gradient(to bottom left, transparent calc(50% - 1px), var(--neon) calc(50% - 1px), var(--neon) calc(50% + .5px), transparent calc(50% + .5px)); }
 }
+/* ===== Accessibility (WCAG 2.1 AA) fixes ===== */
+@media screen {
+  /* 1.4.3 contrast: "VIEW" label and small red text on the lighter section surfaces */
+  .post-row .post-arrow, .news-layout .post-row .post-arrow { color: rgba(215,233,239,.62); }
+  .eyebrow, .judge-cat-code, .card-number, .event-type, .post-source, .post-row time, .strip-label { color: #FF5046; }
+}
+/* 2.2.2 Pause, Stop, Hide: decorative motion stops within 5 seconds */
+@media screen and (prefers-reduced-motion: no-preference) {
+  @keyframes vgw-scan4 { from { background-position: 0 0, 0 0, 0 -40%, 0 0; } to { background-position: 0 0, 0 0, 0 140%, 0 0; } }
+  .hero::after { animation: vgw-scan4 4.5s linear 1 both; }
+  body::after { animation: vgw-grain .9s steps(5) 5; }
+  .eyebrow, .site-header::after { animation: vgw-flicker 4.5s linear 1; }
+}
