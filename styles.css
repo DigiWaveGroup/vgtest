@@ -1699,3 +1699,91 @@ main .article-aside-title::after { display: none; }
 @media screen and (min-width: 951px) {
   main > section.visit::after { left: -60%; right: -60%; bottom: 0; height: 75%; background-image: linear-gradient(rgba(241,43,32,.5) 1px, transparent 1px), linear-gradient(90deg, rgba(241,43,32,.38) 1px, transparent 1px); background-size: 70px 70px; transform: perspective(600px) rotateX(58deg); -webkit-mask-image: linear-gradient(to top, #000 0%, rgba(0,0,0,.7) 30%, transparent 80%); mask-image: linear-gradient(to top, #000 0%, rgba(0,0,0,.7) 30%, transparent 80%); }
 }
+
+/* ===== 參觀資訊 space v2: tunnel (floor + ceiling grids), horizon, slow forward drift ===== */
+@media screen {
+  main > section.visit::after { content: none !important; }
+  .visit-space { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; perspective: 520px; perspective-origin: 50% 46%; }
+  .visit-space i { position: absolute; left: -80%; right: -80%; height: 70%; background-image: linear-gradient(rgba(241,43,32,.55) 1px, transparent 1px), linear-gradient(90deg, rgba(241,43,32,.4) 1px, transparent 1px); background-size: 80px 80px; }
+  .vs-floor { bottom: -14%; transform-origin: 50% 100%; transform: rotateX(78deg); -webkit-mask-image: linear-gradient(to top, #000 0%, rgba(0,0,0,.85) 25%, transparent 70%); mask-image: linear-gradient(to top, #000 0%, rgba(0,0,0,.85) 25%, transparent 70%); }
+  .vs-ceil { top: -14%; transform-origin: 50% 0%; transform: rotateX(-78deg); opacity: .35; -webkit-mask-image: linear-gradient(to bottom, #000 0%, rgba(0,0,0,.6) 25%, transparent 65%); mask-image: linear-gradient(to bottom, #000 0%, rgba(0,0,0,.6) 25%, transparent 65%); }
+  .vs-horizon { top: 46%; left: 0 !important; right: 0 !important; height: 1px !important; background: linear-gradient(90deg, transparent, rgba(255,80,70,.9) 30%, rgba(255,80,70,.9) 70%, transparent) !important; box-shadow: 0 0 40px 6px rgba(241,43,32,.35), 0 0 120px 30px rgba(241,43,32,.12); }
+  main > section.visit > .container::after { display: none; }
+}
+@media screen and (prefers-reduced-motion: no-preference) {
+  @keyframes vs-drift { from { background-position: 0 0, 0 0; } to { background-position: 0 80px, 0 0; } }
+  @keyframes vs-drift-up { from { background-position: 0 0, 0 0; } to { background-position: 0 -80px, 0 0; } }
+  .motion-loop .vs-floor { animation: vs-drift 2.4s linear infinite; }
+  .motion-loop .vs-ceil { animation: vs-drift-up 2.4s linear infinite; }
+}
+@media screen and (max-width: 950px) { .vs-ceil { display: none; } .visit-space i { background-size: 56px 56px; } }
+
+/* ===== 追蹤我們: compact (not a full screen) ===== */
+@media screen and (min-width: 951px) and (min-height: 620px) {
+  main > section.follow:not(.hero):not(.page-head) { min-height: 0; padding-block: 56px 64px; scroll-snap-align: none; }
+}
+
+/* ===== Radar blips: hidden until the sweep reaches them ===== */
+@media screen {
+  .tba-radar i { opacity: 0 !important; }
+  .event-card:nth-child(2) .tba-radar i:nth-child(3) { display: none; }   /* different blip count per event */
+}
+@media screen and (prefers-reduced-motion: no-preference) {
+  @keyframes vgw-blip-hit { 0% { opacity: 1; transform: scale(1.35); } 12% { opacity: .95; transform: scale(1.05); } 75% { opacity: 0; transform: scale(.8); } 100% { opacity: 0; transform: scale(.8); } }
+}
+@media screen and (prefers-reduced-motion: reduce) {
+  .event-card:hover .tba-radar i, .event-card:focus-within .tba-radar i { opacity: .7 !important; }
+}
+
+/* ===== 報名資訊: red liquid sphere drifting behind the cards ===== */
+@media screen {
+  main > section.participate { position: relative; overflow: hidden; }
+  main > section.participate > .container { position: relative; z-index: 1; }
+  .reg-blob { position: absolute; z-index: 0; left: 0; top: 0; width: clamp(220px, 30vw, 420px); aspect-ratio: 1; pointer-events: none; transform: translate(62vw, 10%); }
+  .reg-blob i { display: block; width: 100%; height: 100%; border-radius: 42% 58% 63% 37% / 45% 40% 60% 55%;
+    background: radial-gradient(circle at 34% 28%, rgba(255,220,214,.95) 0 4%, rgba(255,120,108,.9) 12%, #F12B20 38%, #8E120B 68%, #3A0604 92%);
+    box-shadow: inset -24px -30px 60px rgba(40,0,0,.65), inset 18px 16px 40px rgba(255,160,150,.35), 0 0 120px 20px rgba(241,43,32,.28);
+    filter: saturate(1.1); opacity: .9; }
+}
+@media screen and (prefers-reduced-motion: no-preference) {
+  @keyframes blob-morph { 0%,100% { border-radius: 42% 58% 63% 37% / 45% 40% 60% 55%; } 25% { border-radius: 58% 42% 38% 62% / 55% 62% 38% 45%; } 50% { border-radius: 36% 64% 52% 48% / 62% 36% 64% 38%; } 75% { border-radius: 62% 38% 46% 54% / 40% 58% 42% 60%; } }
+  @keyframes blob-roam { 0% { transform: translate(62vw, 6vh) rotate(0deg); } 20% { transform: translate(48vw, 42vh) rotate(60deg); } 40% { transform: translate(8vw, 70vh) rotate(140deg); } 60% { transform: translate(34vw, 88vh) rotate(210deg); } 80% { transform: translate(70vw, 60vh) rotate(290deg); } 100% { transform: translate(62vw, 6vh) rotate(360deg); } }
+  .motion-loop .reg-blob { animation: blob-roam 34s ease-in-out infinite; }
+  .motion-loop .reg-blob i { animation: blob-morph 9s ease-in-out infinite; }
+}
+
+/* Hero CTA v2: glass outline, quiet, with a drawn arrow */
+@media screen {
+  .hero-cta { gap: 14px; min-height: 44px; padding: 0 18px; color: #D7E9EF; background: rgba(8,11,16,.38); border: 1px solid rgba(215,233,239,.35); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); font-size: .78rem; font-weight: 400; letter-spacing: .22em; transition: border-color .25s, background-color .25s; }
+  .hero-cta .reg-dot { background: var(--neon); box-shadow: 0 0 8px var(--neon); }
+  .hc-label { color: #AEBEC5; }
+  .hc-sep { width: 1px; height: 14px; background: rgba(215,233,239,.3); }
+  .hc-go { color: #D7E9EF; }
+  .hc-arrow { position: relative; width: 26px; height: 1px; background: currentColor; transition: width .25s; }
+  .hc-arrow::after { content: ""; position: absolute; right: 0; top: -3px; width: 7px; height: 7px; border-top: 1px solid currentColor; border-right: 1px solid currentColor; transform: rotate(45deg); }
+  .hero-cta:hover, .hero-cta:focus-visible { color: #D7E9EF; background: rgba(8,11,16,.6); border-color: var(--neon); }
+  .hero-cta:hover .hc-arrow { width: 38px; }
+  @media (max-width: 650px) { .hc-label, .hc-sep { display: none; } }
+}
+
+/* 參觀資訊 space v3: visible receding floor that drifts toward you, soft fog; no ceiling / horizon line */
+@media screen {
+  .visit-space { perspective: none; }
+  .vs-ceil, .vs-horizon { display: none !important; }
+  .vs-floor { left: -60% !important; right: -60% !important; bottom: 0 !important; height: 72% !important; transform-origin: 50% 100%; transform: perspective(600px) rotateX(60deg) !important;
+    background-image: linear-gradient(rgba(241,43,32,.55) 1px, transparent 1px), linear-gradient(90deg, rgba(241,43,32,.42) 1px, transparent 1px) !important; background-size: 72px 72px !important;
+    -webkit-mask-image: linear-gradient(to top, #000 0%, rgba(0,0,0,.75) 30%, transparent 82%); mask-image: linear-gradient(to top, #000 0%, rgba(0,0,0,.75) 30%, transparent 82%); }
+  .visit-space::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 45%; background: radial-gradient(70% 100% at 50% 100%, rgba(241,43,32,.14), transparent 70%); }
+  .visit-facts > div { background: linear-gradient(90deg, rgba(8,11,16,.85), rgba(8,11,16,.55)); }
+}
+@media screen and (prefers-reduced-motion: no-preference) {
+  @keyframes vs-drift { from { background-position: 0 0, 0 0; } to { background-position: 0 72px, 0 0; } }
+}
+
+/* 報名資訊: cards become glass so the liquid sphere shows through */
+@media screen {
+  .participate-card { background: rgba(8,11,16,.8) !important; -webkit-backdrop-filter: blur(18px) saturate(1.2); backdrop-filter: blur(18px) saturate(1.2); }
+}
+@media screen {
+  .vs-floor { height: 100% !important; transform: perspective(700px) rotateX(56deg) !important; -webkit-mask-image: linear-gradient(to top, #000 0%, rgba(0,0,0,.8) 35%, transparent 78%); mask-image: linear-gradient(to top, #000 0%, rgba(0,0,0,.8) 35%, transparent 78%); }
+}
