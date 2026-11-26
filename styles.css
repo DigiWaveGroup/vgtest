@@ -1067,3 +1067,87 @@ main .article-aside-title::after { display: none; }
     main > section.page-head::after { display: none; }
   }
 }
+
+/* =====================================================================
+   THEME v2 — stronger Industrial Cyberpunk × Dystopian Sci-Fi
+   Self-hosted OFL fonts (Chakra Petch, Share Tech Mono), HUD screen frame,
+   film grain, status bar, chromatic headings, glitch, scan sweep, red-graded photos.
+   ===================================================================== */
+@font-face { font-family: "Chakra Petch"; src: url("vgw_website_assets/8_fonts/ChakraPetch-SemiBold.ttf") format("truetype"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Chakra Petch"; src: url("vgw_website_assets/8_fonts/ChakraPetch-Bold.ttf") format("truetype"); font-weight: 700 900; font-display: swap; }
+@font-face { font-family: "Share Tech Mono"; src: url("vgw_website_assets/8_fonts/ShareTechMono-Regular.ttf") format("truetype"); font-weight: 400 900; font-display: swap; }
+@media screen {
+  :root {
+    --mono: "Share Tech Mono", ui-monospace, "SF Mono", Menlo, Consolas, "Noto Sans TC", monospace;
+    --display: "Chakra Petch", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+    --cyan: #5fd4ff;
+  }
+  h1, h2, h3, .button, .dl-link, .post-row time, .card-number, .closed-badge, .event-title, .judge-name, .visit-facts dt, .tba-mark { font-family: var(--display); }
+
+  /* HUD frame around the whole screen */
+  body::before { content: ""; position: fixed; z-index: 60; inset: 8px; pointer-events: none;
+    background: linear-gradient(var(--neon),var(--neon)) left top / 26px 2px no-repeat, linear-gradient(var(--neon),var(--neon)) left top / 2px 26px no-repeat,
+                linear-gradient(var(--neon),var(--neon)) right top / 26px 2px no-repeat, linear-gradient(var(--neon),var(--neon)) right top / 2px 26px no-repeat,
+                linear-gradient(var(--neon),var(--neon)) left bottom / 26px 2px no-repeat, linear-gradient(var(--neon),var(--neon)) left bottom / 2px 26px no-repeat,
+                linear-gradient(var(--neon),var(--neon)) right bottom / 26px 2px no-repeat, linear-gradient(var(--neon),var(--neon)) right bottom / 2px 26px no-repeat; opacity: .75; }
+  /* Film grain */
+  body::after { content: ""; position: fixed; z-index: 59; inset: -50%; pointer-events: none; background: url("vgw_website_assets/1_home_hero_and_announcements/web/noise.png"); opacity: .55; }
+
+  /* Status bar on top of the header */
+  .site-header::before { content: "◢ VGW-NET // SECURE CHANNEL ESTABLISHED   ▮ 2027.05.13 — 05.15   ▮ KAOHSIUNG EXHIBITION CENTER · NORTH HALL   ▮ SIGNAL ████████░ 92%" / ""; display: block; overflow: hidden; padding: 5px max(24px, calc((100vw - 1160px) / 2)); color: rgba(215,233,239,.55); background: #05070A; border-bottom: 1px solid rgba(241,43,32,.35); font-family: var(--mono); font-size: .64rem; letter-spacing: .2em; white-space: pre; }
+  .nav-list a { font-family: var(--display); font-weight: 600; }
+
+  /* Headings: chromatic aberration + occasional glitch */
+  main h2 { text-shadow: 2px 0 rgba(241,43,32,.75), -2px 0 rgba(95,212,255,.28); }
+  main h2::after { box-shadow: 0 0 18px rgba(241,43,32,.8); }
+  .eyebrow { color: var(--neon); text-shadow: 0 0 10px rgba(241,43,32,.6); }
+
+  /* Ghost section numbers: stronger, red outline */
+  main > section:not(.hero):not(.page-head) > .container::before { -webkit-text-stroke: 1px rgba(241,43,32,.22); font-family: var(--display); }
+  main > section:not(.hero):not(.page-head) > .container::after { color: rgba(241,43,32,.55); }
+
+  /* Hero: red edge glow + HUD crosshair */
+  .hero { box-shadow: inset 0 0 120px rgba(0,0,0,.85); }
+  .hero::after { background: repeating-linear-gradient(0deg, rgba(0,0,0,.22) 0 1px, transparent 1px 3px), linear-gradient(180deg, transparent, rgba(241,43,32,.10) 50%, transparent) 0 -40% / 100% 35% no-repeat, rgba(8,11,16,.15); }
+
+  /* Photos graded to the red palette */
+  .card-image { filter: grayscale(1) brightness(.62) contrast(1.35) sepia(1) saturate(5) hue-rotate(-42deg); }
+  .participate-card:hover .card-image { filter: grayscale(1) brightness(.75) contrast(1.35) sepia(1) saturate(5) hue-rotate(-42deg); }
+
+  /* Cards: glowing edge + telemetry header */
+  .participate-card, .event-card, .judge-card { border-color: #2E353C; box-shadow: inset 0 1px 0 rgba(241,43,32,.35); }
+  .participate-card:hover, .event-card:hover, .judge-card:hover { border-color: rgba(241,43,32,.6); box-shadow: inset 0 1px 0 var(--neon), 0 0 0 1px rgba(241,43,32,.25), 0 0 40px -10px rgba(241,43,32,.55); }
+
+  /* Buttons: neon glow, uppercase tech type */
+  .button-primary, .event-actions .button-primary, .event-card a.event-register { box-shadow: 0 0 0 1px rgba(241,43,32,.6), 0 0 22px -4px rgba(241,43,32,.65); letter-spacing: .16em; }
+  .button-primary:hover, .event-card a.event-register:hover { box-shadow: 0 0 0 1px #fff, 0 0 30px -2px rgba(241,43,32,.9); }
+
+  /* News rows: terminal style */
+  .post-row time { font-size: 1rem; letter-spacing: .06em; }
+
+  /* Footer: big ghost wordmark */
+  .site-footer { overflow: hidden; }
+  .site-footer > .container { position: relative; }
+  .site-footer > .container::before { content: "VISION GET WILD" / ""; position: absolute; z-index: 0; left: -4px; bottom: -10px; color: transparent; -webkit-text-stroke: 1px rgba(241,43,32,.12); font-family: var(--display); font-size: clamp(3rem, 11vw, 9rem); font-weight: 700; line-height: 1; white-space: nowrap; pointer-events: none; }
+  .site-footer > .container > * { position: relative; z-index: 1; }
+
+  @media (max-width: 650px) {
+    body::before { inset: 4px; opacity: .6; }
+    .site-header::before { font-size: .56rem; letter-spacing: .14em; }
+  }
+}
+/* Motion (skipped when the user prefers reduced motion) */
+@media screen and (prefers-reduced-motion: no-preference) {
+  @keyframes vgw-scan { from { background-position: 0 0, 0 -40%, 0 0; } to { background-position: 0 0, 0 140%, 0 0; } }
+  .hero::after { animation: vgw-scan 6s linear infinite; }
+  @keyframes vgw-grain { 0%,100% { transform: translate(0,0); } 20% { transform: translate(-3%,2%); } 40% { transform: translate(2%,-3%); } 60% { transform: translate(-2%,-1%); } 80% { transform: translate(3%,3%); } }
+  body::after { animation: vgw-grain .9s steps(5) infinite; }
+  @keyframes vgw-glitch { 0%, 92%, 100% { transform: none; text-shadow: 2px 0 rgba(241,43,32,.75), -2px 0 rgba(95,212,255,.28); clip-path: none; }
+    93% { transform: translateX(-3px); text-shadow: -4px 0 rgba(241,43,32,.9), 4px 0 rgba(95,212,255,.5); clip-path: inset(10% 0 55% 0); }
+    95% { transform: translateX(3px); clip-path: inset(55% 0 8% 0); }
+    97% { transform: translateX(-1px); clip-path: none; } }
+  main h2 { animation: vgw-glitch 7s steps(1) infinite; }
+  main section:nth-of-type(2n) h2 { animation-delay: -3s; }
+  @keyframes vgw-flicker { 0%, 96%, 100% { opacity: 1; } 97% { opacity: .35; } 98% { opacity: 1; } 99% { opacity: .55; } }
+  .eyebrow, .site-header::after { animation: vgw-flicker 5s linear infinite; }
+}
