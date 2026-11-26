@@ -1999,3 +1999,20 @@ main .article-aside-title::after { display: none; }
   @keyframes new-ping { 0% { box-shadow: 0 0 0 0 rgba(241, 43, 32, .55); } 100% { box-shadow: 0 0 0 7px rgba(241, 43, 32, 0); } }
   .post-tags .post-new::before { animation: new-ping 1.6s ease-out 3; }
 }
+
+/* 報名資訊：參展為主（大）、競賽為輔（小） */
+@media screen and (min-width: 951px) {
+  .participate-grid { grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr) !important; grid-template-rows: none !important; align-items: start; gap: 28px !important; }
+  .participate-card { display: flex !important; flex-direction: column; grid-row: auto !important; grid-template-rows: none !important; }
+  .participate-card > * { grid-row: auto !important; }
+  #exhibit h3 { font-size: clamp(1.9rem, 2.6vw, 2.4rem); }
+  #exhibit > p { font-size: 1rem; }
+  #exhibit .mini-facts dd { font-size: 1.1rem; }
+  #exhibit .card-actions .button-primary { min-height: 60px; font-size: 1.05rem; }
+  #competition { padding: 22px; }
+  #competition h3 { font-size: 1.35rem; }
+  #competition > p, #competition .ext-note { font-size: .85rem; }
+  #competition .mini-facts dt, #competition .mini-facts dd { font-size: .88rem; }
+  #competition .card-actions .button-primary { min-height: 48px; font-size: .9rem; }
+  #competition .card-downloads .dl-link { padding-block: 8px; font-size: .82rem; }
+}
