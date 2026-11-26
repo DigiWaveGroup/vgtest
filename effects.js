@@ -236,3 +236,13 @@
     if (!raf) raf = requestAnimationFrame(step);
   }, { passive: true });
 })();
+
+// First screen: cover + 最新消息 together fill exactly one window (desktop).
+(function () {
+  var news = document.querySelector('main > section.updates'), hero = document.querySelector('main > section.hero');
+  if (!news || !hero) return;
+  var root = document.documentElement;
+  function fit() { root.style.setProperty('--news-h', Math.ceil(news.getBoundingClientRect().height) + 'px'); }
+  fit(); addEventListener('resize', fit);
+  if (window.ResizeObserver) new ResizeObserver(fit).observe(news);
+})();

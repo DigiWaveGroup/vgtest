@@ -1907,3 +1907,9 @@ main .article-aside-title::after { display: none; }
 @media screen and (min-width: 951px) and (max-width: 1100px) { .header-inner .nav-list { gap: 12px; } .nav-list a { letter-spacing: .04em; } }
 @media screen { .participate-card .card-image { object-position: 50% 82%; } }
 @media screen { #exhibit .card-image { object-position: 50% 100%; } }
+/* Cover + 最新消息 = one full window (desktop) */
+@media screen and (min-width: 951px) {
+  .hero-cover { height: max(260px, calc(100svh - var(--news-h, 300px))); max-height: none; width: 100%; object-fit: cover; object-position: 50% 50%; }
+}
+/* Transparent nav stays readable over bright parts of the cover */
+@media screen { .site-header:not(.is-scrolled):not(.nav-open) { background: linear-gradient(180deg, rgba(8,11,16,.85) 0%, rgba(8,11,16,.55) 60%, rgba(8,11,16,0) 100%) !important; } }
