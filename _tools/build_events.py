@@ -159,11 +159,9 @@ def event_card(r, hlevel, anchor):
         when_html = f'<time datetime="{r["date"]}">{e(when_text(r))}</time>'
     else:
         when_html = COMING
-    facts = [("時間", when_html)]
-    if r.get("venue_zh"):
-        facts.append(("地點", e(r["venue_zh"])))
-    if r.get("speaker_zh"):
-        facts.append(("講者", e(r["speaker_zh"])))
+    facts = [("時間", when_html),
+             ("地點", e(r["venue_zh"]) if r.get("venue_zh") else DASH),
+             ("講者", e(r["speaker_zh"]) if r.get("speaker_zh") else DASH)]
     cap = []
     if r.get("capacity"):
         cap.append(f'{e(r["capacity"])} 人')
@@ -173,7 +171,7 @@ def event_card(r, hlevel, anchor):
         facts.append(("名額", "・".join(cap)))
     dl = "".join(f"<div><dt>{k}</dt><dd>{v}</dd></div>" for k, v in facts)
     if not SHOW_EVENT_PHOTOS:
-        visual = ""   # 不放佔位圖：活動用時間軸呈現，日期本身就是視覺
+        visual = '<div class="event-photo event-tba" aria-hidden="true"><div class="tba-radar"><i></i><i></i><i></i></div></div>'
     elif r.get("image"):
         visual = (f'<img class="event-photo" src="{PHOTO_DIR}{e(r["image"])}" alt="{e(r["image_alt_zh"])}" '
                   f'width="800" height="450" loading="lazy">')
@@ -187,10 +185,7 @@ def event_card(r, hlevel, anchor):
         action = f'<p class="event-register is-disabled">{st["btn"]}</p>'
     summary = f'<p class="event-summary">{e(r["summary_zh"])}</p>' if r.get("summary_zh") else ""
     idattr = f' id="event-{r["id"]}"' if anchor else ""
-    d = r["_date"]
-    when = (f'<p class="event-date" aria-hidden="true"><b>{d.month}.{d.day:02d}</b><span>{WEEK_ZH[d.weekday()]}</span></p>' if d
-            else '<p class="event-date is-tba" aria-hidden="true"><b>待定</b></p>')
-    return (f'<li class="event-card event-tile"{idattr} data-date="{day_key(r["_date"])}" data-type="{r["type"]}">{when}{visual}'
+    return (f'<li class="event-card event-tile"{idattr} data-date="{day_key(r["_date"])}" data-type="{r["type"]}">{visual}'
             f'<div class="event-body"><p class="event-meta"><span class="event-type">{e(TYPES[r["type"]])}</span>'
             f'<span class="event-state state-{r["status"]}">{st["label"]}</span></p>'
             f'<div class="event-head"><h{hlevel} class="event-title">{e(title)}</h{hlevel}></div><dl class="event-facts">{dl}</dl>{summary}'
@@ -290,8 +285,7 @@ def news_row(n, first):
     src = ""  # 來源標籤（官網公告等）不顯示，只保留「最新」
     icon = ('<span class="post-icon" aria-hidden="true"><svg width="7" height="10" viewBox="0 0 7 10" fill="none" focusable="false">'
             '<path d="M0.5 0V2L3.5 4L6.5 2V0" stroke="currentColor"/><path d="M0.5 6V7L3.5 9L6.5 7V6" stroke="currentColor"/></svg></span>')
-    md = f'<span class="post-md" aria-hidden="true">{d.month:02d}.{d.day:02d}</span>' if d else ""
-    return (f'<li class="post-row"><a href="{article_page(n["id"])}">{icon}{md}<span class="post-when">{date_html}<span class="post-tags">{new}{src}</span></span>'
+    return (f'<li class="post-row"><a href="{article_page(n["id"])}">{icon}<span class="post-when">{date_html}<span class="post-tags">{new}{src}</span></span>'
             f'<span class="post-title">{e(n["title_zh"])}</span></a></li>')
 
 
@@ -317,7 +311,7 @@ def update_home(events, news):
     a, b = section_bounds(s, "events")
     sec = re.sub(r'<ul class="event-(?:grid|cards)"[^>]*>.*?</ul>', f'<ul class="event-cards">\n            {cards}\n          </ul>', s[a:b], count=1, flags=re.S)
     note = (f'<p class="event-note">{SURVEYCAKE_NOTE}</p>'
-            f'<p class="event-more"><a class="button button-outline-neon" href="{EVENTS_PAGE}">查看全部活動</a></p>')
+            f'<p class="event-more"><a class="button button-outline-neon" href="{EVENTS_PAGE}">查看全部活動 <span aria-hidden="true">→</span></a></p>')
     sec = re.sub(r'(<p class="event-note">.*?</p>)(\s*<p class="event-more">.*?</p>)?', note, sec, count=1, flags=re.S)
     path.write_text(s[:a] + sec + s[b:], encoding="utf-8")
 
@@ -351,7 +345,7 @@ def back_button(href, label):
 
 
 def eyebrow(t):
-    return ""  # 英文小標已停用（設計審查：標題上方的 kicker 是樣板特徵）
+    return f'<p class="eyebrow" lang="en">{t}</p>'
 
 
 # ------------------------------------------------------------ news list
@@ -393,7 +387,7 @@ def build_article(n, prev_n, next_n):
                  f'<h2 id="article-event-title" class="article-aside-title">活動資訊</h2>'
                  f'<ul class="event-cards article-event-card">{event_card(ev, 3, False)}</ul>'
                  f'<p class="event-note">{SURVEYCAKE_NOTE}</p>'
-                 f'<p class="article-more"><a href="{EVENTS_PAGE}#event-{ev["id"]}">在活動總覽查看</a></p>'
+                 f'<p class="article-more"><a href="{EVENTS_PAGE}#event-{ev["id"]}">在活動總覽查看 <span aria-hidden="true">→</span></a></p>'
                  f'</section>')
 
     def pager(item, rel, label):
