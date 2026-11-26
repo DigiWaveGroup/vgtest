@@ -1933,3 +1933,5 @@ main .article-aside-title::after { display: none; }
   .post-row a, .news-layout .post-row a { grid-template-columns: 170px minmax(0, 1fr) !important; }
   @media (max-width: 950px) { .post-row a, .news-layout .post-row a { grid-template-columns: 1fr !important; } }
 }
+/* Nav: remove the end tick marks (white dots at the far left / right) */
+@media screen { .site-header::after, .site-header.is-scrolled::after { content: none !important; display: none !important; } }
