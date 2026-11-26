@@ -18,7 +18,7 @@ if [ -n "$(git status --porcelain)" ]; then
 fi
 REV="$(git rev-parse --short HEAD)"
 
-rsync -rlptz --delete --chmod=D750,F640 \
+rsync -rltz --delete \
   --exclude='.git/' --exclude='.github/' --exclude='.claude/' \
   --exclude='_tools/' --exclude='_deploy/' \
   --exclude='README.md' --exclude='robots.txt' \
@@ -28,6 +28,8 @@ rsync -rlptz --delete --chmod=D750,F640 \
 
 "${SSH[@]}" "set -e
   sudo chgrp -R www-data $DEST
+  find $DEST -type d -exec chmod 750 {} +
+  find $DEST -type f -exec chmod 640 {} +
   cd $DEST && find . -type f -print0 | sort -z | xargs -0 sha256sum | sudo tee /var/lib/vgw-integrity.sha256 >/dev/null
   echo \"\$(date '+%F %T %z') deploy rev=$REV by=\$(whoami) from=\${SSH_CLIENT%% *} files=\$(wc -l < /var/lib/vgw-integrity.sha256)\" | sudo tee -a /var/log/vgw-deploy.log"
 echo "部署完成：rev $REV → http://$HOST/"
