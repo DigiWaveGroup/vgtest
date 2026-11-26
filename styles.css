@@ -389,3 +389,79 @@ main > section + section { border-top: 1px solid var(--line); }
 main > .page-head + section, main > .page-head + article { padding-top: 40px; border-top: 0; }
 @media (max-width: 950px) { .participate-grid { grid-template-columns: minmax(0, 1fr); } .participate-card { min-width: 0; } }
 @media (max-width: 400px) { .mini-facts div, .visit-facts div { grid-template-columns: 5em minmax(0, 1fr); gap: 10px; } .participate-card { padding: 16px; } }
+
+/* =====================================================================
+   Signature treatments for 最新消息 / 主題活動 / 評審團
+   ===================================================================== */
+
+/* Header: logo exactly centred over the cover lettering */
+@media (min-width: 951px) { .header-inner { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); } }
+
+/* ---- 最新消息: the newest item is the headline; the rest is a compact list ---- */
+.post-md { display: none; }
+.post-row:first-child a { grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "md when" "md title"; column-gap: 28px; row-gap: 6px; padding: 22px 0 24px; }
+.post-row:first-child .post-md { grid-area: md; display: block; align-self: center; color: var(--red-ink); font-size: clamp(3.4rem, 5.6vw, 5.2rem); font-weight: 300; line-height: .9; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.post-row:first-child .post-when { grid-area: when; }
+.post-row:first-child .post-title { grid-area: title; font-size: clamp(1.3rem, 2vw, 1.7rem); font-weight: 500; letter-spacing: .04em; line-height: 1.35; }
+/* tube-light underline that draws in on hover (replaces the ink fill) */
+.post-row time, .post-row .post-title { background: none; padding: 0; margin: 0; }
+.post-row .post-title { position: relative; justify-self: start; }
+.post-row .post-title::after { content: ""; position: absolute; left: 0; right: 0; bottom: -4px; height: 2px; background: linear-gradient(90deg, var(--red), #FF8A80 60%, var(--red)); transform: scaleX(0); transform-origin: left; transition: transform .45s var(--ease); }
+.post-row a:hover .post-title, .post-row a:focus-visible .post-title, .post-row a:hover time, .post-row a:focus-visible time { color: var(--ink); background: none; }
+.post-row a:hover .post-title::after, .post-row a:focus-visible .post-title::after { transform: scaleX(1); }
+.post-row a:hover .post-md { color: var(--red); }
+@media (max-width: 650px) { .post-row:first-child a { grid-template-columns: 1fr; grid-template-areas: "md" "when" "title"; } }
+
+/* ---- 主題活動: a festival schedule rail across the three days ---- */
+@media (min-width: 761px) {
+  .event-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 0; }
+  .event-card { position: relative; display: flex; flex-direction: column; gap: 0; padding: 40px 28px 0 0; border-bottom: 0; }
+  .event-card::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px; background: linear-gradient(90deg, var(--red), rgba(241, 43, 32, .55)); }
+  .event-card:last-child::before { background: linear-gradient(90deg, rgba(241, 43, 32, .55), rgba(241, 43, 32, 0)); }
+  .event-card::after { content: ""; position: absolute; left: 0; top: -7px; width: 16px; height: 16px; background: var(--bg); border: 2px solid var(--red); }
+  .event-card[data-date="tba"]::after { border-style: dashed; border-color: var(--ink-3); }
+  .event-date b { font-size: clamp(3.4rem, 5vw, 4.6rem); }
+  .event-body { display: flex; flex-direction: column; margin-top: 20px; }
+  .event-meta { order: 1; }
+  .event-head { order: 2; }
+  .event-facts { order: 3; }
+  .event-actions { order: 4; align-self: flex-start; margin-top: 24px; }
+  .event-register { min-width: 0; }
+  .event-card:hover .event-date b { color: var(--red); }
+}
+@media (max-width: 760px) {
+  .event-cards { position: relative; border-top: 0; padding-left: 28px; }
+  .event-cards::before { content: ""; position: absolute; left: 6px; top: 8px; bottom: 8px; width: 2px; background: linear-gradient(180deg, var(--red), rgba(241, 43, 32, .2)); }
+  .event-card { position: relative; border-bottom: 0; padding: 0 0 36px; }
+  .event-card::after { content: ""; position: absolute; left: -29px; top: 12px; width: 14px; height: 14px; background: var(--bg); border: 2px solid var(--red); }
+  .event-card[data-date="tba"]::after { border-style: dashed; border-color: var(--ink-3); }
+}
+.event-facts:empty { display: none; }
+/* events page keeps the simple stacked list per day */
+.events-page .event-cards { display: block; padding-left: 0; }
+.events-page .event-cards::before, .events-page .event-card::before, .events-page .event-card::after { display: none; }
+.events-page .event-card { display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: 32px; padding: 28px 0; border-top: 1px solid var(--line); }
+@media (max-width: 760px) { .events-page .event-card { grid-template-columns: 1fr; gap: 12px; } }
+
+/* ---- 評審團: categories set as poster type ---- */
+.judge-list { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 0; border-top: 0; }
+.judge-list li { display: inline-flex; align-items: baseline; gap: 10px; padding: 0; border-bottom: 0; }
+.judge-list li + li::before { content: ""; align-self: center; width: clamp(20px, 3vw, 44px); height: 2px; margin: 0 clamp(14px, 2vw, 28px); background: var(--red); }
+.jl-name { font-size: clamp(2.8rem, 7.4vw, 6.6rem); font-weight: 300; line-height: 1.15; letter-spacing: .06em; color: var(--ink); transition: color .25s var(--ease); }
+.jl-en { align-self: flex-start; margin-top: .9em; color: var(--ink-3); font-size: .8rem; letter-spacing: .06em; opacity: 0; transform: translateY(4px); transition: opacity .25s var(--ease), transform .25s var(--ease); }
+.jl-status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.judge-list li:hover .jl-name { color: var(--red-ink); }
+.judge-list li:hover .jl-en { opacity: 1; transform: none; }
+@media (hover: none), (max-width: 650px) { .jl-en { opacity: 1; transform: none; } }
+@media (max-width: 650px) { .judge-list { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; } .judge-list li + li::before { display: none; } .jl-name { font-size: 2.4rem; } }
+/* nav fits its half so the centred logo never collides */
+@media (min-width: 951px) { .nav-list { gap: clamp(10px, 1.2vw, 18px); } .nav-list a { font-size: .82rem; letter-spacing: .06em; } .nav-list a::before { margin-right: 6px; } }
+/* 評審團 poster type: a clean 3-column set, each category with its own red tube mark */
+.judge-list { display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 36px 32px; }
+.judge-list li { display: flex !important; flex-direction: column; align-items: flex-start; gap: 6px; padding-top: 18px; position: relative; }
+.judge-list li + li::before { display: none; }
+.judge-list li::after { content: ""; position: absolute; left: 0; top: 0; width: 40px; height: 2px; background: var(--red); transition: width .4s var(--ease); }
+.judge-list li:hover::after { width: 100%; }
+.jl-name { font-size: clamp(2.4rem, 5vw, 4.4rem); line-height: 1.1; }
+.jl-en { align-self: flex-start; margin-top: 0; opacity: 1; transform: none; font-size: .85rem; }
+@media (max-width: 650px) { .judge-list { grid-template-columns: 1fr 1fr; gap: 24px 16px; } .jl-name { font-size: 2.2rem; } }

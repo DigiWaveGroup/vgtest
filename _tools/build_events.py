@@ -159,9 +159,11 @@ def event_card(r, hlevel, anchor):
         when_html = f'<time datetime="{r["date"]}">{e(when_text(r))}</time>'
     else:
         when_html = COMING
-    facts = [("時間", when_html),
-             ("地點", e(r["venue_zh"]) if r.get("venue_zh") else DASH),
-             ("講者", e(r["speaker_zh"]) if r.get("speaker_zh") else DASH)]
+    facts = [("時間", when_html)]
+    if r.get("venue_zh"):
+        facts.append(("地點", e(r["venue_zh"])))
+    if r.get("speaker_zh"):
+        facts.append(("講者", e(r["speaker_zh"])))
     cap = []
     if r.get("capacity"):
         cap.append(f'{e(r["capacity"])} 人')
@@ -288,7 +290,8 @@ def news_row(n, first):
     src = ""  # 來源標籤（官網公告等）不顯示，只保留「最新」
     icon = ('<span class="post-icon" aria-hidden="true"><svg width="7" height="10" viewBox="0 0 7 10" fill="none" focusable="false">'
             '<path d="M0.5 0V2L3.5 4L6.5 2V0" stroke="currentColor"/><path d="M0.5 6V7L3.5 9L6.5 7V6" stroke="currentColor"/></svg></span>')
-    return (f'<li class="post-row"><a href="{article_page(n["id"])}">{icon}<span class="post-when">{date_html}<span class="post-tags">{new}{src}</span></span>'
+    md = f'<span class="post-md" aria-hidden="true">{d.month:02d}.{d.day:02d}</span>' if d else ""
+    return (f'<li class="post-row"><a href="{article_page(n["id"])}">{icon}{md}<span class="post-when">{date_html}<span class="post-tags">{new}{src}</span></span>'
             f'<span class="post-title">{e(n["title_zh"])}</span></a></li>')
 
 
