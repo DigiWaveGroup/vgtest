@@ -884,3 +884,6 @@ main .article-aside-title::after { display: none; }
   .visit-grid > .visit-highlights ul { grid-template-columns: 1fr; }
   .visit-map img { position: static; height: auto; }
 }
+
+/* Open-registration badge */
+.closed-badge.is-open { color: #000; background: var(--neon); border-color: var(--neon); }

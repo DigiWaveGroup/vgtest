@@ -100,7 +100,7 @@
 
 ## 規範與驗收界線
 
-- **ODF-CNS 15251**：每份下載文件皆同時提供 PDF 與 ODF（.odt）兩種格式。.odt 須由 Word 原始檔「另存新檔 → OpenDocument 文字」產生，放入 `vgw_website_assets/5_downloads/`，檔名須為 `2026_VGW_exhibitor_guidelines.odt`、`2026_VGW_competition_guidelines.odt`。
+- **ODF-CNS 15251**：每份下載文件皆同時提供 PDF 與 ODF（.odt）兩種格式。.odt 須由 Word 原始檔「另存新檔 → OpenDocument 文字」產生，放入 `vgw_website_assets/5_downloads/`，檔名須為 `2027_VGW_exhibitor_guidelines.odt`、`2026_VGW_competition_guidelines.odt`。
 - **WCAG 2.1 AA**：已完成自動化檢查（對比、320px／200% 重排、文字間距、焦點可見、語言標示、替代文字），尚須以鍵盤及螢幕閱讀器（VoiceOver／NVDA）人工測試，並依主管機關程序申請檢測。**目前不代表已通過 AA 檢測或取得標章。**
 - **資安**：網頁內 CSP 僅為基本防護；正式環境須依 `_deploy/` 範本於伺服器設定 HTTPS、HSTS、CSP（含 `frame-ancestors`）、`X-Content-Type-Options`、`Referrer-Policy`、`Permissions-Policy`，隱藏伺服器版本、關閉目錄列表、封鎖隱藏檔。弱點掃描、滲透測試與源碼檢測之頻率與範圍，依機關資通安全責任等級及系統防護需求等級辦理。
 
