@@ -974,3 +974,6 @@ main .article-aside-title::after { display: none; }
 }
 /* Hero: dark layer over the cover so it isn't too bright (scanlines stay on top) */
 .hero::after { background: repeating-linear-gradient(0deg, rgba(0,0,0,.18) 0 1px, transparent 1px 3px), rgba(8,11,16,.35); }
+/* Event cards: "?" placeholder instead of photos (details to be announced) */
+.event-tba { display: grid; place-items: center; background-color: #0C1016; background-image: radial-gradient(circle at 50% 50%, rgba(241,43,32,.14), transparent 60%), linear-gradient(rgba(241,43,32,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(241,43,32,.05) 1px, transparent 1px); background-size: auto, 28px 28px, 28px 28px; }
+.event-tba span { color: var(--neon); font-family: var(--mono); font-size: clamp(4rem, 9vw, 6.5rem); font-weight: 800; line-height: 1; text-shadow: 0 0 24px rgba(241,43,32,.55); }

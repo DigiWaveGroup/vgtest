@@ -27,6 +27,8 @@ EVENTS_CSV = ROOT / "_tools" / "events.csv"
 NEWS_CSV = ROOT / "_tools" / "news.csv"
 NEWS_TXT = ROOT / "_tools" / "news"
 PHOTO_DIR = "vgw_website_assets/7_events/"
+# 活動照片暫不顯示：卡片改用紅色「?」佔位；要恢復照片改成 True
+SHOW_EVENT_PHOTOS = False
 HOME = "index.html"
 NEWS_PAGE = "news.html"
 EVENTS_PAGE = "events.html"
@@ -168,7 +170,9 @@ def event_card(r, hlevel, anchor):
     if cap:
         facts.append(("名額", "・".join(cap)))
     dl = "".join(f"<div><dt>{k}</dt><dd>{v}</dd></div>" for k, v in facts)
-    if r.get("image"):
+    if not SHOW_EVENT_PHOTOS:
+        visual = '<div class="event-photo event-tba" aria-hidden="true"><span>?</span></div>'
+    elif r.get("image"):
         visual = (f'<img class="event-photo" src="{PHOTO_DIR}{e(r["image"])}" alt="{e(r["image_alt_zh"])}" '
                   f'width="800" height="450" loading="lazy">')
     else:
