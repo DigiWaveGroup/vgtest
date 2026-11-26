@@ -25,22 +25,7 @@
   });
 })();
 
-// Decorative cursor glow on cards. Mouse-only; skipped for reduced motion and touch.
-// Purely visual: no content, focus or keyboard behaviour depends on it.
-(function () {
-  var ok = window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
-           !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!ok) return;
-  var SEL = '.participate-card, .event-card, .judge-card, .sponsor-group, .fb-card, .post-card';
-  document.addEventListener('pointermove', function (e) {
-    var card = e.target.closest ? e.target.closest(SEL) : null;
-    if (!card) return;
-    var r = card.getBoundingClientRect();
-    card.style.setProperty('--mx', Math.round(e.clientX - r.left) + 'px');
-    card.style.setProperty('--my', Math.round(e.clientY - r.top) + 'px');
-  }, { passive: true });
-  document.documentElement.classList.add('has-glow');
-})();
+
 
 // 追蹤我們: red targeting dot that follows the mouse (mouse only; decorative, aria-hidden;
 // skipped for touch and reduced motion). Movement is driven only by the user's pointer.
@@ -91,27 +76,7 @@
   hero.appendChild(b);
 })();
 
-// Mouse "signal interference": every 6–12 s while the mouse moves, a brief glitch flickers at the cursor.
-// Small (120×44 px), under 0.35 s, never more than once per 6 s (well below WCAG 2.3.1 flash limits).
-(function () {
-  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var g = document.createElement('div');
-  g.className = 'sig-glitch';
-  g.setAttribute('aria-hidden', 'true');
-  g.innerHTML = '<span></span><span></span><span></span><span></span>';
-  document.body.appendChild(g);
-  var next = Date.now() + 4000;
-  document.addEventListener('pointermove', function (e) {
-    if (document.documentElement.classList.contains('motion-paused')) return;
-    var now = Date.now();
-    if (now < next) return;
-    next = now + 6000 + Math.random() * 6000;
-    g.style.setProperty('--gx', (e.clientX - 60) + 'px');
-    g.style.setProperty('--gy', (e.clientY - 22) + 'px');
-    g.classList.remove('is-on'); void g.offsetWidth; g.classList.add('is-on');
-  }, { passive: true });
-})();
+
 
 // ===== Cyberpunk motion layer (decorative; all skipped for reduced motion) =====
 (function () {
@@ -120,7 +85,7 @@
   root.classList.add('cy');
 
   // 1) Scroll reveal: blocks materialise (blur → sharp, rise) as they enter, slightly staggered.
-  var RV = '.section-heading, .post-row, .participate-card, .event-card, .judge-category, .visit-content, .visit-map, .visit-facts > div, .fb-card, .sponsor-group, .faq-list > div, .article-body > *';
+  var RV = '.section-heading, .visit-heading, .post-row, .participate-card, .event-card, .judge-category, .visit-content, .visit-map, .visit-facts > div, .fb-card, .sponsor-group, .faq-list > div, .article-body > *';
   var items = Array.prototype.slice.call(document.querySelectorAll(RV));
   items.forEach(function (el) {
     var sibs = Array.prototype.filter.call(el.parentNode.children, function (c) { return c.matches(RV); });
@@ -168,24 +133,19 @@
       if (!en.isIntersecting) return;
       var el = en.target;
       el.classList.add('is-in');
-      Array.prototype.forEach.call(el.querySelectorAll('h2, .eyebrow, .event-title, .post-title, time'), function (x) { decode(x); });
+      Array.prototype.forEach.call(el.querySelectorAll('h2'), function (x) { decode(x); });
       var h = el.querySelector('h2'); if (h) { h.classList.add('is-glitch'); setTimeout(function () { h.classList.remove('is-glitch'); }, 700); }
       io.unobserve(el);
     });
   }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
   items.forEach(function (el) { io.observe(el); });
-  // News rows: the title / date re-decode when hovered or focused
-  Array.prototype.forEach.call(document.querySelectorAll('.post-row a'), function (a) {
-    function go() { Array.prototype.forEach.call(a.querySelectorAll('.post-title, time'), function (x) { decode(x, true); }); }
-    a.addEventListener('mouseenter', go); a.addEventListener('focus', go);
-  });
 
   // 3) Scroll progress rail (right edge) + vertical system label (left edge, wide screens).
   var rail = document.createElement('div'); rail.className = 'cy-rail'; rail.setAttribute('aria-hidden', 'true');
   rail.innerHTML = '<i></i>';
   var side = document.createElement('div'); side.className = 'cy-side'; side.setAttribute('aria-hidden', 'true');
   side.textContent = 'VISION GET WILD // 2027 // KAOHSIUNG // SIGNAL LOCKED';
-  document.body.appendChild(rail); document.body.appendChild(side);
+  document.body.appendChild(rail);
   var bar = rail.firstChild, ticking = false;
   function upd() { var h = root.scrollHeight - innerHeight; bar.style.transform = 'scaleY(' + (h > 0 ? scrollY / h : 0).toFixed(4) + ')'; ticking = false; }
   addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(upd); } }, { passive: true });

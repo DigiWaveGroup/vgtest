@@ -1499,3 +1499,17 @@ main .article-aside-title::after { display: none; }
   }
   .post-row a:hover .post-title, .post-row a:focus-visible .post-title, .post-row a:hover time { display: inline-block; animation: cy-txt .45s steps(1) 1; }
 }
+/* Calmer: only headings glitch; no shine; tighter sections; plain footer */
+@media screen {
+  .cy-side { display: none !important; }
+  .sig-glitch { display: none !important; }
+  .eyebrow, .site-header::after { animation: none !important; }
+  .post-row a:hover .post-title, .post-row a:focus-visible .post-title, .post-row a:hover time { animation: none !important; }
+  .cy .participate-card > .card-top::after, .cy .event-card .event-body::before, .cy .judge-card .judge-figure::after { content: none !important; }
+  .has-glow :is(.participate-card, .event-card, .judge-card, .sponsor-group, .fb-card, .post-card)::before { background: none; }
+  .section-pad { padding-block: clamp(56px, 6.5vw, 92px); }
+  .section-heading { margin-bottom: 40px; }
+  .site-footer { background: #080B10 !important; background-image: none !important; }
+  .site-footer > .container::before { content: none !important; }
+}
+@media screen and (max-width: 650px) { .section-pad { padding-block: 48px; } .section-heading { margin-bottom: 28px; } }
