@@ -892,3 +892,79 @@ main .article-aside-title::after { display: none; }
 
 /* Open-registration badge */
 .closed-badge.is-open { color: #000; background: var(--neon); border-color: var(--neon); }
+/* ===== Phone + tablet (≤950px) ===== */
+.nav-toggle { display: none; }
+@media (max-width: 950px) {
+  /* Menu button replaces the row of header links */
+  .has-nav-toggle .header-inner { flex-wrap: wrap; min-height: 64px; padding-block: 10px; }
+  .has-nav-toggle .nav-toggle { display: inline-flex; align-items: center; justify-content: center; margin-left: auto; width: 46px; height: 46px; padding: 0; color: #fff; background: transparent; border: 1px solid var(--neon-line); font: inherit; font-family: var(--mono); font-size: .82rem; font-weight: 700; letter-spacing: .08em; cursor: pointer; }
+  .nav-toggle:focus-visible { outline: 3px solid var(--neon); outline-offset: 2px; }
+  .nav-toggle-icon, .nav-toggle-icon span, .nav-toggle-icon::before, .nav-toggle-icon::after { display: block; width: 18px; height: 2px; background: var(--neon); transition: transform .2s ease, opacity .2s ease; }
+  .nav-toggle-icon { position: relative; background: none; }
+  .nav-toggle-icon span { position: absolute; top: 0; }
+  .nav-toggle-icon::before, .nav-toggle-icon::after { content: ""; position: absolute; left: 0; }
+  .nav-toggle-icon::before { top: -6px; }
+  .nav-toggle-icon::after { top: 6px; }
+  .nav-open .nav-toggle-icon span { opacity: 0; }
+  .nav-open .nav-toggle-icon::before { transform: translateY(6px) rotate(45deg); }
+  .nav-open .nav-toggle-icon::after { transform: translateY(-6px) rotate(-45deg); }
+  .has-nav-toggle .header-inner nav { display: none; }
+  .has-nav-toggle.nav-open .header-inner nav { display: block; }
+  .has-nav-toggle .nav-list { display: grid; grid-template-columns: 1fr; gap: 0; padding: 4px 0 8px; border-top: 1px solid #2c2c2c; }
+  .has-nav-toggle .nav-list a { display: block; padding: 14px 4px; font-size: .95rem; border-bottom: 1px solid #1f1f1f; }
+  .has-nav-toggle .nav-list a::after { display: none; }
+
+  /* Decorative arrows (→ ↗ ↓) hidden on phones; link text and screen-reader text stay */
+  a > span[aria-hidden="true"]:not([class]), .post-arrow, .fb-card-arrow { display: none; }
+
+  /* News list: compact card rows */
+  .news-layout { gap: 18px; }
+  .news-side .section-heading { margin-bottom: 0; }
+  .news-all { margin-top: 14px; }
+  .post-rows { display: grid; gap: 10px; border-top: 0; }
+  .post-row a, .news-layout .post-row a { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; padding: 16px; background: rgba(255,255,255,.03); border: 1px solid #2c2c2c; border-left: 3px solid var(--neon); }
+  .post-row a:active { background: rgba(60,255,158,.08); }
+  .post-row time { font-size: .8rem; }
+  .post-tags { gap: 6px; font-size: .68rem; }
+  .post-row .post-title { flex-basis: 100%; font-size: 1.02rem; line-height: 1.55; }
+  .news-more .post-rows { margin-top: 10px; }
+}
+@media (max-width: 950px) {
+  /* Put "查看所有消息" after the list as a full-width button */
+  .news-side { display: contents; }
+  .news-all { order: 3; margin: 4px 0 0; }
+  .news-all a { display: flex; justify-content: center; align-items: center; min-height: 48px; color: var(--neon); border: 1px solid var(--neon-line); text-decoration: none; }
+  .news-all a:active { color: #000; background: var(--neon); }
+}
+@media (max-width: 950px) {
+  /* Open menu floats over the page as a translucent black panel */
+  .has-nav-toggle .header-inner { position: relative; }
+  .has-nav-toggle.nav-open .header-inner nav { position: absolute; top: 100%; left: 50%; right: auto; width: 100vw; transform: translateX(-50%); max-height: calc(100vh - 80px); overflow-y: auto; z-index: 20; padding: 0 calc((100vw - 100%) / 2) 10px; background: rgba(5,5,5,.78); -webkit-backdrop-filter: blur(18px) saturate(1.2); backdrop-filter: blur(18px) saturate(1.2); border-bottom: 1px solid var(--neon-line); box-shadow: 0 18px 40px rgba(0,0,0,.45); }
+  .has-nav-toggle .nav-list { border-top-color: rgba(255,255,255,.08); }
+  .has-nav-toggle .nav-list a { color: #f2f2f2; border-bottom-color: rgba(255,255,255,.08); }
+  .has-nav-toggle .nav-list li:last-child a { border-bottom: 0; }
+  .has-nav-toggle .nav-toggle { background: rgba(0,0,0,.35); }
+}
+/* Registration cards side by side (tablet + desktop): share row tracks via subgrid
+   so image, title, text, facts, button, note and downloads line up across both cards */
+@supports (grid-template-rows: subgrid) {
+  @media (min-width: 651px) {
+    .participate-grid { grid-template-rows: repeat(7, auto); row-gap: 0; }
+    .participate-card { display: grid; grid-row: span 7; grid-template-rows: subgrid; justify-items: start; align-content: start; row-gap: 0; }
+    .participate-card > p { align-self: start; }
+    .participate-card .card-actions { align-self: start; }
+    .participate-card .card-downloads { align-self: end; }
+    .participate-card .ext-note { min-height: 0; }
+    .participate-card .card-image { grid-row: 1; }
+    .participate-card > .card-top { grid-row: 2; }
+    .participate-card > h3 { grid-row: 3; }
+    .participate-card > p { grid-row: 4; }
+    .participate-card > .mini-facts { grid-row: 5; }
+    .participate-card > .card-actions { grid-row: 6; }
+    .participate-card > .card-downloads { grid-row: 7; }
+  }
+}
+/* Desktop news: left heading block and right list share one horizontal centre line */
+@media (min-width: 951px) {
+  .news-layout { align-items: center; }
+}

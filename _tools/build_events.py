@@ -297,7 +297,7 @@ def update_home(events, news):
     a, b = section_bounds(s, "updates")
     sec = re.sub(r'<ul class="post-rows">.*?</ul>', f'<ul class="post-rows">\n            {rows}\n          </ul>', s[a:b], count=1, flags=re.S)
     sec = re.sub(r'<p class="news-all">.*?</p>',
-                 f'<p class="news-all"><a href="{NEWS_PAGE}">查看所有消息 <span aria-hidden="true">→</span></a></p>', sec, count=1, flags=re.S)
+                 f'<p class="news-all"><a href="{NEWS_PAGE}">查看所有消息</a></p>', sec, count=1, flags=re.S)
     s = s[:a] + sec + s[b:]
     # featured cards keep the row order of events.csv; fallback = nearest dates
     picked = sorted((r for r in events if r.get("featured", "").upper() == "Y"), key=lambda r: r["_row"]) or events
