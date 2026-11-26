@@ -1425,3 +1425,9 @@ main .article-aside-title::after { display: none; }
 }
 @media screen and (max-width: 650px) { .section-pad { padding-block: 64px; } .section-heading { margin-bottom: 36px; } }
 @media screen { .event-tba { background-size: auto; background-repeat: no-repeat; } }
+/* Noise: bring a bit back (between the strong and the refined versions) */
+@media screen {
+  body::after { opacity: .32; }
+  .hero::after { background: url("vgw_website_assets/1_home_hero_and_announcements/web/noise.png"), repeating-linear-gradient(0deg, rgba(0,0,0,.2) 0 1px, transparent 1px 3px), linear-gradient(180deg, transparent, rgba(241,43,32,.08) 50%, transparent) 0 -40% / 100% 35% no-repeat, rgba(8,11,16,.12); }
+  .event-tba::after { opacity: .18; }
+}
