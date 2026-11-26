@@ -282,7 +282,7 @@ def news_row(n, first):
     date_html = (f'<time datetime="{d.isoformat()}">{d.strftime("%Y.%m.%d")}</time>' if d
                  else f'<span class="post-date-tba">{TBA}</span>')
     new = '<span class="post-new">最新</span>' if first else ""
-    src = f'<span class="post-source{" is-event" if n["source"] == "event" else ""}">{SOURCES[n["source"]]}</span>'
+    src = ""  # 來源標籤（官網公告等）不顯示，只保留「最新」
     return (f'<li class="post-row"><a href="{article_page(n["id"])}">{date_html}<span class="post-tags">{new}{src}</span>'
             f'<span class="post-title">{e(n["title_zh"])}</span><span class="post-arrow" aria-hidden="true">VIEW</span></a></li>')
 
@@ -375,7 +375,7 @@ def build_article(n, prev_n, next_n):
     d = n["_date"]
     date_html = (f'<time datetime="{d.isoformat()}">{d.strftime("%Y.%m.%d")}</time>' if d
                  else f'<span class="post-date-tba">{TBA}</span>')
-    src = f'<span class="post-source{" is-event" if n["source"] == "event" else ""}">{SOURCES[n["source"]]}</span>'
+    src = ""  # 來源標籤不顯示
     text = n["_text"] if n["_text"].strip() else auto_event_text(n["_event"])
     body = render_text(text)
     extra = ""
