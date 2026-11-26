@@ -171,7 +171,7 @@ def event_card(r, hlevel, anchor):
         facts.append(("名額", "・".join(cap)))
     dl = "".join(f"<div><dt>{k}</dt><dd>{v}</dd></div>" for k, v in facts)
     if not SHOW_EVENT_PHOTOS:
-        visual = '<div class="event-photo event-tba" aria-hidden="true"><span>?</span></div>'
+        visual = '<div class="event-photo event-tba" aria-hidden="true"><span class="tba-mark">?</span><span class="tba-label">COMING SOON</span></div>'
     elif r.get("image"):
         visual = (f'<img class="event-photo" src="{PHOTO_DIR}{e(r["image"])}" alt="{e(r["image_alt_zh"])}" '
                   f'width="800" height="450" loading="lazy">')
