@@ -152,25 +152,29 @@
   upd();
 })();
 
-// 神機錯亂 (cyber-psychosis): a fast scroll triggers a ~0.5 s screen-tear / RGB-split episode.
-// User-triggered, 12 s cooldown, no bright full-screen flashes (stays under WCAG 2.3.1 limits).
+// 神機錯亂 lens: a small glitch window follows the mouse and distorts what is under it while the mouse moves.
+// Mouse only; user-driven (stops ~0.3 s after the mouse stops); skipped for reduced motion / paused motion.
 (function () {
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var root = document.documentElement, main = document.querySelector('main');
-  if (!main) return;
-  var ov = document.createElement('div');
-  ov.className = 'psy'; ov.setAttribute('aria-hidden', 'true');
-  ov.innerHTML = '<span class="psy-txt">ERR::NEURAL_LINK_UNSTABLE // 0x2027</span><span class="psy-txt b">SIGNAL OVERRIDE // VGW-NET</span>';
-  document.body.appendChild(ov);
-  var lastY = scrollY, lastT = performance.now(), cool = performance.now() + 3000;
-  function fire() {
-    root.classList.remove('psy-on'); void root.offsetWidth; root.classList.add('psy-on');
-    setTimeout(function () { root.classList.remove('psy-on'); }, 600);
+  var root = document.documentElement;
+  var g = document.createElement('div');
+  g.className = 'psy-lens'; g.setAttribute('aria-hidden', 'true');
+  g.innerHTML = '<span></span><span></span><span></span>';
+  document.body.appendChild(g);
+  var x = -200, y = -200, tx = x, ty = y, raf = 0, stopT;
+  function step() {
+    x += (tx - x) * 0.35; y += (ty - y) * 0.35;
+    g.style.setProperty('--x', x.toFixed(1) + 'px'); g.style.setProperty('--y', y.toFixed(1) + 'px');
+    raf = (Math.abs(tx - x) > .4 || Math.abs(ty - y) > .4) ? requestAnimationFrame(step) : 0;
   }
-  addEventListener('scroll', function () {
-    var now = performance.now(), dy = Math.abs(scrollY - lastY), dt = now - lastT;
-    lastY = scrollY; lastT = now;
-    if (dt <= 0 || root.classList.contains('motion-paused')) return;
-    if (dy / dt > 4.5 && now > cool) { cool = now + 12000; fire(); }   // > ~4500 px/s
+  document.addEventListener('pointermove', function (e) {
+    if (root.classList.contains('motion-paused')) { g.classList.remove('is-on'); return; }
+    tx = e.clientX; ty = e.clientY;
+    if (!g.classList.contains('is-on')) { x = tx; y = ty; }
+    g.classList.add('is-on');
+    if (!raf) raf = requestAnimationFrame(step);
+    clearTimeout(stopT); stopT = setTimeout(function () { g.classList.remove('is-on'); }, 320);
   }, { passive: true });
+  document.addEventListener('pointerleave', function () { g.classList.remove('is-on'); });
 })();

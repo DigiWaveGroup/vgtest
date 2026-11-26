@@ -1513,3 +1513,38 @@ main .article-aside-title::after { display: none; }
   .site-footer > .container::before { content: none !important; }
 }
 @media screen and (max-width: 650px) { .section-pad { padding-block: 48px; } .section-heading { margin-bottom: 28px; } }
+/* 神機錯亂 lens (follows the mouse) */
+.psy, .psy-txt { display: none !important; }
+.psy-lens { position: fixed; z-index: 75; left: 0; top: 0; width: 86px; height: 34px; pointer-events: none; opacity: 0; transform: translate(calc(var(--x) - 43px), calc(var(--y) - 17px)); transition: opacity .15s ease;
+  -webkit-backdrop-filter: contrast(1.5) saturate(1.8) hue-rotate(-14deg) brightness(1.15); backdrop-filter: contrast(1.5) saturate(1.8) hue-rotate(-14deg) brightness(1.15);
+  box-shadow: -3px 0 0 rgba(95,212,255,.45), 3px 0 0 rgba(241,43,32,.6); }
+.psy-lens.is-on { opacity: 1; }
+.psy-lens span { position: absolute; left: -10px; right: -10px; height: 3px; background: rgba(241,43,32,.55); }
+.psy-lens span:nth-child(1) { top: 6px; }
+.psy-lens span:nth-child(2) { top: 17px; height: 1px; background: rgba(95,212,255,.6); }
+.psy-lens span:nth-child(3) { top: 26px; height: 5px; background: url("vgw_website_assets/1_home_hero_and_announcements/web/noise.png"), rgba(215,233,239,.18); }
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes psy-lens { 0% { clip-path: inset(0 0 60% 0); } 25% { clip-path: inset(35% 0 20% 0); } 50% { clip-path: inset(0 0 0 0); } 75% { clip-path: inset(60% 0 0 0); } 100% { clip-path: inset(10% 0 40% 0); } }
+  @keyframes psy-slice { 0%,100% { transform: translateX(0); } 33% { transform: translateX(-7px); } 66% { transform: translateX(6px); } }
+  .psy-lens.is-on { animation: psy-lens .24s steps(1) infinite; }
+  .psy-lens.is-on span { animation: psy-slice .18s steps(1) infinite; }
+  .psy-lens.is-on span:nth-child(2) { animation-duration: .13s; }
+}
+/* Radar blips: a different layout on each card */
+.event-card:nth-child(1) .tba-radar i:nth-child(1) { left: 66%; top: 28%; }
+.event-card:nth-child(1) .tba-radar i:nth-child(2) { left: 30%; top: 62%; }
+.event-card:nth-child(1) .tba-radar i:nth-child(3) { left: 72%; top: 70%; }
+.event-card:nth-child(2) .tba-radar i:nth-child(1) { left: 24%; top: 30%; }
+.event-card:nth-child(2) .tba-radar i:nth-child(2) { left: 58%; top: 76%; }
+.event-card:nth-child(2) .tba-radar i:nth-child(3) { left: 80%; top: 44%; }
+.event-card:nth-child(3) .tba-radar i:nth-child(1) { left: 44%; top: 18%; }
+.event-card:nth-child(3) .tba-radar i:nth-child(2) { left: 18%; top: 50%; }
+.event-card:nth-child(3) .tba-radar i:nth-child(3) { left: 64%; top: 60%; }
+.event-card:nth-child(2) .tba-radar::before { transform: rotate(160deg); }
+.event-card:nth-child(3) .tba-radar::before { transform: rotate(280deg); }
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes vgw-radar2 { from { transform: rotate(160deg); } to { transform: rotate(520deg); } }
+  @keyframes vgw-radar3 { from { transform: rotate(280deg); } to { transform: rotate(640deg); } }
+  .event-card:nth-child(2) .tba-radar::before { animation-name: vgw-radar2; }
+  .event-card:nth-child(3) .tba-radar::before { animation-name: vgw-radar3; }
+}
