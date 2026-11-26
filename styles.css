@@ -7,7 +7,7 @@
   --cream: #080B10;
   --lime: #D7E9EF;
   --line: #292F35;
-  font-family: "Chakra Petch", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+  font-family: "Chakra Petch", "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
 }
@@ -171,7 +171,7 @@ img { max-width: 100%; height: auto; }
   --neon: #F12B20;
   --neon-soft: rgba(241,43,32, .18);
   --neon-line: rgba(241,43,32, .35);
-  --mono: "Chakra Petch", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+  --mono: "Chakra Petch", "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
 }
 ::selection { color: #000; background: var(--neon); }
 a:focus-visible { outline-color: var(--neon); }
@@ -1055,7 +1055,7 @@ main .article-aside-title::after { display: none; }
   main > section:not(.hero) > .container { position: relative; }
   /* Huge outlined section number behind each section, top-right */
   main > section:not(.hero):not(.page-head) > .container::before { content: counter(sec, decimal-leading-zero) / ""; position: absolute; z-index: -1; top: -18px; right: 0; color: transparent; -webkit-text-stroke: 1px rgba(215,233,239,.07); font-family: var(--display); font-size: clamp(7rem, 16vw, 14rem); font-weight: 900; line-height: 1; letter-spacing: -.04em; pointer-events: none; }
-  main > section:not(.hero):not(.page-head) > .container::after { content: "SYS.SECTOR " counter(sec, decimal-leading-zero) " ▮ STATUS: ACTIVE" / ""; position: absolute; top: 8px; right: 4px; color: rgba(148,163,171,.35); font-family: var(--mono); font-size: .6rem; letter-spacing: .28em; pointer-events: none; }
+  main > section:not(.hero):not(.page-head) > .container::after { content: "SYS.SECTOR " counter(sec, decimal-leading-zero) " // STATUS: ACTIVE" / ""; position: absolute; top: 8px; right: 4px; color: rgba(148,163,171,.35); font-family: var(--mono); font-size: .6rem; letter-spacing: .28em; pointer-events: none; }
   /* Blueprint grid with crosshair markers on alternating sections */
   main > section:not(.hero):nth-of-type(odd) { background-image: radial-gradient(circle, rgba(241,43,32,.35) 1px, transparent 1.5px), linear-gradient(rgba(215,233,239,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(215,233,239,.025) 1px, transparent 1px); background-size: 120px 120px, 40px 40px, 40px 40px; background-position: -60px -60px, 0 0, 0 0; }
   /* Sub-page header: file stamp + barcode on the right */
@@ -1078,8 +1078,8 @@ main .article-aside-title::after { display: none; }
 @font-face { font-family: "Chakra Petch"; src: url("vgw_website_assets/8_fonts/ChakraPetch-Bold.ttf") format("truetype"); font-weight: 700 900; font-display: swap; }
 @media screen {
   :root {
-    --mono: "Chakra Petch", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
-    --display: "Chakra Petch", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+    --mono: "Chakra Petch", "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    --display: "Chakra Petch", "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
     --cyan: #5fd4ff;
   }
   h1, h2, h3, .button, .dl-link, .post-row time, .card-number, .closed-badge, .event-title, .judge-name, .visit-facts dt, .tba-mark { font-family: var(--display); }
@@ -1094,7 +1094,7 @@ main .article-aside-title::after { display: none; }
   body::after { content: ""; position: fixed; z-index: 59; inset: -50%; pointer-events: none; background: url("vgw_website_assets/1_home_hero_and_announcements/web/noise.png"); opacity: .55; }
 
   /* Status bar on top of the header */
-  .site-header::before { content: "◢ VGW-NET // SECURE CHANNEL ESTABLISHED   ▮ 2027.05.13 — 05.15   ▮ KAOHSIUNG EXHIBITION CENTER · NORTH HALL   ▮ SIGNAL ████████░ 92%" / ""; display: block; overflow: hidden; padding: 5px max(24px, calc((100vw - 1160px) / 2)); color: rgba(215,233,239,.55); background: #05070A; border-bottom: 1px solid rgba(241,43,32,.35); font-family: var(--mono); font-size: .64rem; letter-spacing: .2em; white-space: pre; }
+  .site-header::before { content: "◢ VGW-NET // SECURE CHANNEL ESTABLISHED   // 2027.05.13 — 05.15   // KAOHSIUNG EXHIBITION CENTER · NORTH HALL   // SIGNAL ████████░ 92%" / ""; display: block; overflow: hidden; padding: 5px max(24px, calc((100vw - 1160px) / 2)); color: rgba(215,233,239,.55); background: #05070A; border-bottom: 1px solid rgba(241,43,32,.35); font-family: var(--mono); font-size: .64rem; letter-spacing: .2em; white-space: pre; }
   .nav-list a { font-family: var(--display); font-weight: 600; }
 
   /* Headings: chromatic aberration + occasional glitch */
@@ -1311,4 +1311,14 @@ main .article-aside-title::after { display: none; }
   .trk-ring { width: 46px; height: 46px; border: 1px solid rgba(241,43,32,.55); background: linear-gradient(var(--neon),var(--neon)) center top / 1px 8px no-repeat, linear-gradient(var(--neon),var(--neon)) center bottom / 1px 8px no-repeat, linear-gradient(var(--neon),var(--neon)) left center / 8px 1px no-repeat, linear-gradient(var(--neon),var(--neon)) right center / 8px 1px no-repeat; }
   .trk-label { position: absolute; left: 0; top: 0; transform: translate(calc(var(--x) + 30px), calc(var(--y) + 14px)); color: rgba(255,80,70,.85); font-family: var(--mono); font-size: .62rem; letter-spacing: .18em; white-space: nowrap; }
   section.follow > .container { position: relative; z-index: 1; }
+}
+/* Judge names: personnel-file style (ID tag + thin wide name + status line) */
+@media screen {
+  .judge-grid { counter-reset: jdg; }
+  .judge-card { counter-increment: jdg; }
+  .judge-card h4 { margin-top: 14px; font-family: var(--display); font-size: 1.25rem; font-weight: 300; letter-spacing: .16em; }
+  .judge-card h4::before { content: "JUDGE-" counter(jdg, decimal-leading-zero) " // FILE" / ""; display: block; margin-bottom: 6px; color: #7D8B93; font-family: var(--mono); font-size: .62rem; font-weight: 400; letter-spacing: .26em; }
+  .judge-card p { display: flex; align-items: center; gap: 8px; margin-top: 8px; margin-bottom: 4px; padding-top: 8px; border-top: 1px solid rgba(215,233,239,.1); color: #FF5046; font-family: var(--mono); font-size: .78rem; letter-spacing: .22em; }
+  .judge-card p::before { content: ""; flex: none; width: 6px; height: 6px; background: var(--neon); box-shadow: 0 0 8px rgba(241,43,32,.7); }
+  @media (max-width: 650px) { .judge-card h4 { font-size: 1.1rem; } }
 }
