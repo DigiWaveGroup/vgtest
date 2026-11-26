@@ -1259,3 +1259,9 @@ main .article-aside-title::after { display: none; }
 }
 /* Remove the big ghost section numbers (01, 02, 03…) */
 @media screen { main > section:not(.hero):not(.page-head) > .container::before { content: none !important; } }
+/* Sub-titles: light, wide-tracked, terminal-style (matches the thin headings) */
+@media screen {
+  .section-subtitle { margin-top: 14px; color: #AEBEC5; font-family: var(--display); font-size: clamp(.95rem, 1.3vw, 1.08rem); font-weight: 300; letter-spacing: .12em; line-height: 1.8; }
+  .section-subtitle::before { content: "// " / ""; color: var(--neon); font-weight: 400; }
+  .section-subtitle-sm { color: #94A3AB; font-family: var(--display); font-size: .88rem; font-weight: 300; letter-spacing: .1em; }
+}
