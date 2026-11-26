@@ -26,7 +26,8 @@
 
 ## 附件
 
-- [2027 年放視大賞展覽作業須知（草案）PDF](vgw_website_assets/5_downloads/2027_VGW_exhibitor_guidelines.pdf)
+- [2027 年放視大賞展覽作業須知（草案）PDF（5.4 MB）](vgw_website_assets/5_downloads/2027_VGW_exhibitor_guidelines.pdf)
+- [2027 年放視大賞展覽作業須知（草案）ODT（2.3 MB）](vgw_website_assets/5_downloads/2027_VGW_exhibitor_guidelines.odt)
 - [附件 1　參展申請總表 PDF（91 KB）](vgw_website_assets/5_downloads/2027_VGW_exhibit_application_form.pdf)
 - [附件 1　參展申請總表 ODT（55 KB）](vgw_website_assets/5_downloads/2027_VGW_exhibit_application_form.odt)
 - [附件 2、3　獨立展區及聯合展區提案企劃書（範例）PDF（285 KB）](vgw_website_assets/5_downloads/2027_VGW_exhibit_proposal_template.pdf)
