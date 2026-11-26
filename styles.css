@@ -1641,3 +1641,61 @@ main .article-aside-title::after { display: none; }
 }
 .psy-frag span.v1 { -webkit-backdrop-filter: hue-rotate(170deg) saturate(3) contrast(1.6) brightness(1.5); backdrop-filter: hue-rotate(170deg) saturate(3) contrast(1.6) brightness(1.5); background: rgba(95,212,255,.10); box-shadow: 2px 0 0 rgba(241,43,32,.75); }
 .psy-frag span.v2 { background: rgba(241,43,32,.22); }
+
+/* ===== 參觀資訊: depth experiment (perspective floor grid, tilted map, layered facts) ===== */
+@media screen {
+  main > section.visit { overflow: hidden; background: radial-gradient(900px 420px at 50% 100%, rgba(241,43,32,.10), transparent 70%), linear-gradient(180deg, #080B10 0%, #0A0D12 55%, #0D0B0E 100%) !important; }
+  /* perspective floor: grid plane receding to a horizon */
+  main > section.visit::after { content: ""; position: absolute; z-index: -1; left: -40%; right: -40%; bottom: -8%; height: 62%; inset-block-start: auto; pointer-events: none;
+    background-image: linear-gradient(rgba(241,43,32,.28) 1px, transparent 1px), linear-gradient(90deg, rgba(241,43,32,.22) 1px, transparent 1px);
+    background-size: 64px 64px; background-position: center bottom;
+    transform: perspective(520px) rotateX(64deg); transform-origin: 50% 100%;
+    -webkit-mask-image: linear-gradient(to top, #000 0%, rgba(0,0,0,.55) 40%, transparent 85%); mask-image: linear-gradient(to top, #000 0%, rgba(0,0,0,.55) 40%, transparent 85%); }
+  /* horizon glow line */
+  main > section.visit > .container { position: relative; }
+  main > section.visit > .container::after { content: ""; position: absolute; left: -10%; right: -10%; bottom: -30px; height: 1px; background: linear-gradient(90deg, transparent, rgba(241,43,32,.6), transparent); box-shadow: 0 0 24px 2px rgba(241,43,32,.35); pointer-events: none; }
+  /* tilted map card floating above the floor */
+  .visit-grid { perspective: 1200px; }
+  .visit-map { transform: rotateY(9deg) rotateX(3deg) translateZ(0); transform-origin: 100% 50%; border-color: rgba(241,43,32,.45); box-shadow: -40px 50px 90px -30px rgba(0,0,0,.9), 0 0 0 1px rgba(241,43,32,.15), 0 0 60px -20px rgba(241,43,32,.35); transition: transform .5s cubic-bezier(.2,.7,.2,1), box-shadow .5s; will-change: transform; }
+  .visit-map:hover, .visit-map:focus-visible { transform: rotateY(2deg) rotateX(0) translateZ(20px); }
+  /* facts: layered panels with depth */
+  .visit-facts > div { position: relative; background: linear-gradient(90deg, rgba(215,233,239,.035), transparent 70%); padding-left: 14px; border-left: 1px solid rgba(241,43,32,.4); margin-bottom: 6px; box-shadow: 0 18px 30px -24px rgba(0,0,0,.9); }
+  @media (max-width: 950px) { .visit-map { transform: none; } main > section.visit::after { height: 40%; } }
+}
+@media (prefers-reduced-motion: reduce) { .visit-map { transition: none; } }
+/* 參觀資訊 floor: taller so it reads behind the content */
+@media screen and (min-width: 951px) {
+  main > section.visit::after { height: 95%; bottom: -12%; transform: perspective(700px) rotateX(60deg); -webkit-mask-image: linear-gradient(to top, #000 0%, rgba(0,0,0,.6) 35%, transparent 75%); mask-image: linear-gradient(to top, #000 0%, rgba(0,0,0,.6) 35%, transparent 75%); }
+}
+
+/* ===== Radar v3: smooth (no tick ring), gradient blips that light up when the sweep passes ===== */
+@media screen {
+  .tba-radar::after { content: none !important; }
+  .tba-radar { border: 1px solid rgba(215,233,239,.18); box-shadow: 0 0 0 6px rgba(215,233,239,.025), 0 0 40px -12px rgba(241,43,32,.35);
+    background:
+      radial-gradient(circle, #FF5046 0 1.6px, rgba(241,43,32,.4) 2.4px, transparent 5px),
+      linear-gradient(rgba(215,233,239,.07), rgba(215,233,239,.07)) center / 100% 1px no-repeat,
+      linear-gradient(rgba(215,233,239,.07), rgba(215,233,239,.07)) center / 1px 100% no-repeat,
+      radial-gradient(circle, transparent 0 32.6%, rgba(215,233,239,.08) 33%, transparent 33.4% 65.9%, rgba(215,233,239,.08) 66.3%, transparent 66.7%),
+      radial-gradient(circle, rgba(241,43,32,.10), rgba(8,11,16,0) 72%); }
+  .tba-radar::before { background: conic-gradient(from 0deg, rgba(241,43,32,0) 0deg, rgba(241,43,32,.05) 12deg, rgba(241,43,32,.26) 48deg, rgba(255,120,110,.85) 49.6deg, rgba(241,43,32,0) 50.4deg); }
+  .tba-radar i { width: 12px !important; height: 12px !important; margin: -6px 0 0 -6px; border-radius: 50%; box-shadow: none !important;
+    background: radial-gradient(circle, #FFE1DC 0 12%, #FF5046 32%, rgba(241,43,32,.35) 52%, rgba(241,43,32,0) 72%) !important; opacity: .18 !important; transform: scale(.75); }
+}
+@media screen and (prefers-reduced-motion: no-preference) {
+  @keyframes vgw-blip-hit { 0% { opacity: 1; transform: scale(1.35); } 12% { opacity: .95; transform: scale(1.1); } 70% { opacity: .2; transform: scale(.8); } 100% { opacity: .18; transform: scale(.75); } }
+  .event-card:hover .tba-radar i, .event-card:focus-within .tba-radar i { animation: vgw-blip-hit 2.6s ease-out infinite !important; }
+  /* delays = when the 2.6 s sweep's leading edge reaches each blip's angle */
+  .event-card:nth-child(1):hover .tba-radar i:nth-child(1), .event-card:nth-child(1):focus-within .tba-radar i:nth-child(1) { animation-delay: 2.5s !important; }
+  .event-card:nth-child(1):hover .tba-radar i:nth-child(2), .event-card:nth-child(1):focus-within .tba-radar i:nth-child(2) { animation-delay: 1.365s !important; }
+  .event-card:nth-child(1):hover .tba-radar i:nth-child(3), .event-card:nth-child(1):focus-within .tba-radar i:nth-child(3) { animation-delay: .592s !important; }
+  .event-card:nth-child(2):hover .tba-radar i:nth-child(1), .event-card:nth-child(2):focus-within .tba-radar i:nth-child(1) { animation-delay: .705s !important; }
+  .event-card:nth-child(2):hover .tba-radar i:nth-child(2), .event-card:nth-child(2):focus-within .tba-radar i:nth-child(2) { animation-delay: 2.26s !important; }
+  .event-card:nth-child(2):hover .tba-radar i:nth-child(3), .event-card:nth-child(2):focus-within .tba-radar i:nth-child(3) { animation-delay: 1.652s !important; }
+  .event-card:nth-child(3):hover .tba-radar i:nth-child(1), .event-card:nth-child(3):focus-within .tba-radar i:nth-child(1) { animation-delay: .137s !important; }
+  .event-card:nth-child(3):hover .tba-radar i:nth-child(2), .event-card:nth-child(3):focus-within .tba-radar i:nth-child(2) { animation-delay: 2.167s !important; }
+  .event-card:nth-child(3):hover .tba-radar i:nth-child(3), .event-card:nth-child(3):focus-within .tba-radar i:nth-child(3) { animation-delay: 1.123s !important; }
+}
+@media screen and (min-width: 951px) {
+  main > section.visit::after { left: -60%; right: -60%; bottom: 0; height: 75%; background-image: linear-gradient(rgba(241,43,32,.5) 1px, transparent 1px), linear-gradient(90deg, rgba(241,43,32,.38) 1px, transparent 1px); background-size: 70px 70px; transform: perspective(600px) rotateX(58deg); -webkit-mask-image: linear-gradient(to top, #000 0%, rgba(0,0,0,.7) 30%, transparent 80%); mask-image: linear-gradient(to top, #000 0%, rgba(0,0,0,.7) 30%, transparent 80%); }
+}

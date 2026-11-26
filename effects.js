@@ -85,7 +85,7 @@
   root.classList.add('cy');
 
   // 1) Scroll reveal: blocks materialise (blur → sharp, rise) as they enter, slightly staggered.
-  var RV = '.section-heading, .visit-heading, .post-row, .participate-card, .event-card, .judge-category, .visit-content, .visit-map, .visit-facts > div, .fb-card, .sponsor-group, .faq-list > div, .article-body > *';
+  var RV = '.section-heading, .visit-heading, .post-row, .participate-card, .event-card, .judge-category, .visit-content, .visit-facts > div, .fb-card, .sponsor-group, .faq-list > div, .article-body > *';
   var items = Array.prototype.slice.call(document.querySelectorAll(RV));
   items.forEach(function (el) {
     var sibs = Array.prototype.filter.call(el.parentNode.children, function (c) { return c.matches(RV); });
@@ -191,4 +191,18 @@
   var on = false;
   function upd() { var v = scrollY > 24; if (v !== on) { on = v; h.classList.toggle('is-scrolled', v); } }
   addEventListener('scroll', upd, { passive: true }); upd();
+})();
+
+// 參觀資訊: the map card tilts toward the mouse for a sense of depth (mouse only; decorative).
+(function () {
+  var sec = document.querySelector('section.visit'), card = sec && sec.querySelector('.visit-map');
+  if (!card || !window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 951px)').matches) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  sec.addEventListener('pointermove', function (e) {
+    if (card.matches(':hover')) { card.style.transform = ''; return; }
+    var r = sec.getBoundingClientRect();
+    var nx = (e.clientX - r.left) / r.width - .5, ny = (e.clientY - r.top) / r.height - .5;
+    card.style.transform = 'rotateY(' + (9 - nx * 10).toFixed(2) + 'deg) rotateX(' + (3 + ny * 6).toFixed(2) + 'deg)';
+  }, { passive: true });
+  sec.addEventListener('pointerleave', function () { card.style.transform = ''; });
 })();
