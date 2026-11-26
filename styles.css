@@ -1988,3 +1988,14 @@ main .article-aside-title::after { display: none; }
 .to-top:focus-visible { outline: 2px solid #D7E9EF; outline-offset: 3px; }
 @media (max-width: 950px) { .to-top { display: inline-flex; } .to-top.is-on { opacity: 1; pointer-events: auto; } }
 @media print { .to-top { display: none !important; } }
+
+/* 最新消息右側列表：去掉底色；「最新」標籤改為紅點＋細字 */
+@media screen {
+  .post-row a, .news-layout .post-row a, .post-row a:hover { background: transparent !important; }
+  .post-tags .post-new { display: inline-flex; align-items: center; gap: 7px; padding: 0; color: #FF5046; background: none !important; border: 0; font-size: .8rem; font-weight: 600; letter-spacing: .14em; clip-path: none !important; }
+  .post-tags .post-new::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #F12B20; box-shadow: 0 0 0 3px rgba(241, 43, 32, .18); }
+}
+@media screen and (prefers-reduced-motion: no-preference) {
+  @keyframes new-ping { 0% { box-shadow: 0 0 0 0 rgba(241, 43, 32, .55); } 100% { box-shadow: 0 0 0 7px rgba(241, 43, 32, 0); } }
+  .post-tags .post-new::before { animation: new-ping 1.6s ease-out 3; }
+}
