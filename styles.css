@@ -1111,8 +1111,8 @@ main .article-aside-title::after { display: none; }
   .hero::after { background: repeating-linear-gradient(0deg, rgba(0,0,0,.22) 0 1px, transparent 1px 3px), linear-gradient(180deg, transparent, rgba(241,43,32,.10) 50%, transparent) 0 -40% / 100% 35% no-repeat, rgba(8,11,16,.15); }
 
   /* Photos graded to the red palette */
-  .card-image { filter: grayscale(1) brightness(.62) contrast(1.35) sepia(1) saturate(5) hue-rotate(-42deg); }
-  .participate-card:hover .card-image { filter: grayscale(1) brightness(.75) contrast(1.35) sepia(1) saturate(5) hue-rotate(-42deg); }
+  .card-image { filter: grayscale(1) brightness(.7) contrast(1.15) sepia(.35) saturate(1.8) hue-rotate(-28deg); }
+  .participate-card:hover .card-image { filter: grayscale(.6) brightness(.9) contrast(1.1) sepia(.25) saturate(1.5) hue-rotate(-20deg); }
 
   /* Cards: glowing edge + telemetry header */
   .participate-card, .event-card, .judge-card { border-color: #2E353C; box-shadow: inset 0 1px 0 rgba(241,43,32,.35); }
@@ -1229,4 +1229,10 @@ main .article-aside-title::after { display: none; }
 @media screen and (prefers-reduced-motion: no-preference) {
   @keyframes vgw-glyph { 0% { opacity: 0; } 35% { opacity: 1; color: #080B10; background: #D7E9EF; } 65% { opacity: .25; color: inherit; background: transparent; } 100% { opacity: 1; } }
   .is-blink .glyph { animation: vgw-glyph .34s steps(1) both; animation-delay: calc(var(--i, 0) * 26ms); }
+}
+/* Chamfered top-right corner: draw the missing diagonal edge line */
+@media screen {
+  .participate-card::after, .judge-card::after { content: "" !important; display: block; position: absolute; z-index: 3; top: 0; right: 0; left: auto; bottom: auto; width: var(--cut); height: var(--cut); border: 0; transform: none; pointer-events: none;
+    background: linear-gradient(to bottom left, transparent calc(50% - 1px), #3E474F calc(50% - 1px), #3E474F calc(50% + .5px), transparent calc(50% + .5px)); }
+  .participate-card:hover::after, .judge-card:hover::after { background: linear-gradient(to bottom left, transparent calc(50% - 1px), var(--neon) calc(50% - 1px), var(--neon) calc(50% + .5px), transparent calc(50% + .5px)); }
 }
