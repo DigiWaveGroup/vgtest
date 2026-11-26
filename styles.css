@@ -1356,3 +1356,5 @@ main .article-aside-title::after { display: none; }
   75% { opacity: .6; clip-path: inset(65% 0 5% 0); transform: translate(var(--gx), var(--gy)) translateX(6px); }
   100% { opacity: 0; transform: translate(var(--gx), var(--gy)); }
 }
+/* Footer: remove the "END OF TRANSMISSION" line */
+@media screen { .site-footer::after { content: none !important; display: none !important; } }
