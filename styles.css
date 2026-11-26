@@ -1877,3 +1877,33 @@ main .article-aside-title::after { display: none; }
   .tba-radar::before { background: conic-gradient(from 0deg, rgba(241,43,32,0) 0deg, rgba(241,43,32,.03) 12deg, rgba(241,43,32,.16) 48deg, rgba(255,120,110,.7) 49.6deg, rgba(241,43,32,0) 50.4deg) !important; }
   .tba-radar i:nth-child(2), .tba-radar i:nth-child(3) { display: none !important; }
 }
+
+/* ===== Proportion pass ===== */
+@media screen {
+  /* One grid: nav, content and footer share the same 1160px column */
+  :root { --col: min(1160px, calc(100% - 48px)); }
+  @media (min-width: 951px) { .site-header > .container { width: var(--col); max-width: none; } }
+  /* One heading scale */
+  main h2, .participate h2 { font-size: clamp(2rem, 2.9vw, 2.6rem); line-height: 1.2; }
+  .section-heading { margin-bottom: 36px; }
+  .section-subtitle { font-size: clamp(.92rem, 1.1vw, 1rem); }
+  /* Registration photos: wider crop so the cards aren't a screen and a half tall */
+  .participate-card .card-image { aspect-ratio: 21 / 9; height: auto; object-fit: cover; object-position: 50% 40%; }
+  /* Partner logos: same optical height */
+  .logo-list { gap: 26px 48px !important; }
+  .logo-list li { display: flex; align-items: center; }
+  .logo-list img { width: auto !important; height: 40px; max-width: 150px; object-fit: contain; }
+  @media (max-width: 650px) { .logo-list img { height: 30px; max-width: 110px; } }
+}
+/* Full-screen only where the content fills a screen; others use the same rhythm */
+@media screen and (min-width: 951px) and (min-height: 620px) {
+  main > section.people:not(.hero), main > section.sponsors:not(.hero), main > section.follow:not(.hero) { min-height: 0; padding-block: 96px; justify-content: flex-start; scroll-snap-align: none; }
+  main > section.participate:not(.hero), main > section.events:not(.hero), main > section.visit:not(.hero) { padding-block: 88px 64px; }
+}
+@media screen and (min-width: 951px) {
+  .header-inner .nav-list { flex-wrap: nowrap; gap: 18px; }
+  .nav-list a { font-size: .76rem; letter-spacing: .1em; }
+}
+@media screen and (min-width: 951px) and (max-width: 1100px) { .header-inner .nav-list { gap: 12px; } .nav-list a { letter-spacing: .04em; } }
+@media screen { .participate-card .card-image { object-position: 50% 82%; } }
+@media screen { #exhibit .card-image { object-position: 50% 100%; } }
