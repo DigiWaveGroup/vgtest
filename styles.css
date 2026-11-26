@@ -1548,3 +1548,48 @@ main .article-aside-title::after { display: none; }
   .event-card:nth-child(2) .tba-radar::before { animation-name: vgw-radar2; }
   .event-card:nth-child(3) .tba-radar::before { animation-name: vgw-radar3; }
 }
+
+/* ===== Radar v2: refined, sweeps only on hover / focus ===== */
+@media screen {
+  .tba-radar { width: min(44%, 128px); border: 1px solid rgba(215,233,239,.22); overflow: visible; box-shadow: none;
+    background:
+      radial-gradient(circle, var(--neon) 0 2px, rgba(241,43,32,.35) 2.5px, transparent 4px),
+      linear-gradient(rgba(215,233,239,.09), rgba(215,233,239,.09)) center / 100% 1px no-repeat,
+      linear-gradient(rgba(215,233,239,.09), rgba(215,233,239,.09)) center / 1px 100% no-repeat,
+      radial-gradient(circle, transparent 0 32.5%, rgba(215,233,239,.1) 32.5% 33.2%, transparent 33.2% 65.8%, rgba(215,233,239,.1) 65.8% 66.5%, transparent 66.5%),
+      radial-gradient(circle, rgba(241,43,32,.06), transparent 70%); }
+  /* outer tick ring */
+  .tba-radar::after { content: ""; position: absolute; inset: -9px; width: auto; height: auto; margin: 0; border-radius: 50%; background: repeating-conic-gradient(rgba(215,233,239,.32) 0 .7deg, transparent .7deg 10deg); box-shadow: none;
+    -webkit-mask: radial-gradient(closest-side, transparent 90%, #000 91%); mask: radial-gradient(closest-side, transparent 90%, #000 91%); }
+  /* sweep: soft wedge with a thin bright leading edge, hidden until hover */
+  .tba-radar::before { border-radius: 50%; overflow: hidden; opacity: 0; transition: opacity .3s ease;
+    background: conic-gradient(from 0deg, transparent 0deg, rgba(241,43,32,.04) 10deg, rgba(241,43,32,.22) 48deg, rgba(255,80,70,.95) 49deg 50deg, transparent 50.5deg); }
+  .tba-radar i { width: 4px !important; height: 4px !important; background: #FF5046; box-shadow: 0 0 6px rgba(241,43,32,.8); opacity: .35 !important; transition: opacity .3s ease; }
+  .event-card:hover .tba-radar, .event-card:focus-within .tba-radar { border-color: rgba(215,233,239,.4); }
+  .event-card:hover .tba-radar::before, .event-card:focus-within .tba-radar::before { opacity: 1; }
+  .event-card:hover .tba-radar i, .event-card:focus-within .tba-radar i { opacity: .95 !important; }
+}
+@media screen and (prefers-reduced-motion: no-preference) {
+  .tba-radar::before, .event-card:nth-child(2) .tba-radar::before, .event-card:nth-child(3) .tba-radar::before { animation: none !important; }
+  .tba-radar i { animation: none !important; }
+  @keyframes vgw-radar-spin { from { transform: rotate(var(--r0, 0deg)); } to { transform: rotate(calc(var(--r0, 0deg) + 360deg)); } }
+  @keyframes vgw-radar-blip { 0%, 100% { opacity: .3; } 50% { opacity: 1; } }
+  .event-card:nth-child(2) .tba-radar::before { --r0: 160deg; }
+  .event-card:nth-child(3) .tba-radar::before { --r0: 280deg; }
+  .event-card:hover .tba-radar::before, .event-card:focus-within .tba-radar::before { animation: vgw-radar-spin 2.6s linear infinite !important; }
+  .event-card:hover .tba-radar i, .event-card:focus-within .tba-radar i { animation: vgw-radar-blip 1.3s ease-in-out infinite !important; }
+  .event-card:hover .tba-radar i:nth-child(2) { animation-delay: .45s !important; }
+  .event-card:hover .tba-radar i:nth-child(3) { animation-delay: .9s !important; }
+}
+
+/* ===== Transparent top nav (desktop overlays the cover; turns frosted after scrolling) ===== */
+@media screen {
+  .site-header { background: transparent !important; border-bottom-color: transparent; transition: background-color .3s ease, border-color .3s ease, -webkit-backdrop-filter .3s, backdrop-filter .3s; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .site-header.is-scrolled { background: rgba(8,11,16,.55) !important; border-bottom-color: rgba(215,233,239,.1); -webkit-backdrop-filter: blur(14px) saturate(1.2); backdrop-filter: blur(14px) saturate(1.2); }
+  .site-header::after { opacity: 0; }
+  .site-header.is-scrolled::after { opacity: .5; }
+  .nav-list a { text-shadow: 0 1px 6px rgba(0,0,0,.6); }
+  @media (min-width: 951px) { .site-header + main > .hero:first-child { margin-top: -47px; } }
+  /* open mobile menu keeps its own solid panel */
+  .has-nav-toggle.nav-open { background: rgba(8,11,16,.92) !important; }
+}

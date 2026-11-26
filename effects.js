@@ -178,3 +178,12 @@
   }, { passive: true });
   document.addEventListener('pointerleave', function () { g.classList.remove('is-on'); });
 })();
+
+// Top nav: transparent at the top, frosted once the page scrolls.
+(function () {
+  var h = document.querySelector('.site-header');
+  if (!h) return;
+  var on = false;
+  function upd() { var v = scrollY > 24; if (v !== on) { on = v; h.classList.toggle('is-scrolled', v); } }
+  addEventListener('scroll', upd, { passive: true }); upd();
+})();
