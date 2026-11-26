@@ -136,7 +136,7 @@ def day_key(d):
 
 
 def day_label(d):
-    return TBA if d is None else f"{d.month}/{d.day}（{WEEK_ZH[d.weekday()]}）"
+    return TBA if d is None else f"{d.year}/{d.month}/{d.day}（{WEEK_ZH[d.weekday()]}）"
 
 
 def when_text(r):
@@ -225,10 +225,14 @@ def load_news(events):
 
 def render_text(src):
     """Plain text → HTML. Blank line = new block; '## ' = subheading;
-    lines starting with '- ' = bullet list, '1. ' = numbered list.
+    lines starting with '- ' = bullet list, '1. ' = numbered list;
+    [文字](vgw_website_assets/…) = 站內檔案下載連結.
     Everything is escaped; e-mail addresses and https:// URLs become links."""
     def inline(t):
         t = e(t)
+        # [文字](vgw_website_assets/...) → 站內下載連結
+        t = re.sub(r"\[([^\]]+)\]\((vgw_website_assets/[^)\s]+)\)",
+                   lambda m: f'<a href="{m.group(2)}" download>{m.group(1)}</a>', t)
         t = re.sub(r"(https://[^\s<>&\"']+)",
                    lambda m: f'<a href="{m.group(1)}" target="_blank" rel="noopener noreferrer">{m.group(1)}'
                              f'<span class="visually-hidden">{NW}</span></a>', t)

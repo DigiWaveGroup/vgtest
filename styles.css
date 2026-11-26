@@ -510,6 +510,11 @@ picture { display: contents; }
 @media (max-width: 400px) {
   .card-downloads { grid-template-columns: 1fr; }
 }
+/* Tablet: two narrow cards side by side — stack the download buttons so they don't wrap */
+@media (min-width: 651px) and (max-width: 899px) {
+  .card-downloads { grid-template-columns: 1fr; }
+  .card-downloads .dl-link { flex-wrap: nowrap; white-space: nowrap; }
+}
 /* News: compact collapsible rows */
 .post-rows { margin: 0; padding: 0; list-style: none; border-top: 1px solid #2c2c2c; }
 .post-row a { display: grid; grid-template-columns: 110px auto 1fr auto; align-items: center; gap: 8px 20px; padding: 16px 8px; color: #fff; text-decoration: none; border-bottom: 1px solid #2c2c2c; transition: background-color .2s ease; }
