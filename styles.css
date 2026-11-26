@@ -1151,3 +1151,82 @@ main .article-aside-title::after { display: none; }
   @keyframes vgw-flicker { 0%, 96%, 100% { opacity: 1; } 97% { opacity: .35; } 98% { opacity: 1; } 99% { opacity: .55; } }
   .eyebrow, .site-header::after { animation: vgw-flicker 5s linear infinite; }
 }
+
+/* =====================================================================
+   THEME v3 — reference-inspired: thin top nav (links left / logo centre / social right),
+   press-style news list with inverse highlight, book-style event cards, glyph blink.
+   ===================================================================== */
+@font-face { font-family: "Chakra Petch"; src: url("vgw_website_assets/8_fonts/ChakraPetch-Light.ttf") format("truetype"); font-weight: 300; font-display: swap; }
+::selection { color: #080B10; background: #D7E9EF; }
+@media screen {
+  /* ---- Header / nav ---- */
+  .site-header::before { display: none; }
+  .site-header { background: rgba(8,11,16,.92); border-bottom: 1px solid rgba(215,233,239,.12); }
+  .site-header::after { content: ""; position: absolute; left: 12px; right: 12px; bottom: -4px; width: auto; height: 1px; background: linear-gradient(#D7E9EF,#D7E9EF) left top / 8px 1px no-repeat, linear-gradient(#D7E9EF,#D7E9EF) right top / 8px 1px no-repeat; animation: none; }
+  .nav-list a { color: #AEBEC5; font-family: var(--mono); font-size: .78rem; font-weight: 400; letter-spacing: .14em; }
+  .nav-list a::after { display: none; }
+  .nav-list a::before { content: ""; display: inline-block; width: 4px; height: 4px; margin-right: 8px; vertical-align: 2px; background: currentColor; opacity: 0; transition: opacity .15s; }
+  .nav-list a:hover, .nav-list a[aria-current], .nav-list a.is-current { color: #D7E9EF; text-decoration: none; }
+  .nav-list a:hover::before, .nav-list a[aria-current]::before, .nav-list a.is-current::before { opacity: 1; }
+  .header-social { display: flex; align-items: center; gap: 18px; }
+  .header-social a { display: grid; place-items: center; width: 24px; height: 24px; opacity: .75; transition: opacity .15s; }
+  .header-social a:hover { opacity: 1; }
+  .header-social img { width: 16px; height: 16px; filter: brightness(0) invert(.9); }
+  @media (min-width: 951px) {
+    .site-header > .container { width: calc(100% - 24px); max-width: none; }
+    .header-inner { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; min-height: 46px; gap: 24px; }
+    .header-inner nav { grid-column: 1; grid-row: 1; margin-left: 0; }
+    .header-inner .nav-list { justify-content: flex-start; }
+    .header-inner .brand { grid-column: 2; grid-row: 1; }
+    .header-inner .header-social { grid-column: 3; grid-row: 1; justify-self: end; }
+    .brand-logo { width: auto; height: 20px; }
+    .nav-list { gap: 22px; }
+  }
+  @media (max-width: 950px) { .header-social { display: none; } }
+
+  /* ---- Headings: thin, wide, clean (no chromatic glitch) ---- */
+  main h2 { font-family: var(--display); font-weight: 300; letter-spacing: .08em; text-shadow: none; animation: none !important; }
+
+  /* ---- Hero: stronger film grain on the image ---- */
+  .hero::after { background: url("vgw_website_assets/1_home_hero_and_announcements/web/noise.png"), repeating-linear-gradient(0deg, rgba(0,0,0,.22) 0 1px, transparent 1px 3px), linear-gradient(180deg, transparent, rgba(241,43,32,.10) 50%, transparent) 0 -40% / 100% 35% no-repeat, rgba(8,11,16,.15); }
+
+  /* ---- News = PRESS list ---- */
+  .post-rows { border-top: 1px solid rgba(215,233,239,.1); }
+  .post-row a, .news-layout .post-row a { position: relative; background: #0B0E13; border-bottom: 1px solid rgba(215,233,239,.07); font-family: var(--mono); letter-spacing: .08em; transition: none; }
+  .post-row a:hover { background: #0E1218; }
+  .post-row a::before { content: "››" / ""; position: absolute; left: -24px; top: 50%; width: auto; height: auto; color: #D7E9EF; background: none; transform: translateY(-50%); opacity: 0; transition: none; }
+  .post-row a:hover::before, .post-row a:focus-visible::before { opacity: 1; transform: translateY(-50%); }
+  .post-row time, .post-row .post-title { padding: 1px 4px; margin-left: -4px; box-decoration-break: clone; -webkit-box-decoration-break: clone; background-image: none; }
+  .post-row .post-title { font-weight: 500; }
+  .post-row time, .post-row .post-title { justify-self: start; }
+  .post-row a:hover time, .post-row a:hover .post-title, .post-row a:focus-visible time, .post-row a:focus-visible .post-title { color: #080B10; background: #D7E9EF; }
+  .post-row .post-arrow, .news-layout .post-row .post-arrow { justify-self: end; padding: 2px 6px; color: rgba(215,233,239,.28); font-family: var(--mono); font-size: .72rem; letter-spacing: .16em; transform: none !important; }
+  .post-row a:hover .post-arrow, .post-row a:focus-visible .post-arrow { color: #080B10; background: #D7E9EF; }
+  @media (min-width: 951px) { .news-layout .post-row a { grid-template-columns: 120px 150px 1fr 64px; padding: 14px 10px; } }
+  @media (max-width: 950px) { .post-row a::before { display: none; } .post-row a, .news-layout .post-row a { border: 1px solid rgba(215,233,239,.12); clip-path: none; } }
+
+  /* ---- Events = BOOK cards ---- */
+  .event-card.event-tile, .event-card.event-tile:hover { padding: 12px; border: 1px solid rgba(215,233,239,.12); border-radius: 0; background: #080B10; box-shadow: none; clip-path: none; transform: none; }
+  .event-card:hover { border-color: rgba(215,233,239,.3); }
+  .event-card::after { display: none; }
+  .event-photo { border: 1px solid rgba(215,233,239,.06); }
+  .event-card .event-body { padding: 18px 0 0; }
+  .event-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 10px 0 12px; padding-bottom: 14px; border-bottom: 1px solid rgba(215,233,239,.12); }
+  .event-card .event-title { margin: 0; font-family: var(--display); font-size: 1.3rem; font-weight: 300; letter-spacing: .08em; }
+  .event-plus { flex: none; width: 38px; height: 38px; border: 1px solid rgba(215,233,239,.15); background: linear-gradient(#D7E9EF,#D7E9EF) center / 11px 1px no-repeat, linear-gradient(#D7E9EF,#D7E9EF) center / 1px 11px no-repeat; transition: background-color .15s; }
+  .event-card:hover .event-plus { background-color: rgba(215,233,239,.08); }
+  .event-card .event-facts > div { display: grid; grid-template-columns: 74px 1fr; padding: 7px 0; border: 0; font-family: var(--mono); font-size: .8rem; letter-spacing: .1em; }
+  .event-card .event-facts dt { display: flex; justify-content: space-between; padding-right: 14px; color: #7D8B93; }
+  .event-card .event-facts dt::after { content: "/"; color: #3E474F; }
+  .event-card a.event-register, .event-card .event-register.is-disabled { display: flex; justify-content: center; align-items: center; min-height: 44px; margin-top: 12px; color: #D7E9EF; background: transparent; border: 1px solid rgba(215,233,239,.22); border-radius: 0; box-shadow: none; font-family: var(--mono); font-size: .8rem; font-weight: 400; letter-spacing: .24em; }
+  .event-card a.event-register:hover, .event-card a.event-register:focus-visible { color: #080B10; background: #D7E9EF; border-color: #D7E9EF; box-shadow: none; }
+  .event-card .event-register.is-disabled { color: #7D8B93; }
+  .event-card a.event-register span[aria-hidden="true"] { display: none; }
+
+  /* ---- Glyph blink (letters flicker with an inverse flash on hover) ---- */
+  .glyph-run, .glyph { display: inline; }
+}
+@media screen and (prefers-reduced-motion: no-preference) {
+  @keyframes vgw-glyph { 0% { opacity: 0; } 35% { opacity: 1; color: #080B10; background: #D7E9EF; } 65% { opacity: .25; color: inherit; background: transparent; } 100% { opacity: 1; } }
+  .is-blink .glyph { animation: vgw-glyph .34s steps(1) both; animation-delay: calc(var(--i, 0) * 26ms); }
+}

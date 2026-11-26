@@ -41,3 +41,35 @@
   }, { passive: true });
   document.documentElement.classList.add('has-glow');
 })();
+
+// Glyph blink: on hover/focus, the letters of nav links and buttons flicker one by one
+// (decorative; text stays the same for screen readers; skipped for reduced motion).
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var SEL = '.nav-list a, .news-all a, .event-card a.event-register, .button, .dl-link';
+  Array.prototype.forEach.call(document.querySelectorAll(SEL), function (el) {
+    var n = 0;
+    Array.prototype.slice.call(el.childNodes).forEach(function (node) {
+      if (node.nodeType !== 3 || !node.textContent.trim()) return;
+      var frag = document.createElement('span');
+      frag.className = 'glyph-run';
+      Array.prototype.forEach.call(node.textContent, function (ch) {
+        if (/\s/.test(ch)) { frag.appendChild(document.createTextNode(ch)); return; }
+        var s = document.createElement('span');
+        s.className = 'glyph';
+        s.style.setProperty('--i', n++);
+        s.textContent = ch;
+        frag.appendChild(s);
+      });
+      node.parentNode.replaceChild(frag, node);
+    });
+    if (!n) return;
+    var t;
+    function blink() {
+      el.classList.remove('is-blink'); void el.offsetWidth; el.classList.add('is-blink');
+      clearTimeout(t); t = setTimeout(function () { el.classList.remove('is-blink'); }, 340 + n * 26);
+    }
+    el.addEventListener('mouseenter', blink);
+    el.addEventListener('focus', blink);
+  });
+})();

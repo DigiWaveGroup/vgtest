@@ -188,7 +188,7 @@ def event_card(r, hlevel, anchor):
     return (f'<li class="event-card event-tile"{idattr} data-date="{day_key(r["_date"])}" data-type="{r["type"]}">{visual}'
             f'<div class="event-body"><p class="event-meta"><span class="event-type">{e(TYPES[r["type"]])}</span>'
             f'<span class="event-state state-{r["status"]}">{st["label"]}</span></p>'
-            f'<h{hlevel} class="event-title">{e(title)}</h{hlevel}><dl class="event-facts">{dl}</dl>{summary}'
+            f'<div class="event-head"><h{hlevel} class="event-title">{e(title)}</h{hlevel}><span class="event-plus" aria-hidden="true"></span></div><dl class="event-facts">{dl}</dl>{summary}'
             f'<div class="event-actions">{action}</div></div></li>')
 
 
@@ -284,7 +284,7 @@ def news_row(n, first):
     new = '<span class="post-new">最新</span>' if first else ""
     src = f'<span class="post-source{" is-event" if n["source"] == "event" else ""}">{SOURCES[n["source"]]}</span>'
     return (f'<li class="post-row"><a href="{article_page(n["id"])}">{date_html}<span class="post-tags">{new}{src}</span>'
-            f'<span class="post-title">{e(n["title_zh"])}</span><span class="post-arrow" aria-hidden="true">→</span></a></li>')
+            f'<span class="post-title">{e(n["title_zh"])}</span><span class="post-arrow" aria-hidden="true">VIEW</span></a></li>')
 
 
 # ------------------------------------------------------------ home page
