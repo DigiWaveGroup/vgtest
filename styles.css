@@ -1817,3 +1817,5 @@ main .article-aside-title::after { display: none; }
 .psy-frag { display: none !important; }
 .debris { position: fixed; inset: 0; z-index: 75; width: 100vw; height: 100vh; pointer-events: none; }
 @media print { .debris { display: none; } }
+/* 參觀資訊: floor grid removed */
+@media screen { .visit-space { display: none !important; } }
