@@ -283,7 +283,9 @@ def news_row(n, first):
                  else f'<span class="post-date-tba">{TBA}</span>')
     new = '<span class="post-new">最新</span>' if first else ""
     src = ""  # 來源標籤（官網公告等）不顯示，只保留「最新」
-    return (f'<li class="post-row"><a href="{article_page(n["id"])}">{date_html}<span class="post-tags">{new}{src}</span>'
+    icon = ('<span class="post-icon" aria-hidden="true"><svg width="7" height="10" viewBox="0 0 7 10" fill="none" focusable="false">'
+            '<path d="M0.5 0V2L3.5 4L6.5 2V0" stroke="currentColor"/><path d="M0.5 6V7L3.5 9L6.5 7V6" stroke="currentColor"/></svg></span>')
+    return (f'<li class="post-row"><a href="{article_page(n["id"])}">{icon}<span class="post-when">{date_html}<span class="post-tags">{new}{src}</span></span>'
             f'<span class="post-title">{e(n["title_zh"])}</span><span class="post-arrow" aria-hidden="true">VIEW</span></a></li>')
 
 

@@ -1836,3 +1836,44 @@ main .article-aside-title::after { display: none; }
   .nav-list a[href="#exhibit"]:hover, .nav-list a[href$="index.html#exhibit"]:hover { color: #D7E9EF; }
   .nav-list a[href="#exhibit"]:hover::before, .nav-list a[href$="index.html#exhibit"]:hover::before { opacity: 1; }
 }
+
+/* ===== 最新消息: PRESS-style list (reference-inspired) ===== */
+@media screen {
+  .post-rows { border-top: 1px solid rgba(215,233,239,.1); }
+  .post-row a, .news-layout .post-row a { position: relative; display: grid !important; grid-template-columns: 170px minmax(0, 1fr) 56px !important; align-items: center; gap: 0 24px; padding: 13px 12px 13px 0 !important; background: rgba(215,233,239,.018); border: 0 !important; border-bottom: 1px solid rgba(215,233,239,.08) !important; font-family: var(--mono); letter-spacing: .1em; text-decoration: none; }
+  .post-row a::before { display: none !important; }
+  .post-icon { position: absolute; left: -22px; top: 50%; display: grid; place-items: center; width: 12px; height: 12px; color: #D7E9EF; transform: translateY(-50%) rotate(-90deg); opacity: 0; transition: opacity .2s; }
+  .post-when { display: flex; align-items: center; gap: 10px; min-width: 0; }
+  .post-row time { font-size: .84rem; }
+  .post-row .post-title { display: block; justify-self: start; max-width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: .92rem; font-weight: 400; text-decoration: none !important; }
+  .post-row .post-arrow, .news-layout .post-row .post-arrow { justify-self: end; font-size: .72rem; text-transform: uppercase; }
+  /* highlight sweep: each cell gets a light bar that slides in, staggered 0 / 45 / 90 ms */
+  .post-row time, .post-row .post-title, .post-row .post-arrow { padding: 2px 5px; margin-left: -5px; background-image: linear-gradient(#D7E9EF, #D7E9EF) !important; background-repeat: no-repeat; background-position: 0 0; background-size: 0% 100%; transition: background-size .32s cubic-bezier(.7,0,.2,1) var(--hd, 0ms), color .18s ease var(--hd, 0ms); animation: none !important; }
+  .post-row .post-title { --hd: 45ms; }
+  .post-row .post-arrow { --hd: 90ms; margin-left: 0; }
+  .post-row a:hover .post-icon, .post-row a:focus-visible .post-icon { opacity: 1; }
+  .post-row a:hover time, .post-row a:focus-visible time,
+  .post-row a:hover .post-title, .post-row a:focus-visible .post-title,
+  .post-row a:hover .post-arrow, .post-row a:focus-visible .post-arrow { color: #080B10 !important; background-size: 100% 100% !important; }
+  .post-row a:hover { background: rgba(215,233,239,.035); }
+  @media (max-width: 950px) {
+    .post-row a, .news-layout .post-row a { grid-template-columns: 1fr auto !important; row-gap: 8px; padding: 14px 12px !important; }
+    .post-when { grid-column: 1 / -1; }
+    .post-row .post-title { white-space: normal; grid-column: 1; }
+    .post-icon { display: none; }
+  }
+}
+@media screen and (prefers-reduced-motion: reduce) { .post-row time, .post-row .post-title, .post-row .post-arrow { transition: none; } }
+
+/* ===== Radar: dimmer background, one blip per card ===== */
+@media screen {
+  .event-tba { background-image: none !important; background-color: #06080B !important; }
+  .tba-radar { border-color: rgba(215,233,239,.14); box-shadow: 0 0 0 6px rgba(215,233,239,.018) !important;
+    background:
+      radial-gradient(circle, #FF5046 0 1.4px, rgba(241,43,32,.3) 2.2px, transparent 4px),
+      linear-gradient(rgba(215,233,239,.06), rgba(215,233,239,.06)) center / 100% 1px no-repeat,
+      linear-gradient(rgba(215,233,239,.06), rgba(215,233,239,.06)) center / 1px 100% no-repeat,
+      radial-gradient(circle, transparent 0 32.6%, rgba(215,233,239,.07) 33%, transparent 33.4% 65.9%, rgba(215,233,239,.07) 66.3%, transparent 66.7%) !important; }
+  .tba-radar::before { background: conic-gradient(from 0deg, rgba(241,43,32,0) 0deg, rgba(241,43,32,.03) 12deg, rgba(241,43,32,.16) 48deg, rgba(255,120,110,.7) 49.6deg, rgba(241,43,32,0) 50.4deg) !important; }
+  .tba-radar i:nth-child(2), .tba-radar i:nth-child(3) { display: none !important; }
+}
