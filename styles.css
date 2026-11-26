@@ -1249,3 +1249,12 @@ main .article-aside-title::after { display: none; }
   body::after { animation: vgw-grain .9s steps(5) 5; }
   .eyebrow, .site-header::after { animation: vgw-flicker 4.5s linear 1; }
 }
+/* 追蹤我們: signal/broadcast background (replaces the grid) */
+@media screen {
+  main > section.follow { background-color: #0A0D12; background-image:
+      repeating-radial-gradient(circle at 88% 120%, rgba(241,43,32,.10) 0 1px, transparent 1px 38px),
+      radial-gradient(700px 420px at 88% 110%, rgba(241,43,32,.22), transparent 70%),
+      radial-gradient(500px 300px at 0% 0%, rgba(215,233,239,.04), transparent 70%),
+      linear-gradient(180deg, #080B10, #0D0A0C);
+    background-size: auto; background-position: 0 0; }
+}
