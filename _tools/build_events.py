@@ -188,7 +188,7 @@ def event_card(r, hlevel, anchor):
     return (f'<li class="event-card event-tile"{idattr} data-date="{day_key(r["_date"])}" data-type="{r["type"]}">{visual}'
             f'<div class="event-body"><p class="event-meta"><span class="event-type">{e(TYPES[r["type"]])}</span>'
             f'<span class="event-state state-{r["status"]}">{st["label"]}</span></p>'
-            f'<div class="event-head"><h{hlevel} class="event-title">{e(title)}</h{hlevel}><span class="event-plus" aria-hidden="true"></span></div><dl class="event-facts">{dl}</dl>{summary}'
+            f'<div class="event-head"><h{hlevel} class="event-title">{e(title)}</h{hlevel}></div><dl class="event-facts">{dl}</dl>{summary}'
             f'<div class="event-actions">{action}</div></div></li>')
 
 
