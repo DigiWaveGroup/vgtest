@@ -605,7 +605,7 @@ main h2::after { content: ""; display: block; width: 56px; height: 3px; margin-t
 .event-register { width: 100%; justify-content: center; gap: 10px; }
 .event-actions .button-primary { display: flex; color: #000; background: var(--neon); border-radius: 0; }
 .event-actions .button-primary:hover { background: #D7E9EF; }
-.event-register.is-disabled { margin: 0; padding: 12px; color: #AEBEC5; text-align: center; border: 1px dashed #3E474F; font-size: .88rem; font-weight: 700; }
+.event-register.is-disabled { margin: 0; padding: 12px; color: #AEBEC5; text-align: center; border: 1px solid #292F35; background: rgba(215,233,239,.03); font-size: .88rem; font-weight: 700; }
 .event-note { margin: 18px 0 0; color: #94A3AB; font-size: .85rem; }
 .event-more { margin: 18px 0 0; }
 .button-outline-neon { color: var(--neon); background: none; border: 1px solid var(--neon-line); border-radius: 0; }
@@ -975,8 +975,8 @@ main .article-aside-title::after { display: none; }
 .event-tba::before { content: ""; position: absolute; inset: 14px; background: linear-gradient(rgba(241,43,32,.7),rgba(241,43,32,.7)) left top / 18px 2px no-repeat, linear-gradient(rgba(241,43,32,.7),rgba(241,43,32,.7)) left top / 2px 18px no-repeat, linear-gradient(rgba(241,43,32,.7),rgba(241,43,32,.7)) right top / 18px 2px no-repeat, linear-gradient(rgba(241,43,32,.7),rgba(241,43,32,.7)) right top / 2px 18px no-repeat, linear-gradient(rgba(241,43,32,.7),rgba(241,43,32,.7)) left bottom / 18px 2px no-repeat, linear-gradient(rgba(241,43,32,.7),rgba(241,43,32,.7)) left bottom / 2px 18px no-repeat, linear-gradient(rgba(241,43,32,.7),rgba(241,43,32,.7)) right bottom / 18px 2px no-repeat, linear-gradient(rgba(241,43,32,.7),rgba(241,43,32,.7)) right bottom / 2px 18px no-repeat; pointer-events: none; }
 .event-tba::after { content: ""; position: absolute; inset: 0; background: radial-gradient(260px circle at 50% 46%, rgba(241,43,32,.16), transparent 70%); pointer-events: none; }
 .tba-mark { position: relative; z-index: 1; width: clamp(60px, 6.5vw, 84px); height: auto; color: var(--neon); overflow: visible; filter: drop-shadow(0 0 10px rgba(241,43,32,.55)); }
-.tba-mark path { fill: none; stroke: currentColor; stroke-width: 6; stroke-linecap: square; stroke-linejoin: miter; }
-.tba-mark .tba-ghost { stroke: rgba(241,43,32,.22); transform: translate(6px, 6px); }
+.tba-mark path { fill: none; stroke: currentColor; stroke-width: 13; stroke-linecap: square; stroke-linejoin: miter; }
+.tba-mark .tba-ghost { stroke: rgba(241,43,32,.22); transform: translate(7px, 7px); }
 .tba-mark .tba-tick { stroke-width: 2; stroke: rgba(215,233,239,.35); }
 .tba-mark rect { fill: currentColor; }
 .tba-label { position: absolute; z-index: 1; left: 50%; bottom: 22px; transform: translateX(-50%); color: #94A3AB; font-family: var(--mono); font-size: .68rem; font-weight: 700; letter-spacing: .32em; white-space: nowrap; }
@@ -1005,17 +1005,9 @@ main .article-aside-title::after { display: none; }
   /* Hero: viewfinder corners + HUD caption */
   .hero::before { content: "REC ● VGW//2027 — KAOHSIUNG EXHIBITION CENTER — 22.61°N 120.29°E" / ""; position: absolute; z-index: 2; left: 24px; bottom: 18px; color: rgba(215,233,239,.7); font-family: var(--mono); font-size: .66rem; letter-spacing: .22em; pointer-events: none; }
 
-  /* Section dividers: hazard stripe block + fading rail */
-  main > section:not(.hero)::before { height: 4px; background: var(--hazard) left top / 132px 4px no-repeat, linear-gradient(90deg, #292F35, rgba(41,47,53,0) 80%) left top / 100% 1px no-repeat; }
-
   /* Eyebrow: system-code style */
   .eyebrow { text-transform: uppercase; letter-spacing: .24em; }
   .eyebrow::before { content: "SEC." counter(sec, decimal-leading-zero) " //"; content: "SEC." counter(sec, decimal-leading-zero) " //" / ""; color: #7D8B93; }
-  .eyebrow::after { width: 64px; background: linear-gradient(90deg, var(--neon) 0 8px, transparent 8px 12px, var(--neon-line) 12px); height: 2px; }
-
-  /* H2 underline: segmented bar */
-  main h2::after { width: 72px; height: 4px; background: linear-gradient(90deg, var(--neon) 0 44px, transparent 44px 50px, var(--neon) 50px 58px, transparent 58px 64px, var(--neon) 64px 72px); box-shadow: none; filter: drop-shadow(0 0 8px rgba(241,43,32,.5)); }
-  main h2 { letter-spacing: .02em; }
 
   /* Hard edges everywhere: no rounded corners */
   .event-card, .judge-card, .faq-list > div, .faq-note, .event-card .event-register, .event-card .event-type, .event-card .event-state, .event-tile:target, .back-home, .back-home-icon, .fb-card { border-radius: 0 !important; }
@@ -1029,8 +1021,6 @@ main .article-aside-title::after { display: none; }
 
   /* Buttons: double chamfer, mono uppercase, hazard sweep on hover */
   .button-primary, .button-dark, .event-actions .button-primary, .event-card .event-register, .button-outline-neon, .news-toggle { position: relative; font-family: var(--mono); letter-spacing: .12em; clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px); }
-  .button-primary::before, .event-card a.event-register::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(-45deg, rgba(8,11,16,.18) 0 6px, transparent 6px 12px); opacity: 0; transition: opacity .2s ease; pointer-events: none; }
-  .button-primary:hover::before, .event-card a.event-register:hover::before { opacity: 1; }
   .button:hover { transform: none; }
 
   /* Download links: industrial plate */
@@ -1054,4 +1044,26 @@ main .article-aside-title::after { display: none; }
 }
 @media screen and (prefers-reduced-motion: reduce) {
   .button-primary::before, .post-row a::before { transition: none; }
+}
+/* Buttons, tags and download links: square corners (no cut-off corner) */
+@media screen {
+  .button, .button-primary, .button-dark, .event-actions .button-primary, .event-card .event-register, .button-outline-neon, .news-toggle, .dl-link,
+  .post-new, .post-source, .event-type, .event-state, .closed-badge, .judge-index { clip-path: none !important; }
+}
+/* Background elements (Industrial Cyberpunk): ghost section numbers, blueprint grid, file stamp */
+@media screen {
+  main > section:not(.hero) > .container { position: relative; }
+  /* Huge outlined section number behind each section, top-right */
+  main > section:not(.hero):not(.page-head) > .container::before { content: counter(sec, decimal-leading-zero) / ""; position: absolute; z-index: -1; top: -18px; right: 0; color: transparent; -webkit-text-stroke: 1px rgba(215,233,239,.07); font-family: "Helvetica Neue", Arial, sans-serif; font-size: clamp(7rem, 16vw, 14rem); font-weight: 900; line-height: 1; letter-spacing: -.04em; pointer-events: none; }
+  main > section:not(.hero):not(.page-head) > .container::after { content: "SYS.SECTOR " counter(sec, decimal-leading-zero) " ▮ STATUS: ACTIVE" / ""; position: absolute; top: 8px; right: 4px; color: rgba(148,163,171,.35); font-family: var(--mono); font-size: .6rem; letter-spacing: .28em; pointer-events: none; }
+  /* Blueprint grid with crosshair markers on alternating sections */
+  main > section:not(.hero):nth-of-type(odd) { background-image: radial-gradient(circle, rgba(241,43,32,.35) 1px, transparent 1.5px), linear-gradient(rgba(215,233,239,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(215,233,239,.025) 1px, transparent 1px); background-size: 120px 120px, 40px 40px, 40px 40px; background-position: -60px -60px, 0 0, 0 0; }
+  /* Sub-page header: file stamp + barcode on the right */
+  main > section.page-head { position: relative; overflow: hidden; }
+  main > section.page-head::after { content: "FILE NO. VGW-2027 // ARCHIVE ACCESS GRANTED" / ""; position: absolute; right: max(24px, calc((100vw - 1160px) / 2)); bottom: 18px; padding-top: 34px; color: rgba(148,163,171,.5); font-family: var(--mono); font-size: .6rem; letter-spacing: .26em; background: repeating-linear-gradient(90deg, rgba(215,233,239,.35) 0 2px, transparent 2px 4px, rgba(215,233,239,.35) 4px 5px, transparent 5px 9px, rgba(215,233,239,.35) 9px 12px, transparent 12px 14px) top right / 180px 26px no-repeat; pointer-events: none; }
+  @media (max-width: 650px) {
+    main > section:not(.hero):not(.page-head) > .container::after { display: none; }
+    main > section:not(.hero):not(.page-head) > .container::before { top: -6px; font-size: 6.5rem; }
+    main > section.page-head::after { display: none; }
+  }
 }
