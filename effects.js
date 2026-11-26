@@ -152,43 +152,40 @@
   upd();
 })();
 
-// Mouse "data debris": tiny pixel squares shed along the pointer path, drifting and fading (~0.6 s).
-// Canvas overlay, mouse only, user-driven, capped particle count; skipped for reduced / paused motion.
+// Mouse "target lock": a corner-bracket reticle trails the pointer; over links / buttons it snaps around
+// the element and shows LOCK. Decorative (native cursor kept); mouse only; skipped for reduced motion.
 (function () {
   if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var root = document.documentElement;
-  var cv = document.createElement('canvas'); cv.className = 'debris'; cv.setAttribute('aria-hidden', 'true');
-  document.body.appendChild(cv);
-  var ctx = cv.getContext('2d'), dpr = Math.min(2, window.devicePixelRatio || 1), P = [], raf = 0, lx = null, ly = null;
-  function size() { cv.width = innerWidth * dpr; cv.height = innerHeight * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); }
-  size(); addEventListener('resize', size);
-  var COLORS = ['241,43,32', '255,80,70', '215,233,239'];
-  function tick(t) {
-    ctx.clearRect(0, 0, innerWidth, innerHeight);
-    for (var i = P.length - 1; i >= 0; i--) {
-      var p = P[i], a = 1 - (t - p.t0) / p.life;
-      if (a <= 0) { P.splice(i, 1); continue; }
-      p.x += p.vx; p.y += p.vy; p.vy += .02;
-      ctx.fillStyle = 'rgba(' + p.c + ',' + (a * p.o).toFixed(3) + ')';
-      ctx.fillRect(Math.round(p.x), Math.round(p.y), p.s, p.s);
-    }
-    raf = P.length ? requestAnimationFrame(tick) : 0;
+  var r = document.createElement('div'); r.className = 'reticle'; r.setAttribute('aria-hidden', 'true');
+  r.innerHTML = '<i></i><i></i><i></i><i></i><b>LOCK</b>';
+  document.body.appendChild(r);
+  var S = 26, cur = { x: -100, y: -100, w: S, h: S }, tgt = { x: -100, y: -100, w: S, h: S }, raf = 0, lockEl = null, mx = -100, my = -100;
+  var SEL = 'a, button, [role="button"], summary';
+  function aim() {
+    if (lockEl && document.contains(lockEl)) {
+      var b = lockEl.getBoundingClientRect(), pad = 6;
+      tgt = { x: b.left - pad, y: b.top - pad, w: b.width + pad * 2, h: b.height + pad * 2 };
+    } else tgt = { x: mx - S / 2, y: my - S / 2, w: S, h: S };
   }
+  function step() {
+    aim();
+    var k = lockEl ? .28 : .22, moving = false;
+    ['x', 'y', 'w', 'h'].forEach(function (p) { var d = tgt[p] - cur[p]; cur[p] += d * k; if (Math.abs(d) > .3) moving = true; });
+    r.style.transform = 'translate(' + cur.x.toFixed(1) + 'px,' + cur.y.toFixed(1) + 'px)';
+    r.style.width = cur.w.toFixed(1) + 'px'; r.style.height = cur.h.toFixed(1) + 'px';
+    raf = moving ? requestAnimationFrame(step) : 0;
+  }
+  function kick() { if (!raf) raf = requestAnimationFrame(step); }
   document.addEventListener('pointermove', function (e) {
-    if (root.classList.contains('motion-paused')) return;
-    var x = e.clientX, y = e.clientY;
-    if (lx === null) { lx = x; ly = y; return; }
-    var d = Math.hypot(x - lx, y - ly), n = Math.min(4, Math.floor(d / 14));
-    for (var k = 0; k < n && P.length < 60; k++) {
-      var f = k / Math.max(1, n);
-      P.push({ x: lx + (x - lx) * f + (Math.random() - .5) * 10, y: ly + (y - ly) * f + (Math.random() - .5) * 10,
-        vx: (Math.random() - .5) * 1.2, vy: (Math.random() - .5) * 1.2 - .3, s: Math.random() < .7 ? 2 : 3,
-        c: COLORS[Math.random() < .75 ? (Math.random() < .5 ? 0 : 1) : 2], o: .55 + Math.random() * .4, t0: performance.now(), life: 450 + Math.random() * 300 });
-    }
-    lx = x; ly = y;
-    if (!raf) raf = requestAnimationFrame(tick);
+    mx = e.clientX; my = e.clientY;
+    if (!r.classList.contains('is-on')) { cur = { x: mx - S / 2, y: my - S / 2, w: S, h: S }; r.classList.add('is-on'); }
+    var el = e.target.closest ? e.target.closest(SEL) : null;
+    if (el !== lockEl) { lockEl = el; r.classList.toggle('is-lock', !!el); }
+    kick();
   }, { passive: true });
+  addEventListener('scroll', kick, { passive: true });
+  document.addEventListener('pointerleave', function () { r.classList.remove('is-on'); });
 })();
 
 // Top nav: transparent at the top, frosted once the page scrolls.
