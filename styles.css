@@ -1821,3 +1821,18 @@ main .article-aside-title::after { display: none; }
 @media screen { .visit-space { display: none !important; } }
 /* Card images: not interactive, so the browser's own image button (e.g. Safari Live Text / image lookup) doesn't appear on hover */
 .card-image { pointer-events: none; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+/* First screen: cover + 最新消息 always fit in one window (desktop) */
+@media screen and (min-width: 951px) {
+  .hero-cover { max-height: max(260px, calc(100svh - 340px)); }
+  main > section.updates:not(.hero):not(.page-head) { padding-block: 28px 32px; }
+  .updates .section-heading { margin-bottom: 0; }
+  .updates .news-all { margin-top: 12px; }
+  .news-layout .post-row a { padding-block: 12px; }
+}
+/* Nav: 報名參展 back to normal (no permanent red dot) */
+@media screen {
+  .nav-list a[href="#exhibit"], .nav-list a[href$="index.html#exhibit"] { color: #AEBEC5; }
+  .nav-list a[href="#exhibit"]::before, .nav-list a[href$="index.html#exhibit"]::before { opacity: 0; background: currentColor; box-shadow: none; }
+  .nav-list a[href="#exhibit"]:hover, .nav-list a[href$="index.html#exhibit"]:hover { color: #D7E9EF; }
+  .nav-list a[href="#exhibit"]:hover::before, .nav-list a[href$="index.html#exhibit"]:hover::before { opacity: 1; }
+}
