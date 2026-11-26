@@ -1787,3 +1787,33 @@ main .article-aside-title::after { display: none; }
 @media screen {
   .vs-floor { height: 100% !important; transform: perspective(700px) rotateX(56deg) !important; -webkit-mask-image: linear-gradient(to top, #000 0%, rgba(0,0,0,.8) 35%, transparent 78%); mask-image: linear-gradient(to top, #000 0%, rgba(0,0,0,.8) 35%, transparent 78%); }
 }
+
+/* ===== 報名資訊: misty red glow that follows the mouse (slowly); no other red glow here ===== */
+@media screen {
+  main > section.participate { background: #0A0D12 !important; border-top-color: rgba(215,233,239,.08); border-bottom-color: rgba(215,233,239,.06); }
+  .participate-card#exhibit { box-shadow: none !important; }
+  .reg-blob { width: clamp(360px, 46vw, 680px); left: 0; top: 0; transform: translate(calc(var(--bx, 60vw) - 50%), calc(var(--by, 40%) - 50%)); animation: none !important; }
+  .reg-blob i { border-radius: 50% !important; animation: none !important; box-shadow: none !important; opacity: .55;
+    background: radial-gradient(circle, rgba(241,43,32,.55) 0%, rgba(241,43,32,.28) 30%, rgba(241,43,32,.08) 55%, rgba(241,43,32,0) 70%) !important;
+    filter: blur(40px); }
+}
+/* Organic: the mist is three soft lobes that drift and breathe independently */
+@media screen {
+  .reg-blob i { position: relative; border-radius: 46% 54% 58% 42% / 52% 44% 56% 48% !important; }
+  .reg-blob i::before, .reg-blob i::after { content: ""; position: absolute; border-radius: 50%; pointer-events: none; }
+  .reg-blob i::before { width: 62%; height: 56%; left: 4%; top: 30%; background: radial-gradient(circle, rgba(241,43,32,.5), rgba(241,43,32,0) 68%); }
+  .reg-blob i::after { width: 50%; height: 58%; right: 6%; top: 8%; background: radial-gradient(circle, rgba(255,80,60,.42), rgba(241,43,32,0) 66%); }
+}
+@media screen and (prefers-reduced-motion: no-preference) {
+  @keyframes blob-organic { 0%,100% { border-radius: 46% 54% 58% 42% / 52% 44% 56% 48%; transform: scale(1) rotate(0deg); } 33% { border-radius: 58% 42% 44% 56% / 44% 58% 42% 56%; transform: scale(1.06) rotate(8deg); } 66% { border-radius: 40% 60% 54% 46% / 58% 46% 54% 42%; transform: scale(.95) rotate(-6deg); } }
+  @keyframes lobe-a { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(14%, -10%) scale(1.15); } }
+  @keyframes lobe-b { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-12%, 12%) scale(.88); } }
+  .motion-loop .reg-blob i { animation: blob-organic 11s ease-in-out infinite !important; }
+  .motion-loop .reg-blob i::before { animation: lobe-a 8s ease-in-out infinite; }
+  .motion-loop .reg-blob i::after { animation: lobe-b 13s ease-in-out infinite; }
+}
+
+/* Mouse data-debris canvas (replaces the glitch fragments) */
+.psy-frag { display: none !important; }
+.debris { position: fixed; inset: 0; z-index: 75; width: 100vw; height: 100vh; pointer-events: none; }
+@media print { .debris { display: none; } }
