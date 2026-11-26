@@ -42,41 +42,32 @@
   document.documentElement.classList.add('has-glow');
 })();
 
-// Glyph blink: on hover/focus, the letters of nav links and buttons flicker one by one
-// (decorative; text stays the same for screen readers; skipped for reduced motion).
+// 追蹤我們: red targeting dot that follows the mouse (mouse only; decorative, aria-hidden;
+// skipped for touch and reduced motion). Movement is driven only by the user's pointer.
 (function () {
+  var sec = document.querySelector('section.follow');
+  if (!sec) return;
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var SEL = '.nav-list a, .news-all a, .event-card a.event-register, .button, .dl-link';
-  Array.prototype.forEach.call(document.querySelectorAll(SEL), function (el) {
-    var n = 0;
-    Array.prototype.slice.call(el.childNodes).forEach(function (node) {
-      if (node.nodeType !== 3 || !node.textContent.trim()) return;
-      var frag = document.createElement('span');
-      frag.className = 'glyph-run';
-      Array.prototype.forEach.call(node.textContent, function (ch) {
-        if (/\s/.test(ch)) { frag.appendChild(document.createTextNode(ch)); return; }
-        var s = document.createElement('span');
-        s.className = 'glyph';
-        s.style.setProperty('--i', n++);
-        s.textContent = ch;
-        frag.appendChild(s);
-      });
-      // Screen readers get the original text; the per-letter copy is visual only (WCAG 1.3.1)
-      frag.setAttribute('aria-hidden', 'true');
-      var sr = document.createElement('span');
-      sr.className = 'visually-hidden';
-      sr.textContent = node.textContent;
-      var wrap = document.createDocumentFragment();
-      wrap.appendChild(sr); wrap.appendChild(frag);
-      node.parentNode.replaceChild(wrap, node);
-    });
-    if (!n) return;
-    var t;
-    function blink() {
-      el.classList.remove('is-blink'); void el.offsetWidth; el.classList.add('is-blink');
-      clearTimeout(t); t = setTimeout(function () { el.classList.remove('is-blink'); }, 340 + n * 26);
-    }
-    el.addEventListener('mouseenter', blink);
-    el.addEventListener('focus', blink);
-  });
+  var t = document.createElement('div');
+  t.className = 'trk';
+  t.setAttribute('aria-hidden', 'true');
+  t.innerHTML = '<span class="trk-x"></span><span class="trk-y"></span><span class="trk-ring"></span><span class="trk-dot"></span><span class="trk-label"></span>';
+  sec.appendChild(t);
+  var x = 0, y = 0, tx = 0, ty = 0, raf = 0, label = t.querySelector('.trk-label');
+  function pad(n) { n = Math.max(0, Math.round(n)); return ('0000' + n).slice(-4); }
+  function step() {
+    x += (tx - x) * 0.18; y += (ty - y) * 0.18;
+    t.style.setProperty('--x', x.toFixed(1) + 'px');
+    t.style.setProperty('--y', y.toFixed(1) + 'px');
+    label.textContent = 'TRK ' + pad(x) + ' / ' + pad(y);
+    raf = (Math.abs(tx - x) > .3 || Math.abs(ty - y) > .3) ? requestAnimationFrame(step) : 0;
+  }
+  sec.addEventListener('pointermove', function (e) {
+    var r = sec.getBoundingClientRect();
+    tx = e.clientX - r.left; ty = e.clientY - r.top;
+    if (!t.classList.contains('is-on')) { x = tx; y = ty; t.classList.add('is-on'); }
+    if (!raf) raf = requestAnimationFrame(step);
+  }, { passive: true });
+  sec.addEventListener('pointerleave', function () { t.classList.remove('is-on'); });
 })();
