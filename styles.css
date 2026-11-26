@@ -1819,3 +1819,5 @@ main .article-aside-title::after { display: none; }
 @media print { .debris { display: none; } }
 /* 參觀資訊: floor grid removed */
 @media screen { .visit-space { display: none !important; } }
+/* Card images: not interactive, so the browser's own image button (e.g. Safari Live Text / image lookup) doesn't appear on hover */
+.card-image { pointer-events: none; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
