@@ -1974,3 +1974,17 @@ main .article-aside-title::after { display: none; }
 @media screen and (max-width: 950px) { main > section:not(.hero):not(.page-head):not(.updates) { padding-block: 52px 56px !important; } }
 @media screen and (max-width: 650px) { main > section:not(.hero):not(.page-head):not(.updates) { padding-block: 44px 48px !important; } }
 @media screen { .section-heading, .sponsor-heading, .visit-heading { margin-bottom: 28px; } .follow .section-heading { margin-bottom: 22px; } }
+
+/* ===== UX 改善 ===== */
+/* 系統游標恢復，自訂十字準心隱藏（對焦框保留為裝飾） */
+.cam-dot { display: none !important; }
+/* 暫停動態也會停止報名區的紅色霧氣 */
+.motion-paused .reg-blob i, .motion-paused .reg-blob i::before, .motion-paused .reg-blob i::after { animation-play-state: paused !important; }
+/* 報名說明 */
+.reg-help { margin: 24px 0 0; color: #AEBEC5; font-size: .92rem; }
+.reg-help a { color: #D7E9EF; }
+/* 手機：回到頁首按鈕 */
+.to-top { position: fixed; z-index: 60; right: 16px; bottom: 16px; display: none; align-items: center; justify-content: center; min-height: 44px; padding: 0 16px; color: #D7E9EF; background: rgba(8, 11, 16, .9); border: 1px solid rgba(215, 233, 239, .3); font-size: .85rem; letter-spacing: .08em; text-decoration: none; opacity: 0; pointer-events: none; transition: opacity .2s ease; }
+.to-top:focus-visible { outline: 2px solid #D7E9EF; outline-offset: 3px; }
+@media (max-width: 950px) { .to-top { display: inline-flex; } .to-top.is-on { opacity: 1; pointer-events: auto; } }
+@media print { .to-top { display: none !important; } }

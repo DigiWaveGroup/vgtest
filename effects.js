@@ -20,6 +20,7 @@
   }
   btn.addEventListener('click', function () { set(btn.getAttribute('aria-expanded') !== 'true'); });
   nav.addEventListener('click', function (e) { if (e.target.closest('a')) set(false); });
+  document.addEventListener('click', function (e) { if (header.classList.contains('nav-open') && !header.contains(e.target)) set(false); });
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && header.classList.contains('nav-open')) { set(false); btn.focus(); }
   });
@@ -86,7 +87,7 @@
 
   // 1) Scroll reveal: blocks materialise (blur → sharp, rise) as they enter, slightly staggered.
   var RV = '.section-heading, .visit-heading, .post-row, .participate-card, .event-card, .judge-category, .visit-content, .visit-facts > div, .fb-card, .sponsor-group, .faq-list > div, .article-body > *';
-  var items = Array.prototype.slice.call(document.querySelectorAll(RV));
+  var items = Array.prototype.slice.call(document.querySelectorAll(RV)).filter(function (el) { return !el.closest('.updates, .page-head, .article-head'); });
   items.forEach(function (el) {
     var sibs = Array.prototype.filter.call(el.parentNode.children, function (c) { return c.matches(RV); });
     el.classList.add('rv');
@@ -133,6 +134,7 @@
       if (!en.isIntersecting) return;
       var el = en.target;
       el.classList.add('is-in');
+      setTimeout(function () { el.classList.remove('rv', 'is-in'); el.style.removeProperty('--d'); }, 1500);
       Array.prototype.forEach.call(el.querySelectorAll('h2'), function (x) { decode(x); });
       var h = el.querySelector('h2'); if (h) { h.classList.add('is-glitch'); setTimeout(function () { h.classList.remove('is-glitch'); }, 700); }
       io.unobserve(el);
@@ -163,7 +165,7 @@
   var fr = document.createElement('div'); fr.className = 'cam-af'; fr.setAttribute('aria-hidden', 'true');
   fr.innerHTML = '<i></i><i></i><i></i><i></i><b class="cam-af-l">AF</b><b class="cam-af-x">\u0192 2.8&nbsp;&nbsp;1/250</b>';
   document.body.appendChild(fr); document.body.appendChild(dot);
-  root.classList.add('cam-cursor');
+  // system cursor stays visible (no cam-cursor class); the frame is decoration only
   var W = 46, H = 32, cur = { x: -200, y: -200, w: W, h: H }, tgt = { x: -200, y: -200, w: W, h: H }, raf = 0, lockEl = null, mx = -200, my = -200;
   var SEL = 'a, button, [role="button"], summary, label, input, select, textarea';
   function aim() {
@@ -192,9 +194,14 @@
     kick();
   }, { passive: true });
   document.addEventListener('pointerdown', function () { fr.classList.remove('is-shot'); void fr.offsetWidth; fr.classList.add('is-shot'); });
-  addEventListener('scroll', kick, { passive: true });
-  document.addEventListener('pointerleave', function () { fr.classList.remove('is-on'); dot.classList.remove('is-on'); });
-  document.addEventListener('pointerenter', function () { fr.classList.add('is-on'); dot.classList.add('is-on'); });
+  addEventListener('scroll', function () {
+    var el = document.elementFromPoint(mx, my);
+    el = el && el.closest ? el.closest(SEL) : null;
+    if (el !== lockEl) { lockEl = el; fr.classList.toggle('is-lock', !!el); }
+    kick();
+  }, { passive: true });
+  document.documentElement.addEventListener('mouseleave', function () { fr.classList.remove('is-on'); dot.classList.remove('is-on'); });
+  document.documentElement.addEventListener('mouseenter', function () { fr.classList.add('is-on'); dot.classList.add('is-on'); });
 })();
 
 // Top nav: transparent at the top, frosted once the page scrolls.
@@ -251,4 +258,16 @@
   function fit() { root.style.setProperty('--news-h', Math.ceil(news.getBoundingClientRect().height) + 'px'); }
   fit(); addEventListener('resize', fit);
   if (window.ResizeObserver) new ResizeObserver(fit).observe(news);
+})();
+
+// Phones: a back-to-top button appears after scrolling (the phone header does not stay on screen).
+(function () {
+  var b = document.createElement('a');
+  b.className = 'to-top';
+  b.href = '#top';
+  b.textContent = '回到頁首';
+  document.body.appendChild(b);
+  var on = false;
+  function upd() { var v = window.scrollY > window.innerHeight * 1.5; if (v !== on) { on = v; b.classList.toggle('is-on', v); } }
+  window.addEventListener('scroll', upd, { passive: true }); upd();
 })();
