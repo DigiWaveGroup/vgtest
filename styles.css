@@ -1257,3 +1257,5 @@ main .article-aside-title::after { display: none; }
   .participate-card, .event-card, .judge-card, .fb-card, .faq-list > div, .sponsor-group, .post-row a, .news-layout .post-row a, .button-primary, .button-dark { clip-path: none !important; }
   .participate-card::after, .judge-card::after, .event-card::after { display: none !important; }
 }
+/* Remove the big ghost section numbers (01, 02, 03…) */
+@media screen { main > section:not(.hero):not(.page-head) > .container::before { content: none !important; } }
