@@ -1965,3 +1965,12 @@ main .article-aside-title::after { display: none; }
 .cam-af.is-shot { animation: cam-shot .35s ease-out 1; }
 .cam-af.is-shot i { animation: cam-snap .25s ease-out 1; }
 @media print { .cam-dot, .cam-af { display: none; } }
+
+/* 區塊上下間距收緊：取消「每區撐滿一個畫面」，改為依內容高度＋一致的較小間距 */
+@media screen and (min-width: 951px) {
+  html { scroll-snap-type: none; }
+  main > section:not(.hero):not(.page-head):not(.updates) { min-height: 0 !important; justify-content: flex-start; padding-block: 64px 72px !important; scroll-snap-align: none; }
+}
+@media screen and (max-width: 950px) { main > section:not(.hero):not(.page-head):not(.updates) { padding-block: 52px 56px !important; } }
+@media screen and (max-width: 650px) { main > section:not(.hero):not(.page-head):not(.updates) { padding-block: 44px 48px !important; } }
+@media screen { .section-heading, .sponsor-heading, .visit-heading { margin-bottom: 28px; } .follow .section-heading { margin-bottom: 22px; } }
