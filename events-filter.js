@@ -17,9 +17,9 @@
     bar.querySelectorAll('.filter-btn[data-filter="' + kind + '"]').forEach(function (b) {
       b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
     });
-    apply();
+    apply(true);
   });
-  function apply() {
+  function apply(announce) {
     var n = 0;
     items.forEach(function (li) {
       var ok = state.date === 'all' || li.dataset.date === state.date;
@@ -27,7 +27,7 @@
       if (ok) n++;
     });
     days.forEach(function (d) { d.hidden = !d.querySelector('.event-tile:not([hidden])'); });
-    status.textContent = n ? status.dataset.template.replace('{n}', n) : status.dataset.empty;
+    if (announce) status.textContent = n ? status.dataset.template.replace('{n}', n) : status.dataset.empty;
   }
-  apply();
+  apply(false);
 })();
