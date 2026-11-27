@@ -2522,3 +2522,8 @@ html { -webkit-tap-highlight-color: transparent; }
 @media screen and (min-width: 951px) {
   .participate-card .card-actions .button { box-sizing: border-box; height: 56px; min-height: 0; display: flex; align-items: center; justify-content: center; padding-block: 0; }
 }
+
+/* 封面掃描光改 12 秒一次 */
+@media screen and (prefers-reduced-motion: no-preference) {
+  .motion-loop .hero picture::after { animation: hero-scanline2 12s linear infinite; }
+}
