@@ -2153,3 +2153,9 @@ main .article-aside-title::after { display: none; }
   .event-card img.event-photo + .event-body { position: relative; }
   .event-card img.event-photo + .event-body::after { content: ""; position: absolute; left: 0; right: 0; bottom: 100%; aspect-ratio: 16 / 9; pointer-events: none; background: url("vgw_website_assets/1_home_hero_and_announcements/web/noise.png"); opacity: .45; }
 }
+
+/* 全站噪點再多一點（封面另外降低自己那層，維持封面不變重） */
+@media screen {
+  body::after { opacity: .48; }
+  .hero::after { opacity: .55; }
+}
