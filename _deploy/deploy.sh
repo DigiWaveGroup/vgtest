@@ -20,7 +20,7 @@ REV="$(git rev-parse --short HEAD)"
 
 rsync -rltz --delete \
   --exclude='.git/' --exclude='.github/' --exclude='.claude/' \
-  --exclude='_tools/' --exclude='_deploy/' \
+  --exclude='_tools/' --exclude='_deploy/' --exclude='.impeccable/' \
   --exclude='README.md' --exclude='robots.txt' \
   --exclude='.DS_Store' --exclude='*.md' --exclude='.gitignore' \
   -e "ssh -i $KEY -o BatchMode=yes" \
