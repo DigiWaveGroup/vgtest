@@ -2,3 +2,6 @@
 *.bak
 *.log
 .impeccable/
+
+# 本機部署設定（主機 IP、帳號、金鑰路徑），不可提交
+_deploy/deploy.local.env

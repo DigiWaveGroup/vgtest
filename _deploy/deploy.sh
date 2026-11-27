@@ -1,14 +1,25 @@
 #!/usr/bin/env bash
 # 部署 VGW 靜態網站到 AWS 主機（只上傳公開檔案），並更新完整性基準與部署紀錄。
-# 用法：_deploy/deploy.sh            （預設主機與金鑰）
-#       VGW_HOST=1.2.3.4 _deploy/deploy.sh
+# 用法：_deploy/deploy.sh
+# 主機位址、登入帳號、金鑰路徑放在本機的 _deploy/deploy.local.env（已列入 .gitignore，不上傳），格式：
+#   VGW_HOST=主機IP
+#   VGW_USER=登入帳號
+#   VGW_KEY="$HOME/.ssh/金鑰檔.pem"
 set -euo pipefail
 
-HOST="${VGW_HOST:-43.213.15.188}"
-KEY="${VGW_KEY:-$HOME/.ssh/vgw-key.pem}"
-USER_="admin"
-DEST="/var/www/vgw"
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+LOCAL_ENV="$ROOT/_deploy/deploy.local.env"
+if [ -f "$LOCAL_ENV" ]; then
+  # shellcheck disable=SC1090
+  . "$LOCAL_ENV"
+fi
+: "${VGW_HOST:?找不到主機位址：請在 _deploy/deploy.local.env 設定 VGW_HOST}"
+: "${VGW_USER:?找不到登入帳號：請在 _deploy/deploy.local.env 設定 VGW_USER}"
+: "${VGW_KEY:?找不到金鑰路徑：請在 _deploy/deploy.local.env 設定 VGW_KEY}"
+HOST="$VGW_HOST"
+KEY="$VGW_KEY"
+USER_="$VGW_USER"
+DEST="/var/www/vgw"
 SSH=(ssh -i "$KEY" -o BatchMode=yes "$USER_@$HOST")
 
 cd "$ROOT"
