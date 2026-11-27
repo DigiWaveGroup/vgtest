@@ -189,6 +189,7 @@
     dot.style.transform = 'translate(' + mx + 'px,' + my + 'px)';
     if (!fr.classList.contains('is-on')) { cur = { x: mx - W / 2, y: my - H / 2, w: W, h: H }; fr.classList.add('is-on'); dot.classList.add('is-on'); }
     var el = e.target.closest ? e.target.closest(SEL) : null;
+    if (el && el.closest('.site-header')) el = null;   // no lock on the top nav
     if (el !== lockEl) {
       if (ro) { if (lockEl) ro.unobserve(box(lockEl)); if (el) ro.observe(box(el)); }
       lockEl = el;
@@ -202,6 +203,7 @@
   addEventListener('scroll', function () {
     var el = document.elementFromPoint(mx, my);
     el = el && el.closest ? el.closest(SEL) : null;
+    if (el && el.closest('.site-header')) el = null;
     if (el !== lockEl) { lockEl = el; fr.classList.toggle('is-lock', !!el); }
     kick();
   }, { passive: true });
