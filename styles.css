@@ -2527,3 +2527,17 @@ html { -webkit-tap-highlight-color: transparent; }
 @media screen and (prefers-reduced-motion: no-preference) {
   .motion-loop .hero picture::after { animation: hero-scanline2 12s linear infinite; }
 }
+
+/* 主題活動日期再放大 */
+@media screen and (min-width: 1201px) {
+  .ev-date { font-size: clamp(2.8rem, 4.1vw, 3.8rem) !important; }
+  .ev-when { width: 392px; }
+  .ev-info { grid-template-columns: 6.5em minmax(0, 1fr); }
+}
+@media screen and (min-width: 651px) and (max-width: 1200px) { .ev-date { font-size: clamp(2.4rem, 4.2vw, 3rem) !important; } .ev-when { width: 320px; } }
+@media screen and (max-width: 650px) { .ev-date { font-size: clamp(2.1rem, 10vw, 2.9rem) !important; } }
+@media screen and (min-width: 1201px) { .ev-layout { grid-template-columns: minmax(0, .46fr) minmax(0, 2.5fr) !important; gap: 3% !important; } }
+@media screen and (min-width: 951px) and (max-width: 1200px) { .ev-layout { grid-template-columns: minmax(0, .5fr) minmax(0, 2.6fr) !important; gap: 3% !important; } .ev-when { width: 300px; } }
+@media screen and (min-width: 1201px) { .ev-layout { grid-template-columns: minmax(190px, .5fr) minmax(0, 2.5fr) !important; } }
+@media screen and (min-width: 951px) and (max-width: 1200px) { .ev-layout { grid-template-columns: minmax(170px, .5fr) minmax(0, 2.6fr) !important; } }
+@media screen and (min-width: 951px) { .ev-side h2 { white-space: nowrap; } .ev-side .eyebrow { white-space: nowrap; } }
