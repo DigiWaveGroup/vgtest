@@ -2218,3 +2218,35 @@ main .article-aside-title::after { display: none; }
   .ev-info { padding-top: 4px; }
   .ev-tag { margin-top: 6px; }
 }
+
+/* 主題活動列表：每場活動壓成一行（日期｜年份星期｜類型地點｜活動名｜狀態） */
+@media screen and (min-width: 651px) {
+  .ev-row a { grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 0 32px; padding: 10px 0; }
+  .ev-when { flex-direction: row; align-items: baseline; gap: 14px; min-width: 300px; }
+  .ev-date { font-size: clamp(2.4rem, 4vw, 3.4rem); }
+  .ev-sub { white-space: nowrap; }
+  .ev-info { flex-direction: row; align-items: baseline; gap: 18px; padding-top: 0; min-width: 0; }
+  .ev-meta { white-space: nowrap; }
+  .ev-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  .ev-tag { margin-top: 0; }
+  .ev-row a::before { top: 50%; transform: translate(-6px, -50%); }
+  .ev-row a:hover::before, .ev-row a:focus-visible::before { transform: translateY(-50%); }
+}
+@media screen and (min-width: 651px) and (max-width: 1200px) {
+  .ev-when { min-width: 0; }
+  .ev-sub, .ev-meta { display: none; }
+}
+@media screen and (min-width: 651px) {
+  .ev-when .ev-date { align-self: auto; }
+  .ev-when { min-width: 310px; }
+}
+@media screen and (min-width: 651px) and (max-width: 1200px) { .ev-when { min-width: 150px; } }
+@media screen and (min-width: 1201px) {
+  .ev-when { min-width: 270px; }
+  .ev-info { display: grid; grid-template-columns: 10.5em minmax(0, 1fr); align-items: baseline; gap: 16px; }
+}
+@media screen and (min-width: 1201px) {
+  .ev-layout { grid-template-columns: minmax(0, .62fr) minmax(0, 2.4fr); gap: 4%; }
+  .ev-info { grid-template-columns: 9.5em minmax(0, 1fr); }
+  .ev-row a { gap: 0 26px; }
+}
