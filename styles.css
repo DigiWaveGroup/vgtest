@@ -2133,3 +2133,12 @@ main .article-aside-title::after { display: none; }
 @media screen {
   .hero::after { background: url("vgw_website_assets/1_home_hero_and_announcements/web/noise.png") 0 0, url("vgw_website_assets/1_home_hero_and_announcements/web/noise.png") 37px 53px, repeating-linear-gradient(0deg, rgba(0,0,0,.2) 0 1px, transparent 1px 3px), linear-gradient(180deg, transparent, rgba(241,43,32,.08) 50%, transparent) 0 -40% / 100% 35% no-repeat, rgba(8,11,16,.12); }
 }
+
+/* 導覽列：logo 靠左，選單文字與社群圖示都放右邊 */
+@media screen and (min-width: 951px) {
+  .header-inner { grid-template-columns: auto 1fr auto; gap: 28px; }
+  .header-inner .brand { grid-column: 1; grid-row: 1; justify-self: start; }
+  .header-inner nav { grid-column: 2; grid-row: 1; justify-self: end; }
+  .header-inner .nav-list { justify-content: flex-end; }
+  .header-inner .header-social { grid-column: 3; grid-row: 1; justify-self: end; padding-left: 24px; border-left: 1px solid rgba(215,233,239,.14); }
+}
