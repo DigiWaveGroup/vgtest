@@ -44,7 +44,7 @@ TYPES = {
     "competition": "競賽活動", "activity": "現場活動", "ceremony": "典禮", "briefing": "說明會",
 }
 STATUS = {
-    "open":     {"label": "報名中",     "btn": None},
+    "open":     {"label": "開放報名",   "btn": None},
     "upcoming": {"label": "即將開放",   "btn": "即將開放報名"},
     "full":     {"label": "已額滿",     "btn": "已額滿"},
     "closed":   {"label": "報名已截止", "btn": "報名已截止"},
@@ -121,7 +121,7 @@ def load_events():
         if r.get("register_url") and not HTTPS.fullmatch(r["register_url"]):
             fail("events.csv", f"第 {i} 列報名網址必須是 https:// 開頭的完整網址")
         if r["status"] == "open" and not r.get("register_url"):
-            fail("events.csv", f"第 {i} 列狀態為 open（報名中）但沒有報名網址")
+            fail("events.csv", f"第 {i} 列狀態為 open（開放報名）但沒有報名網址")
         if r.get("image"):
             if not re.fullmatch(r"[A-Za-z0-9_.-]+\.(webp|jpg|jpeg|png)", r["image"]):
                 fail("events.csv", f"第 {i} 列圖片檔名只能用英數字：{r['image']}")
@@ -197,6 +197,13 @@ def event_row(r):
     """Home-page list row: big date, title, status tag. The whole row links to the event's entry on events.html."""
     st = STATUS[r["status"]]
     d = r["_date"]
+    if r["status"] != "open":
+        # 尚未公布的場次：首頁只顯示「-」佔位，對齊其他列
+        return ('<li class="ev-row is-placeholder"><div class="ev-row-in">'
+                '<span class="ev-when"><span class="ev-date ev-date-tba" aria-hidden="true">--.--.----</span></span>'
+                '<span class="ev-info"><span class="ev-meta" aria-hidden="true">-</span>'
+                '<span class="ev-title"><span aria-hidden="true">-</span><span class="visually-hidden">活動待公布</span></span></span>'
+                f'<span class="ev-tag state-tba">{STATUS["tba"]["label"]}</span></div></li>')
     if d:
         big = f'<time class="ev-date" datetime="{r["date"]}">{d.month:02d}.{d.day:02d}.{d.year}</time>'
         sub = (r["start"] + (f'–{r["end"]}' if r.get("end") else "")) if r.get("start") else ""

@@ -189,10 +189,10 @@
     dot.style.transform = 'translate(' + mx + 'px,' + my + 'px)';
     if (!fr.classList.contains('is-on')) { cur = { x: mx - W / 2, y: my - H / 2, w: W, h: H }; fr.classList.add('is-on'); dot.classList.add('is-on'); }
     var el = e.target.closest ? e.target.closest(SEL) : null;
-    if (el && el.closest('.site-header, section.follow')) el = null;   // no lock on the top nav or in 追蹤我們
+    if (el && el.closest('.site-header, section.follow, section.events')) el = null;   // no lock on the top nav, 追蹤我們 or 主題活動
     var inFollow = !!(e.target.closest && e.target.closest('section.follow'));
     fr.classList.toggle('is-away', inFollow); dot.classList.toggle('is-away', inFollow);
-    var inNav = !!(e.target.closest && e.target.closest('.site-header'));
+    var inNav = !!(e.target.closest && e.target.closest('.site-header, section.events'));
     fr.classList.toggle('is-nav', inNav); dot.classList.toggle('is-nav', inNav);
     if (el !== lockEl) {
       if (ro) { if (lockEl) ro.unobserve(box(lockEl)); if (el) ro.observe(box(el)); }
@@ -207,7 +207,7 @@
   addEventListener('scroll', function () {
     var el = document.elementFromPoint(mx, my);
     el = el && el.closest ? el.closest(SEL) : null;
-    if (el && el.closest('.site-header, section.follow')) el = null;
+    if (el && el.closest('.site-header, section.follow, section.events')) el = null;
     if (el !== lockEl) { lockEl = el; fr.classList.toggle('is-lock', !!el); }
     kick();
   }, { passive: true });
