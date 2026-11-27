@@ -322,17 +322,17 @@
     if (el.tagName === 'TIME') el.setAttribute('aria-label', text);
     function run() {
       clearInterval(timer);
-      var frame = 0, n = text.length, total = n * 2 + 6;
+      var frame = 0, n = text.length, total = 22;   // 22 × 35ms ≈ 0.8 秒
       timer = setInterval(function () {
         frame++;
-        var done = Math.max(0, Math.floor((frame - 4) / 2)), out = '';
+        var done = Math.max(0, Math.floor((frame - 3) * n / 17)), out = '';
         for (var i = 0; i < n; i++) {
           var c = text[i];
           out += (i < done || !/[0-9-]/.test(c)) ? c : DIG[(Math.random() * 10) | 0];
         }
         el.textContent = out;
         if (frame >= total) { clearInterval(timer); el.textContent = text; }
-      }, 45);
+      }, 35);
     }
     el._evRun = run;
     var row = el.closest('a');
@@ -343,7 +343,7 @@
     var io = new IntersectionObserver(function (en) {
       if (!en[0].isIntersecting) return;
       io.disconnect();
-      Array.prototype.forEach.call(dates, function (el, i) { setTimeout(el._evRun, i * 140); });
+      Array.prototype.forEach.call(dates, function (el, i) { setTimeout(el._evRun, i * 60); });
     }, { threshold: 0.3 });
     io.observe(list);
   }
