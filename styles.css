@@ -2292,3 +2292,16 @@ main .article-aside-title::after { display: none; }
 /* 點擊時不要亮光：移除對焦框快門閃光與手機點擊反光 */
 .cam-af.is-shot, .cam-af.is-shot i { animation: none !important; }
 html { -webkit-tap-highlight-color: transparent; }
+
+/* 無障礙修正：主題活動鍵盤聚焦要有清楚焦點框（滑鼠點擊不會出現）；320px 寬不可左右捲動 */
+@media screen {
+  .ev-row a:focus-visible { outline: 2px solid #F12B20 !important; outline-offset: 4px; }
+}
+@media screen and (max-width: 950px) {
+  .ev-layout { grid-template-columns: minmax(0, 1fr); }
+  .ev-layout > * , .ev-layout .section-heading { min-width: 0; }
+}
+@media screen and (max-width: 650px) {
+  .ev-row a, .ev-row-in { grid-template-columns: minmax(0, 1fr) auto; }
+  .ev-date { font-size: clamp(1.9rem, 9.5vw, 2.7rem); }
+}
