@@ -2102,3 +2102,10 @@ main .article-aside-title::after { display: none; }
 .follow .fb-card:hover .fb-card-text strong { text-decoration: none; }
 .cam-af.is-away, .cam-dot.is-away { opacity: 0 !important; }
 .follow .trk-dot { width: 9px; height: 9px; }
+
+/* 參觀資訊：拿掉紅色霓虹背景光，改為純深色底；地圖也不再發紅光 */
+@media screen {
+  main > section.visit { background: #0A0D12 !important; }
+  main > section.visit::after, main > section.visit > .container::after { content: none !important; display: none !important; }
+  .visit-map { border-color: rgba(215,233,239,.22) !important; box-shadow: -30px 40px 70px -30px rgba(0,0,0,.85) !important; }
+}
