@@ -211,11 +211,16 @@ def event_row(r):
         big = f'<span class="ev-date ev-date-tba" aria-hidden="true">--.--.----</span><span class="visually-hidden">{TBA}</span>'
         sub = ""
     meta = [TYPES[r["type"]]] + ([r["venue_zh"]] if r.get("venue_zh") else [])
-    return (f'<li class="ev-row"><a href="{EVENTS_PAGE}#event-{r["id"]}">'
+    if r["status"] == "open" and r.get("register_url"):
+        # 開放報名的場次：整列直接連到報名表單（站外，另開新視窗）
+        link = (f'<a href="{e(r["register_url"])}" target="_blank" rel="noopener noreferrer">', f'<span class="visually-hidden">：前往報名{NW}</span>')
+    else:
+        link = (f'<a href="{EVENTS_PAGE}#event-{r["id"]}">', "")
+    return (f'<li class="ev-row">{link[0]}'
             f'<span class="ev-when">{big}' + (f'<span class="ev-sub">{e(sub)}</span>' if sub else "") + '</span>'
             f'<span class="ev-info"><span class="ev-meta">{e("・".join(meta))}</span>'
             f'<span class="ev-title">{e(r["title_zh"])}</span></span>'
-            f'<span class="ev-tag state-{r["status"]}">{st["label"]}</span></a></li>')
+            f'<span class="ev-tag state-{r["status"]}">{st["label"]}</span>{link[1]}</a></li>')
 
 
 # ------------------------------------------------------------------ news
