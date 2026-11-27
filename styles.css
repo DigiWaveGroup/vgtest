@@ -2062,3 +2062,13 @@ main .article-aside-title::after { display: none; }
   .participate-card .card-image { height: clamp(76px, 12vh, 150px); }
   .participate .reg-help { margin-top: 10px; }
 }
+
+/* 新主視覺圖（展覽／競賽／開幕／閉幕）：本身已是紅色霓虹，不再套紅色濾鏡；置中裁切保留中間的字 */
+@media screen {
+  .participate-card .card-image, .participate-card:hover .card-image { filter: none !important; object-position: 50% 50% !important; }
+  .event-card img.event-photo { display: block; width: 100%; aspect-ratio: 16 / 9; height: auto; object-fit: cover; object-position: 50% 50%; }
+}
+@media screen and (min-width: 951px) {
+  .participate-card .card-image { height: clamp(110px, 17vh, 190px); }
+  #competition .card-image { height: clamp(90px, 13vh, 150px); }
+}
