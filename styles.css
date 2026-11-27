@@ -2397,3 +2397,8 @@ html { -webkit-tap-highlight-color: transparent; }
 @media screen and (min-width: 1201px) { .ev-date { font-size: clamp(2.4rem, 3.4vw, 3.2rem); } }
 @media screen and (min-width: 651px) and (max-width: 1200px) { .ev-date { font-size: clamp(2.1rem, 3.6vw, 2.7rem); } }
 @media screen and (max-width: 650px) { .ev-date { font-size: clamp(1.9rem, 9vw, 2.6rem); } }
+
+/* 報名資訊：取消一整個螢幕高，只在卡片下方留適度空白 */
+@media screen and (min-width: 951px) {
+  main > section.participate:not(.hero):not(.page-head):not(.updates) { min-height: 0 !important; padding-bottom: 56px !important; }
+}
