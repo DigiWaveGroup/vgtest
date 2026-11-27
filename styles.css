@@ -2541,3 +2541,12 @@ html { -webkit-tap-highlight-color: transparent; }
 @media screen and (min-width: 1201px) { .ev-layout { grid-template-columns: minmax(190px, .5fr) minmax(0, 2.5fr) !important; } }
 @media screen and (min-width: 951px) and (max-width: 1200px) { .ev-layout { grid-template-columns: minmax(170px, .5fr) minmax(0, 2.6fr) !important; } }
 @media screen and (min-width: 951px) { .ev-side h2 { white-space: nowrap; } .ev-side .eyebrow { white-space: nowrap; } }
+
+/* 報名資訊：展覽與競賽圖片同寬同高；圖片外框貼齊圖片，噪點不再超出 */
+@media screen and (min-width: 951px) {
+  .participate-card > picture { height: clamp(92px, 14vh, 158px) !important; margin-bottom: 14px !important; overflow: hidden; background: #0E0201; }
+  .participate-card > picture .card-image { height: 100% !important; margin: 0 auto !important; display: block; object-fit: cover !important; }
+  #competition > picture .card-image { width: 100% !important; }
+  /* 展覽卡較寬（1.55 : 1），圖片寬度換算成與競賽卡內圖片相同 */
+  #exhibit > picture .card-image { width: calc((100% + 44px) * .6452 - 44px) !important; }
+}
