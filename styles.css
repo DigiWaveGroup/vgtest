@@ -2468,3 +2468,9 @@ html { -webkit-tap-highlight-color: transparent; }
   .logo-list img { -webkit-user-select: none; user-select: none; -webkit-user-drag: none; }
   .logo-list li { -webkit-tap-highlight-color: transparent; }
 }
+
+/* 報名競賽：簡章按鈕先停用；兩張卡片的簡章按鈕同高、同一水平線 */
+@media screen {
+  .dl-link.is-disabled { color: #8C9AA2 !important; border-color: #3E474F !important; background: none !important; pointer-events: none; }
+  #competition .card-downloads .dl-link, #exhibit .card-downloads .dl-link { box-sizing: border-box; height: 44px; padding-block: 0; display: inline-flex; align-items: center; justify-content: center; font-size: .85rem; }
+}
