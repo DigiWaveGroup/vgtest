@@ -2305,3 +2305,22 @@ html { -webkit-tap-highlight-color: transparent; }
   .ev-row a, .ev-row-in { grid-template-columns: minmax(0, 1fr) auto; }
   .ev-date { font-size: clamp(1.9rem, 9.5vw, 2.7rem); }
 }
+
+/* 主題活動：數字與文字改細，整行向上對齊 */
+@font-face { font-family: "Martian Mono"; src: url("vgw_website_assets/8_fonts/MartianMono-Variable.ttf") format("truetype"); font-weight: 100 800; font-stretch: 75% 112.5%; font-style: normal; font-display: swap; }
+@media screen {
+  .ev-date { font-family: "Martian Mono", "Share Tech Mono", ui-monospace, monospace; font-weight: 200; font-stretch: 87.5%; line-height: 1; letter-spacing: -.02em; text-shadow: 1px 0 rgba(241,43,32,.5), -1px 0 rgba(95,212,255,.3); }
+  .ev-sub { font-family: "Martian Mono", ui-monospace, monospace; font-weight: 300; font-size: .82rem; line-height: 1; }
+  .ev-title { font-weight: 300; line-height: 1.2; }
+  .ev-meta, .ev-tag { font-weight: 300; line-height: 1.2; }
+}
+@media screen and (min-width: 651px) {
+  .ev-row a, .ev-row-in, .ev-when, .ev-info { align-items: start; }
+  .ev-sub, .ev-meta, .ev-title, .ev-tag { margin-top: .32em; }
+  .ev-title { margin-top: .12em; }
+}
+@media screen {
+  .ev-date { font-variation-settings: "wght" 200, "wdth" 75; }
+  .ev-sub { font-variation-settings: "wght" 300, "wdth" 87.5; }
+}
+@media screen and (min-width: 1201px) { .ev-date { font-size: clamp(2.4rem, 3.6vw, 3.3rem); } .ev-when { width: 380px; } }
