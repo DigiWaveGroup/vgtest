@@ -163,13 +163,16 @@
   var root = document.documentElement;
   var dot = document.createElement('div'); dot.className = 'cam-dot'; dot.setAttribute('aria-hidden', 'true');
   var fr = document.createElement('div'); fr.className = 'cam-af'; fr.setAttribute('aria-hidden', 'true');
-  fr.innerHTML = '<i></i><i></i><i></i><i></i><b class="cam-af-l">AF</b><b class="cam-af-x">\u0192 2.8&nbsp;&nbsp;1/250</b>';
+  fr.innerHTML = '<i></i><i></i><i></i><i></i><b class="cam-af-l">LOCK</b>';
   document.body.appendChild(fr); document.body.appendChild(dot);
   root.classList.add('cam-cursor');   // system arrow hidden; a crosshair sits exactly at the pointer
   var W = 46, H = 32, cur = { x: -200, y: -200, w: W, h: H }, tgt = { x: -200, y: -200, w: W, h: H }, raf = 0, lockEl = null, mx = -200, my = -200;
-  var SEL = 'a, button, [role="button"], summary, label, input, select, textarea';
+  var SEL = 'a, button, [role="button"], summary, label, input, select, textarea, .judge-category';
+  // the frame wraps a judge category as a whole, and follows it when it opens or closes
+  function box(el) { return (el && el.closest && el.closest('.judge-category')) || el; }
+  var ro = window.ResizeObserver ? new ResizeObserver(function () { kick(); }) : null;
   function aim() {
-    if (lockEl && document.contains(lockEl)) { var b = lockEl.getBoundingClientRect(), p = 7; tgt = { x: b.left - p, y: b.top - p, w: b.width + p * 2, h: b.height + p * 2 }; }
+    if (lockEl && document.contains(lockEl)) { var b = box(lockEl).getBoundingClientRect(), p = 7; tgt = { x: b.left - p, y: b.top - p, w: b.width + p * 2, h: b.height + p * 2 }; }
     else tgt = { x: mx - W / 2, y: my - H / 2, w: W, h: H };
   }
   function step() {
@@ -187,12 +190,14 @@
     if (!fr.classList.contains('is-on')) { cur = { x: mx - W / 2, y: my - H / 2, w: W, h: H }; fr.classList.add('is-on'); dot.classList.add('is-on'); }
     var el = e.target.closest ? e.target.closest(SEL) : null;
     if (el !== lockEl) {
+      if (ro) { if (lockEl) ro.unobserve(box(lockEl)); if (el) ro.observe(box(el)); }
       lockEl = el;
       fr.classList.remove('is-lock', 'is-hunt');
       if (el) { void fr.offsetWidth; fr.classList.add('is-hunt'); setTimeout(function () { if (lockEl === el) fr.classList.add('is-lock'); }, 380); }
     }
     kick();
   }, { passive: true });
+  document.addEventListener('click', function () { kick(); });
   document.addEventListener('pointerdown', function () { fr.classList.remove('is-shot'); void fr.offsetWidth; fr.classList.add('is-shot'); });
   addEventListener('scroll', function () {
     var el = document.elementFromPoint(mx, my);

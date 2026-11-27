@@ -2082,3 +2082,5 @@ main .article-aside-title::after { display: none; }
   .cam-cursor, .cam-cursor * { cursor: auto !important; }
   .cam-dot, .cam-af { display: none !important; }
 }
+/* 對焦框：只留框，不顯示光圈快門數字；鎖定時顯示 LOCK ● */
+.cam-af-x { display: none !important; }
