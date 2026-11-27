@@ -2461,3 +2461,10 @@ html { -webkit-tap-highlight-color: transparent; }
   .sp-ready .logo-list img { opacity: 0; }
   .sp-ready.sp-on .logo-list img { animation: logo-boot .9s steps(8, end) calc(var(--i, 0) * 70ms) 1 both; }
 }
+
+/* 感謝名單 logo：移上時不要紅色色偏；點擊不反選 */
+@media screen {
+  .logo-list li:hover img { filter: grayscale(0) !important; }
+  .logo-list img { -webkit-user-select: none; user-select: none; -webkit-user-drag: none; }
+  .logo-list li { -webkit-tap-highlight-color: transparent; }
+}
