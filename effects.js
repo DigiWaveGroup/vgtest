@@ -363,3 +363,19 @@
     io.observe(list);
   }
 })();
+
+// 感謝名單：捲進畫面時，logo 依序「通電點亮」一次（減少動態時直接顯示）。
+(function () {
+  var wrap = document.querySelector('.sponsor-groups');
+  if (!wrap || !('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var items = wrap.querySelectorAll('.logo-list li');
+  Array.prototype.forEach.call(items, function (li, i) { li.style.setProperty('--i', i); });
+  wrap.classList.add('sp-ready');
+  var io = new IntersectionObserver(function (en) {
+    if (!en[0].isIntersecting) return;
+    io.disconnect();
+    wrap.classList.add('sp-on');
+    setTimeout(function () { wrap.classList.remove('sp-ready', 'sp-on'); }, 2600 + items.length * 70);
+  }, { threshold: 0.2 });
+  io.observe(wrap);
+})();

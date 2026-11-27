@@ -2444,3 +2444,20 @@ html { -webkit-tap-highlight-color: transparent; }
   .hero picture::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 22%; pointer-events: none; background: linear-gradient(180deg, transparent, rgba(241,43,32,.16) 70%, rgba(255,120,110,.45) 96%, transparent); mix-blend-mode: screen; opacity: 0; }
   .motion-loop .hero picture::after { opacity: 1; animation: hero-scanline 3.6s linear infinite; }
 }
+
+/* 感謝名單：平常灰階，滑鼠移上恢復品牌色並帶紅藍色偏；捲進畫面時依序通電點亮一次 */
+@media screen {
+  .logo-list img { filter: grayscale(1) brightness(1.15); opacity: .75; transition: filter .25s ease, opacity .25s ease, transform .25s ease; }
+  .logo-list li:hover img { filter: grayscale(0) drop-shadow(1.5px 0 rgba(241,43,32,.65)) drop-shadow(-1.5px 0 rgba(95,212,255,.45)); opacity: 1; transform: translateY(-2px); }
+}
+@media screen and (prefers-reduced-motion: no-preference) {
+  @keyframes logo-boot {
+    0% { opacity: 0; filter: grayscale(1) brightness(2.2); }
+    30% { opacity: .9; }
+    40% { opacity: .15; }
+    55% { opacity: 1; filter: grayscale(0) brightness(1.5); }
+    100% { opacity: .75; filter: grayscale(1) brightness(1.15); }
+  }
+  .sp-ready .logo-list img { opacity: 0; }
+  .sp-ready.sp-on .logo-list img { animation: logo-boot .9s steps(8, end) calc(var(--i, 0) * 70ms) 1 both; }
+}
