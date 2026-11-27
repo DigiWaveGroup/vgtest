@@ -192,6 +192,8 @@
     if (el && el.closest('.site-header, section.follow')) el = null;   // no lock on the top nav or in 追蹤我們
     var inFollow = !!(e.target.closest && e.target.closest('section.follow'));
     fr.classList.toggle('is-away', inFollow); dot.classList.toggle('is-away', inFollow);
+    var inNav = !!(e.target.closest && e.target.closest('.site-header'));
+    fr.classList.toggle('is-nav', inNav); dot.classList.toggle('is-nav', inNav);
     if (el !== lockEl) {
       if (ro) { if (lockEl) ro.unobserve(box(lockEl)); if (el) ro.observe(box(el)); }
       lockEl = el;
@@ -279,4 +281,42 @@
   var on = false;
   function upd() { var v = window.scrollY > window.innerHeight * 1.5; if (v !== on) { on = v; b.classList.toggle('is-on', v); } }
   window.addEventListener('scroll', upd, { passive: true }); upd();
+})();
+
+// 參觀資訊: draw the walking route from the light-rail station to the venue when the map comes into view.
+(function () {
+  var map = document.querySelector('.visit-map');
+  if (!map || !map.querySelector('.map-route')) return;
+  if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) { map.classList.add('is-drawn'); return; }
+  var io = new IntersectionObserver(function (en) {
+    if (en[0].isIntersecting) { map.classList.add('is-drawn'); io.disconnect(); }
+  }, { threshold: 0.4 });
+  io.observe(map);
+})();
+
+// 導覽列：滑鼠移上（或鍵盤聚焦）時，文字一個字一個字由亂碼轉回正確字。
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var links = document.querySelectorAll('.nav-list a');
+  if (!links.length) return;
+  var pool = '放視大賞展覽競賽報名參觀資訊評審名單主題活動最新消息高雄創意數位設計遊戲動畫影像互動';
+  Array.prototype.forEach.call(links, function (a) {
+    var text = a.textContent.trim();
+    if (!text || a.children.length) return;   // only plain-text links
+    a.setAttribute('aria-label', text);
+    var timer = 0;
+    function run() {
+      clearInterval(timer);
+      var frame = 0, total = text.length * 3 + 2;
+      timer = setInterval(function () {
+        frame++;
+        var done = Math.floor(frame / 3), out = '';
+        for (var i = 0; i < text.length; i++) out += i < done ? text[i] : pool[(Math.random() * pool.length) | 0];
+        a.textContent = out;
+        if (frame >= total) { clearInterval(timer); a.textContent = text; }
+      }, 40);
+    }
+    a.addEventListener('mouseenter', run);
+    a.addEventListener('focus', run);
+  });
 })();
