@@ -2505,3 +2505,5 @@ html { -webkit-tap-highlight-color: transparent; }
 @media screen and (prefers-reduced-motion: no-preference) {
   .hero picture::after { background: linear-gradient(180deg, transparent, rgba(241,43,32,.05) 70%, rgba(255,120,110,.14) 96%, transparent); }
 }
+/* 狀態框加寬以容納「待開放報名」，三種狀態仍等寬切齊 */
+@media screen { .ev-tag { min-width: 7.4em !important; } }

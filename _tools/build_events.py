@@ -32,6 +32,7 @@ SHOW_EVENT_PHOTOS = False
 HOME = "index.html"
 NEWS_PAGE = "news.html"
 EVENTS_PAGE = "events.html"
+SHOW_EVENTS_PAGE = False   # 主題活動分頁暫不對外顯示：站內不連到 events.html
 OLD_PAGES = ["news-events.html", "en-news-events.html", "en-events.html"]
 
 
@@ -45,7 +46,7 @@ TYPES = {
 }
 STATUS = {
     "open":     {"label": "開放報名",   "btn": None},
-    "upcoming": {"label": "待報名",     "btn": "尚未開放報名"},
+    "upcoming": {"label": "待開放報名", "btn": "尚未開放報名"},
     "full":     {"label": "已額滿",     "btn": "已額滿"},
     "closed":   {"label": "報名已截止", "btn": "報名已截止"},
     "tba":      {"label": "待公布",     "btn": "敬請期待"},
@@ -214,13 +215,15 @@ def event_row(r):
     if r["status"] == "open" and r.get("register_url"):
         # 開放報名的場次：整列直接連到報名表單（站外，另開新視窗）
         link = (f'<a href="{e(r["register_url"])}" target="_blank" rel="noopener noreferrer">', f'<span class="visually-hidden">：前往報名{NW}</span>')
-    else:
+    elif SHOW_EVENTS_PAGE:
         link = (f'<a href="{EVENTS_PAGE}#event-{r["id"]}">', "")
+    else:
+        link = ('<div class="ev-row-in">', "")
     return (f'<li class="ev-row">{link[0]}'
             f'<span class="ev-when">{big}' + (f'<span class="ev-sub">{e(sub)}</span>' if sub else "") + '</span>'
             f'<span class="ev-info"><span class="ev-meta">{e("・".join(meta))}</span>'
             f'<span class="ev-title">{e(r["title_zh"])}</span></span>'
-            f'<span class="ev-tag state-{r["status"]}">{st["label"]}</span>{link[1]}</a></li>')
+            f'<span class="ev-tag state-{r["status"]}">{st["label"]}</span>{link[1]}' + ('</a>' if link[0].startswith('<a') else '</div>') + '</li>')
 
 
 # ------------------------------------------------------------------ news
@@ -341,7 +344,8 @@ def update_home(events, news):
     rows = "\n            ".join(event_row(r) for r in picked[:4])
     a, b = section_bounds(s, "events")
     sec = re.sub(r'<ul class="(?:event-grid|event-cards|ev-rows)"[^>]*>.*?</ul>', f'<ul class="ev-rows">\n            {rows}\n          </ul>', s[a:b], count=1, flags=re.S)
-    sec = re.sub(r'<p class="event-more">.*?</p>', f'<p class="event-more"><a href="{EVENTS_PAGE}">查看全部活動</a></p>', sec, count=1, flags=re.S)
+    more = f'<p class="event-more"><a href="{EVENTS_PAGE}">查看全部活動</a></p>' if SHOW_EVENTS_PAGE else '<p class="event-more" hidden></p>'
+    sec = re.sub(r'<p class="event-more"[^>]*>.*?</p>', more, sec, count=1, flags=re.S)
     path.write_text(s[:a] + sec + s[b:], encoding="utf-8")
 
 
@@ -359,7 +363,8 @@ def shell(title, desc, main, current=None, scripts=()):
     top = re.sub(r'<a href="#([a-z]+)">', lambda m: f'<a href="{HOME}#{m.group(1)}">', top)
     cur = ' aria-current="page"'
     top = top.replace(f'<a href="{HOME}#news">', f'<a href="{NEWS_PAGE}"' + (cur if current == "news" else "") + ">")
-    top = top.replace(f'<a href="{HOME}#events">', f'<a href="{EVENTS_PAGE}"' + (cur if current == "events" else "") + ">")
+    if SHOW_EVENTS_PAGE:
+        top = top.replace(f'<a href="{HOME}#events">', f'<a href="{EVENTS_PAGE}"' + (cur if current == "events" else "") + ">")
     top = top.replace('class="brand" href="#top"', f'class="brand" href="{HOME}"')
     bottom = bottom.replace('class="brand footer-brand" href="#top"', f'class="brand footer-brand" href="{HOME}"')
     bottom = re.sub(r'\s*<script src="(judges|news|events-filter|follow-eyes|follow-wave)\.js" defer></script>', "", bottom)
@@ -416,8 +421,8 @@ def build_article(n, prev_n, next_n):
                  f'<h2 id="article-event-title" class="article-aside-title">活動資訊</h2>'
                  f'<ul class="event-cards article-event-card">{event_card(ev, 3, False)}</ul>'
                  f'<p class="event-note">{SURVEYCAKE_NOTE}</p>'
-                 f'<p class="article-more"><a href="{EVENTS_PAGE}#event-{ev["id"]}">在活動總覽查看 <span aria-hidden="true">→</span></a></p>'
-                 f'</section>')
+                 + (f'<p class="article-more"><a href="{EVENTS_PAGE}#event-{ev["id"]}">在活動總覽查看 <span aria-hidden="true">→</span></a></p>' if SHOW_EVENTS_PAGE else '')
+                 + '</section>')
 
     def pager(item, rel, label):
         if not item:
@@ -552,7 +557,7 @@ def build_sitemap(news):
     items = "".join([
         li(HOME, "首頁", home_sub),
         li(NEWS_PAGE, "最新消息", news_sub),
-        li(EVENTS_PAGE, "主題活動"),
+        *([li(EVENTS_PAGE, "主題活動")] if SHOW_EVENTS_PAGE else []),
         *[li(f"{slug}.html", title) for slug, title, _c, _d in STATIC_PAGES],
         li(SITEMAP_PAGE, "網站導覽"),
     ])
