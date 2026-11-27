@@ -41,7 +41,7 @@ def article_page(nid):
 
 TYPES = {
     "forum": "國際論壇", "talk": "主題講座", "pitch": "Pitch", "workshop": "工作坊",
-    "competition": "競賽活動", "activity": "現場活動", "ceremony": "典禮",
+    "competition": "競賽活動", "activity": "現場活動", "ceremony": "典禮", "briefing": "說明會",
 }
 STATUS = {
     "open":     {"label": "報名中",     "btn": None},
@@ -67,6 +67,7 @@ SVG = {
 SVG["competition"] = SVG["pitch"]
 SVG["activity"] = SVG["workshop"]
 SVG["ceremony"] = SVG["forum"]
+SVG["briefing"] = SVG["talk"]
 BACK_SVG = ('<svg viewBox="0 0 24 24" width="18" height="18" focusable="false"><path d="M15 5l-7 7 7 7" '
             'fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square"/></svg>')
 
@@ -192,6 +193,24 @@ def event_card(r, hlevel, anchor):
             f'<div class="event-actions">{action}</div></div></li>')
 
 
+def event_row(r):
+    """Home-page list row: big date, title, status tag. The whole row links to the event's entry on events.html."""
+    st = STATUS[r["status"]]
+    d = r["_date"]
+    if d:
+        big = f'<time class="ev-date" datetime="{r["date"]}">{d.month:02d}.{d.day:02d}</time>'
+        sub = f'{d.year}・週{WEEK_ZH[d.weekday()]}' + (f'・{r["start"]}' + (f'–{r["end"]}' if r.get("end") else "") if r.get("start") else "")
+    else:
+        big = '<span class="ev-date ev-date-tba" aria-hidden="true">--.--</span>'
+        sub = TBA
+    meta = [TYPES[r["type"]]] + ([r["venue_zh"]] if r.get("venue_zh") else [])
+    return (f'<li class="ev-row"><a href="{EVENTS_PAGE}#event-{r["id"]}">'
+            f'<span class="ev-when">{big}<span class="ev-sub">{e(sub)}</span></span>'
+            f'<span class="ev-info"><span class="ev-meta">{e("・".join(meta))}</span>'
+            f'<span class="ev-title">{e(r["title_zh"])}</span></span>'
+            f'<span class="ev-tag state-{r["status"]}">{st["label"]}</span></a></li>')
+
+
 # ------------------------------------------------------------------ news
 def load_news(events):
     by_id = {r["id"]: r for r in events}
@@ -307,12 +326,10 @@ def update_home(events, news):
     s = s[:a] + sec + s[b:]
     # featured cards keep the row order of events.csv; fallback = nearest dates
     picked = sorted((r for r in events if r.get("featured", "").upper() == "Y"), key=lambda r: r["_row"]) or events
-    cards = "\n            ".join(event_card(r, 3, False) for r in picked[:3])
+    rows = "\n            ".join(event_row(r) for r in picked[:4])
     a, b = section_bounds(s, "events")
-    sec = re.sub(r'<ul class="event-(?:grid|cards)"[^>]*>.*?</ul>', f'<ul class="event-cards">\n            {cards}\n          </ul>', s[a:b], count=1, flags=re.S)
-    note = (f'<p class="event-note">{SURVEYCAKE_NOTE}</p>'
-            f'<p class="event-more"><a class="button button-outline-neon" href="{EVENTS_PAGE}">查看全部活動 <span aria-hidden="true">→</span></a></p>')
-    sec = re.sub(r'(<p class="event-note">.*?</p>)(\s*<p class="event-more">.*?</p>)?', note, sec, count=1, flags=re.S)
+    sec = re.sub(r'<ul class="(?:event-grid|event-cards|ev-rows)"[^>]*>.*?</ul>', f'<ul class="ev-rows">\n            {rows}\n          </ul>', s[a:b], count=1, flags=re.S)
+    sec = re.sub(r'<p class="event-more">.*?</p>', f'<p class="event-more"><a href="{EVENTS_PAGE}">查看全部活動</a></p>', sec, count=1, flags=re.S)
     path.write_text(s[:a] + sec + s[b:], encoding="utf-8")
 
 
