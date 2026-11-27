@@ -2282,3 +2282,9 @@ main .article-aside-title::after { display: none; }
   .ev-tag, .ev-tag.state-open { padding: 2px 6px; border: 0 !important; background: none; }
   .ev-row a:focus-visible { outline: none; }
 }
+/* 主題活動：整行文字以基線對齊（日期、時間、類型、活動名、狀態在同一條底線上） */
+@media screen and (min-width: 651px) {
+  .ev-row a, .ev-row-in { align-items: baseline; }
+  .ev-when, .ev-info { align-items: baseline; }
+  .ev-title { line-height: 1.2; }
+}

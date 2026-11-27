@@ -45,7 +45,7 @@ TYPES = {
 }
 STATUS = {
     "open":     {"label": "開放報名",   "btn": None},
-    "upcoming": {"label": "即將開放",   "btn": "即將開放報名"},
+    "upcoming": {"label": "待報名",     "btn": "尚未開放報名"},
     "full":     {"label": "已額滿",     "btn": "已額滿"},
     "closed":   {"label": "報名已截止", "btn": "報名已截止"},
     "tba":      {"label": "待公布",     "btn": "敬請期待"},
@@ -197,7 +197,7 @@ def event_row(r):
     """Home-page list row: big date, title, status tag. The whole row links to the event's entry on events.html."""
     st = STATUS[r["status"]]
     d = r["_date"]
-    if r["status"] != "open":
+    if r["status"] not in ("open", "upcoming"):
         # 尚未公布的場次：首頁只顯示「-」佔位，對齊其他列
         return ('<li class="ev-row is-placeholder"><div class="ev-row-in">'
                 '<span class="ev-when"><span class="ev-date ev-date-tba" aria-hidden="true">--.--.----</span></span>'
