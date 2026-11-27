@@ -151,7 +151,7 @@ def when_text(r):
     return None
 
 
-def event_card(r, hlevel, anchor):
+def event_card(r, hlevel, anchor, radar=False):
     st = STATUS[r["status"]]
     title = r["title_zh"]
     if r["_date"] and r.get("start"):
@@ -171,7 +171,7 @@ def event_card(r, hlevel, anchor):
     if cap:
         facts.append(("名額", "・".join(cap)))
     dl = "".join(f"<div><dt>{k}</dt><dd>{v}</dd></div>" for k, v in facts)
-    if not SHOW_EVENT_PHOTOS and (not r.get("image") or r["image"] == "tba.webp"):
+    if radar or (not SHOW_EVENT_PHOTOS and (not r.get("image") or r["image"] == "tba.webp")):
         visual = '<div class="event-photo event-tba" aria-hidden="true"><div class="tba-radar"><i></i><i></i><i></i></div></div>'
     elif r.get("image"):
         visual = (f'<img class="event-photo" src="{PHOTO_DIR}{e(r["image"])}" alt="{e(r["image_alt_zh"])}" '
@@ -468,7 +468,7 @@ def build_events_page(events):
         '</div>')
     groups = []
     for d in days:
-        items = "\n              ".join(event_card(r, 3, True) for r in events if r["_date"] == d)
+        items = "\n              ".join(event_card(r, 3, True, radar=True) for r in events if r["_date"] == d)
         groups.append(f'<section class="event-day" data-date="{day_key(d)}" aria-labelledby="day-{day_key(d)}">'
                       f'<h2 class="event-day-title" id="day-{day_key(d)}">{day_label(d)}</h2>'
                       f'<ul class="event-cards">\n              {items}\n            </ul></section>')
