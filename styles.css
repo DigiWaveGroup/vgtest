@@ -2069,7 +2069,7 @@ main .article-aside-title::after { display: none; }
   .event-card img.event-photo { display: block; width: 100%; aspect-ratio: 16 / 9; height: auto; object-fit: cover; object-position: 50% 50%; }
 }
 @media screen and (min-width: 951px) {
-  .participate-card .card-image { height: clamp(110px, 17vh, 190px); }
+  .participate-card .card-image { height: clamp(92px, 14vh, 158px); }
   #competition .card-image { height: clamp(90px, 13vh, 150px); }
 }
 
