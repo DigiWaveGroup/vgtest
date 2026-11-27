@@ -2556,3 +2556,5 @@ html { -webkit-tap-highlight-color: transparent; }
   #exhibit > picture { width: calc((100% + 44px) * .6452 - 44px) !important; margin-left: auto !important; margin-right: auto !important; background: none !important; }
   #exhibit > picture .card-image { width: 100% !important; -webkit-mask-image: none !important; mask-image: none !important; }
 }
+/* 展覽圖片靠左，與下方文字對齊 */
+@media screen and (min-width: 951px) { #exhibit > picture { margin-left: 0 !important; margin-right: auto !important; } }
