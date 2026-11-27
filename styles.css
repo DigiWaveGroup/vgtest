@@ -2564,3 +2564,9 @@ html { -webkit-tap-highlight-color: transparent; }
   #exhibit > picture { width: 100% !important; margin-left: 0 !important; margin-right: 0 !important; }
   #exhibit > picture .card-image { width: 100% !important; object-position: 50% 50% !important; }
 }
+
+/* 展覽圖片：框維持全寬長度；圖片鏡頭退後（與競賽圖同大小、字一樣大）置中，左右以深紅底漸淡補滿 */
+@media screen and (min-width: 951px) {
+  #exhibit > picture { width: 100% !important; background: #0E0201 !important; }
+  #exhibit > picture .card-image { width: calc((100% + 44px) * .6452 - 44px) !important; margin: 0 auto !important; -webkit-mask-image: linear-gradient(90deg, transparent, #000 16%, #000 84%, transparent) !important; mask-image: linear-gradient(90deg, transparent, #000 16%, #000 84%, transparent) !important; }
+}
