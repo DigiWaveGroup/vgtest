@@ -311,30 +311,46 @@
 })();
 
 
-// 主題活動列表：日期數字逐字由亂數翻成正確日期（捲進畫面時依序一次；滑鼠移上或鍵盤聚焦時再翻一次）。
+// 主題活動列表：日期每個字放進固定寬度的格子（數字與「-」同寬對齊）；
+// 捲進畫面時逐字由亂數翻成正確日期，滑鼠移上或鍵盤聚焦時再翻一次（約 0.3 秒）。
 (function () {
   var dates = document.querySelectorAll('.ev-row .ev-date');
-  if (!dates.length || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var DIG = '0123456789';
+  if (!dates.length) return;
+  var cells = [];
   Array.prototype.forEach.call(dates, function (el) {
-    var text = el.textContent, timer = 0;
+    var text = el.textContent;
     if (el.tagName === 'TIME') el.setAttribute('aria-label', text);
+    el.textContent = '';
+    var spans = [];
+    for (var i = 0; i < text.length; i++) {
+      var sp = document.createElement('span');
+      sp.className = text[i] === '.' ? 'ch ch-dot' : 'ch';
+      sp.setAttribute('aria-hidden', 'true');
+      sp.textContent = text[i];
+      el.appendChild(sp); spans.push(sp);
+    }
+    el.classList.add('is-cells');
+    cells.push({ el: el, text: text, spans: spans });
+  });
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var DIG = '0123456789';
+  cells.forEach(function (c) {
+    var timer = 0, n = c.text.length;
     function run() {
       clearInterval(timer);
-      var frame = 0, n = text.length, total = 10;   // 10 × 25ms = 0.25 秒
+      var frame = 0, total = 10;   // 10 × 25ms = 0.25 秒
       timer = setInterval(function () {
         frame++;
-        var done = Math.max(0, Math.floor((frame - 1) * n / 8)), out = '';
+        var done = Math.max(0, Math.floor((frame - 1) * n / 8));
         for (var i = 0; i < n; i++) {
-          var c = text[i];
-          out += (i < done || !/[0-9-]/.test(c)) ? c : DIG[(Math.random() * 10) | 0];
+          var ch = c.text[i];
+          c.spans[i].textContent = (i < done || !/[0-9-]/.test(ch)) ? ch : DIG[(Math.random() * 10) | 0];
         }
-        el.textContent = out;
-        if (frame >= total) { clearInterval(timer); el.textContent = text; }
+        if (frame >= total) { clearInterval(timer); for (var j = 0; j < n; j++) c.spans[j].textContent = c.text[j]; }
       }, 25);
     }
-    el._evRun = run;
-    var row = el.closest('a');
+    c.run = run;
+    var row = c.el.closest('a');
     if (row) { row.addEventListener('mouseenter', run); row.addEventListener('focus', run); }
   });
   var list = document.querySelector('.ev-rows');
@@ -342,7 +358,7 @@
     var io = new IntersectionObserver(function (en) {
       if (!en[0].isIntersecting) return;
       io.disconnect();
-      Array.prototype.forEach.call(dates, function (el, i) { setTimeout(el._evRun, i * 15); });
+      cells.forEach(function (c, i) { setTimeout(c.run, i * 15); });
     }, { threshold: 0.3 });
     io.observe(list);
   }

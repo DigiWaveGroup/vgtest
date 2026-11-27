@@ -2340,3 +2340,16 @@ html { -webkit-tap-highlight-color: transparent; }
   .ev-row a:hover .ev-tag.state-open, .ev-row a:focus-visible .ev-tag.state-open { border-color: #D7E9EF !important; }
 }
 @media screen and (min-width: 1201px) { .ev-when { width: 360px; } .ev-info { grid-template-columns: 8em minmax(0, 1fr); } .ev-row a, .ev-row-in { gap: 0 22px; } }
+
+/* 主題活動日期：改用 Oxanium（切角機甲感），等寬數字 */
+@font-face { font-family: "Oxanium"; src: url("vgw_website_assets/8_fonts/Oxanium-Variable.ttf") format("truetype"); font-weight: 200 800; font-style: normal; font-display: swap; }
+@media screen {
+  .ev-date, .ev-sub { font-family: "Oxanium", "Martian Mono", ui-monospace, monospace; font-variation-settings: normal; font-stretch: normal; font-feature-settings: "tnum" 1; font-variant-numeric: tabular-nums; }
+  .ev-date { font-weight: 300; letter-spacing: .01em; }
+  .ev-sub { font-weight: 400; font-size: .9rem; }
+}
+@media screen {
+  .ev-date.is-cells { display: inline-flex; letter-spacing: 0; }
+  .ev-date .ch { display: inline-block; width: .6em; text-align: center; }
+  .ev-date .ch-dot { width: .3em; }
+}
