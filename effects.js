@@ -350,8 +350,10 @@
       }, 25);
     }
     c.run = run;
-    var row = c.el.closest('a');
-    if (row) { row.addEventListener('mouseenter', run); row.addEventListener('focus', run); }
+    var row = c.el.closest('.ev-row');   // 每一列（含不可點的開幕典禮）滑鼠移上都會翻字
+    if (row) row.addEventListener('mouseenter', run);
+    var link = c.el.closest('a');
+    if (link) link.addEventListener('focus', run);
   });
   var list = document.querySelector('.ev-rows');
   if (list && 'IntersectionObserver' in window) {
