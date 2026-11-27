@@ -2084,3 +2084,15 @@ main .article-aside-title::after { display: none; }
 }
 /* 對焦框：只留框，不顯示光圈快門數字；鎖定時顯示 LOCK ● */
 .cam-af-x { display: none !important; }
+
+/* 導覽列：滑鼠移上去時文字先閃一下雜訊（約 0.35 秒，使用者觸發） */
+@media screen and (prefers-reduced-motion: no-preference) {
+  @keyframes nav-noise {
+    0%   { text-shadow: 2px 0 rgba(241,43,32,.9), -2px 0 rgba(95,212,255,.7); clip-path: inset(0 0 55% 0); transform: translateX(-1px); }
+    20%  { text-shadow: -2px 0 rgba(241,43,32,.9), 2px 0 rgba(95,212,255,.7); clip-path: inset(45% 0 0 0); transform: translateX(2px); }
+    40%  { text-shadow: 1px 0 rgba(241,43,32,.8), -1px 0 rgba(95,212,255,.6); clip-path: inset(20% 0 30% 0); transform: translateX(-1px); }
+    60%  { text-shadow: -1px 0 rgba(241,43,32,.6), 1px 0 rgba(95,212,255,.4); clip-path: none; transform: translateX(1px); }
+    100% { text-shadow: none; clip-path: none; transform: none; }
+  }
+  .nav-list a:hover, .nav-list a:focus-visible { animation: nav-noise .35s steps(1) 1; }
+}
