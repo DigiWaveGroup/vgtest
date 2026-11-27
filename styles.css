@@ -2137,3 +2137,9 @@ main .article-aside-title::after { display: none; }
   .header-inner .nav-list { justify-content: flex-end; }
   .header-inner .header-social { grid-column: 3; grid-row: 1; justify-self: end; padding-left: 24px; border-left: 1px solid rgba(215,233,239,.14); }
 }
+
+/* 報名參展照片：鏡頭退後，完整顯示整張圖（左右以圖片邊緣的深紅色補滿） */
+@media screen and (min-width: 951px) {
+  #exhibit > picture { display: block; width: 100%; align-self: stretch; height: clamp(92px, 14vh, 158px); margin-bottom: 14px; overflow: hidden; background: #0E0201; }
+  #exhibit > picture .card-image { display: block; width: 66%; height: 100%; margin: 0 auto; object-fit: cover !important; -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent); mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent); }
+}
