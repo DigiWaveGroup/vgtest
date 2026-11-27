@@ -2558,3 +2558,9 @@ html { -webkit-tap-highlight-color: transparent; }
 }
 /* 展覽圖片靠左，與下方文字對齊 */
 @media screen and (min-width: 951px) { #exhibit > picture { margin-left: 0 !important; margin-right: auto !important; } }
+
+/* 展覽圖片維持全寬長度（與卡片內文同寬、左右對齊下方文字），與競賽圖片同高 */
+@media screen and (min-width: 951px) {
+  #exhibit > picture { width: 100% !important; margin-left: 0 !important; margin-right: 0 !important; }
+  #exhibit > picture .card-image { width: 100% !important; object-position: 50% 50% !important; }
+}
