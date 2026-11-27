@@ -2072,3 +2072,13 @@ main .article-aside-title::after { display: none; }
   .participate-card .card-image { height: clamp(110px, 17vh, 190px); }
   #competition .card-image { height: clamp(90px, 13vh, 150px); }
 }
+
+/* 滑鼠：隱藏系統箭頭，只顯示十字準心（位置與實際點擊點完全一致，無延遲） */
+.cam-dot { display: block !important; }
+.cam-dot::before { left: -9px; width: 19px; }
+.cam-dot::after { top: -9px; height: 19px; }
+/* 高對比模式：還原系統游標，避免看不到滑鼠 */
+@media (forced-colors: active) {
+  .cam-cursor, .cam-cursor * { cursor: auto !important; }
+  .cam-dot, .cam-af { display: none !important; }
+}

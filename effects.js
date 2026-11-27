@@ -165,7 +165,7 @@
   var fr = document.createElement('div'); fr.className = 'cam-af'; fr.setAttribute('aria-hidden', 'true');
   fr.innerHTML = '<i></i><i></i><i></i><i></i><b class="cam-af-l">AF</b><b class="cam-af-x">\u0192 2.8&nbsp;&nbsp;1/250</b>';
   document.body.appendChild(fr); document.body.appendChild(dot);
-  // system cursor stays visible (no cam-cursor class); the frame is decoration only
+  root.classList.add('cam-cursor');   // system arrow hidden; a crosshair sits exactly at the pointer
   var W = 46, H = 32, cur = { x: -200, y: -200, w: W, h: H }, tgt = { x: -200, y: -200, w: W, h: H }, raf = 0, lockEl = null, mx = -200, my = -200;
   var SEL = 'a, button, [role="button"], summary, label, input, select, textarea';
   function aim() {
