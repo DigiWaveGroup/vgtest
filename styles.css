@@ -2402,3 +2402,7 @@ html { -webkit-tap-highlight-color: transparent; }
 @media screen and (min-width: 951px) {
   main > section.participate:not(.hero):not(.page-head):not(.updates) { min-height: 0 !important; padding-bottom: 56px !important; }
 }
+
+/* 評審類別按鈕的紅色焦點框：畫在按鈕內側並疊在評審卡片之上，展開後不會被卡片蓋住 */
+.judge-toggle { position: relative; z-index: 2; }
+.judge-toggle:focus-visible { outline: 2px solid var(--neon); outline-offset: -3px; }
