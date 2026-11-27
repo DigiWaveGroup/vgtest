@@ -2499,3 +2499,9 @@ html { -webkit-tap-highlight-color: transparent; }
 @media screen and (prefers-reduced-motion: no-preference) {
   .motion-loop .hero picture::after { animation: hero-scanline2 9s linear infinite; }
 }
+
+/* 再微微淡一點：全站噪點、封面掃描光 */
+@media screen { body::after { opacity: .3; } }
+@media screen and (prefers-reduced-motion: no-preference) {
+  .hero picture::after { background: linear-gradient(180deg, transparent, rgba(241,43,32,.05) 70%, rgba(255,120,110,.14) 96%, transparent); }
+}
