@@ -210,7 +210,7 @@ def event_row(r):
     else:
         big = f'<span class="ev-date ev-date-tba" aria-hidden="true">--.--.----</span><span class="visually-hidden">{TBA}</span>'
         sub = ""
-    meta = [TYPES[r["type"]]] + ([r["venue_zh"]] if r.get("venue_zh") else [])
+    meta = [r["venue_zh"]] if r.get("venue_zh") else ["-"]   # 首頁列表只顯示地點，未定則「-」
     if r["status"] == "open" and r.get("register_url"):
         # 開放報名的場次：整列直接連到報名表單（站外，另開新視窗）
         link = (f'<a href="{e(r["register_url"])}" target="_blank" rel="noopener noreferrer">', f'<span class="visually-hidden">：前往報名{NW}</span>')
