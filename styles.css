@@ -2202,3 +2202,19 @@ main .article-aside-title::after { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { .ev-row a::before, .ev-date, .ev-title, .ev-tag { transition: none; } }
 @media (forced-colors: active) { .ev-row a:hover .ev-date, .ev-row a:hover .ev-title, .ev-row a:hover .ev-tag { forced-color-adjust: auto; } }
+
+/* 主題活動列表：日期放大成主視覺 */
+@media screen {
+  .ev-row a { grid-template-columns: minmax(300px, auto) 1fr auto; padding: 20px 0 24px; }
+  .ev-date { font-size: clamp(3.4rem, 7.4vw, 6.4rem); font-weight: 300; letter-spacing: 0; }
+  .ev-row a::before { top: 44px; }
+  .ev-info { padding-top: 14px; }
+  .ev-tag { margin-top: 16px; }
+}
+@media screen and (min-width: 951px) and (max-width: 1200px) { .ev-row a { grid-template-columns: minmax(240px, auto) 1fr auto; gap: 8px 28px; } }
+@media screen and (max-width: 650px) {
+  .ev-row a { grid-template-columns: 1fr auto; }
+  .ev-date { font-size: 3.4rem; }
+  .ev-info { padding-top: 4px; }
+  .ev-tag { margin-top: 6px; }
+}

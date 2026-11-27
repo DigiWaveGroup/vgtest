@@ -311,3 +311,40 @@
   });
 })();
 
+
+// 主題活動列表：日期數字逐字由亂數翻成正確日期（捲進畫面時依序一次；滑鼠移上或鍵盤聚焦時再翻一次）。
+(function () {
+  var dates = document.querySelectorAll('.ev-row .ev-date');
+  if (!dates.length || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var DIG = '0123456789';
+  Array.prototype.forEach.call(dates, function (el) {
+    var text = el.textContent, timer = 0;
+    if (el.tagName === 'TIME') el.setAttribute('aria-label', text);
+    function run() {
+      clearInterval(timer);
+      var frame = 0, n = text.length, total = n * 2 + 6;
+      timer = setInterval(function () {
+        frame++;
+        var done = Math.max(0, Math.floor((frame - 4) / 2)), out = '';
+        for (var i = 0; i < n; i++) {
+          var c = text[i];
+          out += (i < done || !/[0-9-]/.test(c)) ? c : DIG[(Math.random() * 10) | 0];
+        }
+        el.textContent = out;
+        if (frame >= total) { clearInterval(timer); el.textContent = text; }
+      }, 45);
+    }
+    el._evRun = run;
+    var row = el.closest('a');
+    if (row) { row.addEventListener('mouseenter', run); row.addEventListener('focus', run); }
+  });
+  var list = document.querySelector('.ev-rows');
+  if (list && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (en) {
+      if (!en[0].isIntersecting) return;
+      io.disconnect();
+      Array.prototype.forEach.call(dates, function (el, i) { setTimeout(el._evRun, i * 140); });
+    }, { threshold: 0.3 });
+    io.observe(list);
+  }
+})();
