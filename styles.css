@@ -2324,3 +2324,19 @@ html { -webkit-tap-highlight-color: transparent; }
   .ev-sub { font-variation-settings: "wght" 300, "wdth" 87.5; }
 }
 @media screen and (min-width: 1201px) { .ev-date { font-size: clamp(2.4rem, 3.6vw, 3.3rem); } .ev-when { width: 380px; } }
+
+/* 報名資訊：電腦版自成一頁（區塊至少一個螢幕高，下方留白） */
+@media screen and (min-width: 951px) {
+  main > section.participate:not(.hero):not(.page-head):not(.updates) { min-height: 100vh !important; min-height: 100svh !important; }
+}
+
+/* 主題活動：「-」佔位列的符號都在同一條水平線上；開放報名加回外框 */
+@media screen and (min-width: 651px) {
+  .ev-row.is-placeholder .ev-row-in, .ev-row.is-placeholder .ev-when, .ev-row.is-placeholder .ev-info { align-items: center; }
+  .ev-row.is-placeholder .ev-meta, .ev-row.is-placeholder .ev-title, .ev-row.is-placeholder .ev-tag { margin-top: 0; }
+}
+@media screen {
+  .ev-tag.state-open { padding: 3px 8px; border: 1px solid rgba(241,43,32,.6) !important; }
+  .ev-row a:hover .ev-tag.state-open, .ev-row a:focus-visible .ev-tag.state-open { border-color: #D7E9EF !important; }
+}
+@media screen and (min-width: 1201px) { .ev-when { width: 360px; } .ev-info { grid-template-columns: 8em minmax(0, 1fr); } .ev-row a, .ev-row-in { gap: 0 22px; } }

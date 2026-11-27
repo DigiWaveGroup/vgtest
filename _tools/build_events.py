@@ -446,6 +446,7 @@ def build_article(n, prev_n, next_n):
 
 # ----------------------------------------------------------- events page
 def build_events_page(events):
+    events = [r for r in events if r["status"] != "tba"]   # 待公布的場次不放在活動分頁
     days = sorted({r["_date"] for r in events}, key=lambda d: d or dt.date.max)
 
     def btns(kind, values, labels):
