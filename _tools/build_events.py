@@ -579,6 +579,22 @@ def build_sitemap(news):
     (ROOT / SITEMAP_PAGE).write_text(shell("網站導覽", "放視大賞網站所有頁面與區塊連結。", main), encoding="utf-8")
 
 
+
+def stamp_asset_versions():
+    """在所有頁面的 CSS／JS 網址後加上內容雜湊（?v=xxxx），檔案更新後瀏覽器一定抓新版，不會用到快取的舊檔。"""
+    import hashlib
+    ver = {}
+    for name in ("styles.css", "effects.js", "judges.js", "events-filter.js"):
+        f = ROOT / name
+        if f.exists():
+            ver[name] = hashlib.sha256(f.read_bytes()).hexdigest()[:10]
+    pat = re.compile(r'((?:href|src)="/?)(styles\.css|effects\.js|judges\.js|events-filter\.js)(?:\?v=[0-9a-f]+)?"')
+    for page in ROOT.glob("*.html"):
+        s = page.read_text(encoding="utf-8")
+        t = pat.sub(lambda m: f'{m.group(1)}{m.group(2)}?v={ver[m.group(2)]}"' if m.group(2) in ver else m.group(0), s)
+        if t != s:
+            page.write_text(t, encoding="utf-8")
+
 def main():
     events = load_events()
     news = load_news(events)
@@ -592,6 +608,7 @@ def main():
     build_events_page(events)
     build_static_pages()
     build_sitemap(news)
+    stamp_asset_versions()
     # remove pages of deleted news items and retired page names
     for p in ROOT.glob("news-*.html"):
         if p.name not in keep:
