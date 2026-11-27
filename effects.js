@@ -320,3 +320,101 @@
     a.addEventListener('focus', run);
   });
 })();
+
+// 封面：滑鼠移動經過時，游標周圍的圖片變成馬賽克（WebGL）。
+// 移動越快範圍越大；停止移動後約 1 秒淡回原圖，畫布清空。
+(function () {
+  var hero = document.querySelector('.hero');
+  var img = hero && hero.querySelector('.hero-cover');
+  if (!img) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+  var cv = document.createElement('canvas');
+  cv.className = 'hero-fx';
+  cv.setAttribute('aria-hidden', 'true');
+  var gl = cv.getContext('webgl', { premultipliedAlpha: false, alpha: true, antialias: false });
+  if (!gl) return;
+
+  var VS = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
+  var FS = [
+    'precision mediump float;',
+    'uniform sampler2D uTex;uniform vec2 uRes,uImg,uPtr;uniform float uTime,uVel,uCell;',
+    'float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}',
+    'vec2 fit(){float ca=uRes.x/uRes.y,ia=uImg.x/uImg.y;return ca>ia?vec2(ia/ca,1.):vec2(1.,ca/ia);}',
+    'vec4 tx(vec2 p,vec2 s){return texture2D(uTex,(p-.5)/s+.5);}',
+    'void main(){',
+    ' vec2 uv=gl_FragCoord.xy/uRes;uv.y=1.-uv.y;vec2 s=fit();',
+    ' vec2 q=(uv-.5)/s+.5;if(q.x<0.||q.x>1.||q.y<0.||q.y>1.){gl_FragColor=vec4(0.);return;}',
+    ' float asp=uRes.x/uRes.y;vec2 cells=uRes/uCell;vec2 cuv=(floor(uv*cells)+.5)/cells;',
+    ' float d=length((cuv-uPtr)*vec2(asp,1.))+(h(cuv*31.+floor(uTime*10.))-.5)*.04;',
+    ' float r0=.04+.10*uVel;float a=uVel*(1.-smoothstep(r0,r0+.06,d));',
+    ' gl_FragColor=vec4(tx(a>.05?cuv:uv,s).rgb,1.);',
+    '}'
+  ].join('\n');
+  function sh(t, src) { var o = gl.createShader(t); gl.shaderSource(o, src); gl.compileShader(o); return gl.getShaderParameter(o, gl.COMPILE_STATUS) ? o : null; }
+  var vs = sh(gl.VERTEX_SHADER, VS), fs = sh(gl.FRAGMENT_SHADER, FS);
+  if (!vs || !fs) return;
+  var pg = gl.createProgram(); gl.attachShader(pg, vs); gl.attachShader(pg, fs); gl.linkProgram(pg);
+  if (!gl.getProgramParameter(pg, gl.LINK_STATUS)) return;
+  gl.useProgram(pg);
+  var buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+  var loc = gl.getAttribLocation(pg, 'p'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+  var U = {};
+  ['uTex', 'uRes', 'uImg', 'uPtr', 'uTime', 'uVel', 'uCell'].forEach(function (n) { U[n] = gl.getUniformLocation(pg, n); });
+
+  var ready = false, raf = 0, t0 = performance.now();
+  var ptr = { x: .5, y: .5 }, last = null, vel = 0;
+  function now() { return (performance.now() - t0) / 1000; }
+
+  var tex = gl.createTexture(), src = new Image();
+  src.onload = function () {
+    try {
+      gl.bindTexture(gl.TEXTURE_2D, tex);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, src);
+      if (gl.getError() !== gl.NO_ERROR) return;
+      gl.uniform1i(U.uTex, 0); gl.uniform2f(U.uImg, src.naturalWidth, src.naturalHeight);
+      ready = true; hero.appendChild(cv); size();
+    } catch (e) { /* file:// 等無法讀取圖片像素時，維持原圖不加特效 */ }
+  };
+  src.src = img.currentSrc || img.src;
+
+  function size() {
+    var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    var w = img.offsetWidth, hgt = img.offsetHeight;
+    cv.style.setProperty('left', img.offsetLeft + 'px'); cv.style.setProperty('top', img.offsetTop + 'px');
+    cv.style.setProperty('width', w + 'px'); cv.style.setProperty('height', hgt + 'px');
+    cv.width = Math.max(1, Math.round(w * dpr)); cv.height = Math.max(1, Math.round(hgt * dpr));
+    gl.viewport(0, 0, cv.width, cv.height);
+    gl.uniform2f(U.uRes, cv.width, cv.height); gl.uniform1f(U.uCell, 18 * dpr);
+  }
+  if ('ResizeObserver' in window) new ResizeObserver(function () { if (ready) size(); }).observe(img);
+
+  function paused() { return document.documentElement.classList.contains('motion-paused'); }
+  function frame() {
+    raf = 0;
+    if (!ready) return;
+    var t = now();
+    vel *= .86;
+    var vn = Math.min(1, Math.max(0, (vel - .002) / (.03 - .002)));
+    if (vn <= .02 || paused()) { cv.classList.remove('is-on'); gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT); return; }
+    gl.uniform2f(U.uPtr, ptr.x, ptr.y); gl.uniform1f(U.uTime, t); gl.uniform1f(U.uVel, vn);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    cv.classList.add('is-on');
+    raf = requestAnimationFrame(frame);
+  }
+  function kick() { if (!raf) raf = requestAnimationFrame(frame); }
+  function toUv(e) { var b = img.getBoundingClientRect(); return { x: (e.clientX - b.left) / b.width, y: (e.clientY - b.top) / b.height }; }
+
+  hero.addEventListener('pointerleave', function () { last = null; });
+  hero.addEventListener('pointermove', function (e) {
+    var p = toUv(e);
+    if (last) { var d = Math.hypot(p.x - last.x, p.y - last.y); vel += (d - vel) * .45; }
+    last = p; ptr = p; kick();
+  }, { passive: true });
+})();
