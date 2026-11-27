@@ -86,7 +86,7 @@
   root.classList.add('cy');
 
   // 1) Scroll reveal: blocks materialise (blur → sharp, rise) as they enter, slightly staggered.
-  var RV = '.section-heading, .visit-heading, .post-row, .participate-card, .event-card, .judge-category, .visit-content, .visit-facts > div, .fb-card, .sponsor-group, .faq-list > div, .article-body > *';
+  var RV = '.section-heading, .sponsor-heading, .visit-heading, .post-row, .participate-card, .event-card, .judge-category, .visit-content, .visit-facts > div, .fb-card, .sponsor-group, .faq-list > div, .article-body > *';
   var items = Array.prototype.slice.call(document.querySelectorAll(RV)).filter(function (el) { return !el.closest('.updates, .page-head, .article-head'); });
   items.forEach(function (el) {
     var sibs = Array.prototype.filter.call(el.parentNode.children, function (c) { return c.matches(RV); });
