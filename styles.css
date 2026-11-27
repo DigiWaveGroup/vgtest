@@ -2507,3 +2507,18 @@ html { -webkit-tap-highlight-color: transparent; }
 }
 /* 狀態框加寬以容納「待開放報名」，三種狀態仍等寬切齊 */
 @media screen { .ev-tag { min-width: 7.4em !important; } }
+
+/* 報名資訊：兩張卡片用子格線共用列高，主要按鈕與簡章按鈕都水平對齊 */
+@media screen and (min-width: 951px) {
+  .participate-grid { grid-template-rows: auto auto auto auto 1fr auto auto !important; row-gap: 0 !important; align-items: stretch !important; }
+  .participate-grid > .participate-card { display: grid !important; grid-row: span 7; grid-template-rows: subgrid; align-content: start; }
+  .participate-grid > .participate-card > .card-downloads { margin-top: 0 !important; align-self: end; }
+  .participate-grid > .participate-card > .card-actions { align-self: start; }
+  .participate-grid > .participate-card > .mini-facts { align-self: start; }
+}
+@media screen and (min-width: 951px) {
+  .participate-grid > .participate-card { grid-row: 1 / span 7 !important; grid-template-rows: subgrid !important; }
+}
+@media screen and (min-width: 951px) {
+  .participate-card .card-actions .button { box-sizing: border-box; height: 56px; min-height: 0; display: flex; align-items: center; justify-content: center; padding-block: 0; }
+}
