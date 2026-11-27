@@ -2250,3 +2250,13 @@ main .article-aside-title::after { display: none; }
   .ev-info { grid-template-columns: 9.5em minmax(0, 1fr); }
   .ev-row a { gap: 0 26px; }
 }
+
+/* 日期改為 MM.DD.YYYY＋時間 */
+@media screen and (min-width: 1201px) { .ev-when { min-width: 380px; } }
+@media screen and (min-width: 651px) and (max-width: 1200px) { .ev-when { min-width: 270px; } .ev-sub { display: inline; } .ev-date { font-size: clamp(2rem, 3.4vw, 2.6rem); } }
+@media screen and (max-width: 650px) { .ev-date { font-size: 2.3rem; } }
+@media screen and (min-width: 1201px) {
+  .ev-date { font-size: clamp(2.2rem, 3.2vw, 3rem); }
+  .ev-when { min-width: 335px; gap: 12px; }
+  .ev-info { grid-template-columns: 8.5em minmax(0, 1fr); }
+}
