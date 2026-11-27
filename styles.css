@@ -2143,3 +2143,8 @@ main .article-aside-title::after { display: none; }
 @media screen and (prefers-reduced-motion: no-preference) {
   .participate-card .closed-badge.is-open::before { animation: new-ping 1.6s ease-out 3; }
 }
+
+/* 封面滑鼠互動特效畫布：平常透明，只在互動時顯示 */
+.hero-fx { position: absolute; left: 0; top: 0; z-index: 0; display: block; pointer-events: none; opacity: 0; }
+.hero-fx.is-on { opacity: 1; }
+@media print, (forced-colors: active), (prefers-reduced-motion: reduce) { .hero-fx { display: none !important; } }
