@@ -2488,3 +2488,8 @@ html { -webkit-tap-highlight-color: transparent; }
   .hero picture::after { background: linear-gradient(180deg, transparent, rgba(241,43,32,.07) 70%, rgba(255,120,110,.2) 96%, transparent); }
   .motion-loop .hero picture::after { animation-duration: 6s; }
 }
+/* 掃描光要完整掃過整張封面：光條高 22%，需移動 -100% → 100%/0.22 ≈ 455% */
+@media screen and (prefers-reduced-motion: no-preference) {
+  @keyframes hero-scanline2 { from { transform: translateY(-100%); } to { transform: translateY(460%); } }
+  .motion-loop .hero picture::after { animation: hero-scanline2 6s linear infinite; }
+}
