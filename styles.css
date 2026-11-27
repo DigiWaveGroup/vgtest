@@ -2493,3 +2493,9 @@ html { -webkit-tap-highlight-color: transparent; }
   @keyframes hero-scanline2 { from { transform: translateY(-100%); } to { transform: translateY(460%); } }
   .motion-loop .hero picture::after { animation: hero-scanline2 6s linear infinite; }
 }
+
+/* 全站噪點再降一點；封面掃描光 9 秒一次 */
+@media screen { body::after { opacity: .36; } }
+@media screen and (prefers-reduced-motion: no-preference) {
+  .motion-loop .hero picture::after { animation: hero-scanline2 9s linear infinite; }
+}
