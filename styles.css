@@ -2016,3 +2016,49 @@ main .article-aside-title::after { display: none; }
   #competition .card-actions .button-primary { min-height: 48px; font-size: .9rem; }
   #competition .card-downloads .dl-link { padding-block: 8px; font-size: .82rem; }
 }
+
+/* 報名資訊：整區塞進一個畫面（桌機），兩張卡片底部對齊 */
+@media screen and (min-width: 951px) {
+  main > section.participate:not(.hero) { padding-block: 32px 28px !important; }
+  .participate .section-heading { margin-bottom: 18px !important; }
+  .participate .section-heading .eyebrow { margin-bottom: 8px; }
+  .participate h2::after { margin-top: 10px; }
+  .participate .section-subtitle { margin-top: 10px; }
+  .participate-grid { align-items: stretch !important; }
+  .participate-card { padding: 20px 24px !important; }
+  .participate-card .card-image { aspect-ratio: auto !important; height: clamp(90px, 17vh, 190px); margin-bottom: 14px; }
+  #competition .card-image { height: clamp(70px, 12vh, 130px); }
+  .participate-card .card-top { margin-bottom: 6px; }
+  .participate-card h3 { margin-bottom: 8px; }
+  .participate-card > p { margin-bottom: 10px; line-height: 1.65; }
+  .participate-card .mini-facts { margin: 4px 0 14px; }
+  .participate-card .mini-facts div { padding-block: 7px; }
+  .participate-card .ext-note { margin-top: 8px; }
+  /* 下載列推到卡片最底，兩張卡片底部切齊 */
+  .participate-card .card-downloads { margin-top: auto !important; padding-top: 14px; }
+  .participate-card .card-actions { margin-bottom: 16px; }
+  .participate .reg-help { margin-top: 14px; }
+}
+@media screen and (min-width: 951px) {
+  main > section.participate:not(.hero):not(.page-head):not(.updates) { padding-block: 28px 24px !important; }
+  .participate-card > p { flex: none !important; }
+  .participate-card .card-image { height: clamp(80px, 13vh, 160px); }
+  #competition .card-image { height: clamp(64px, 10vh, 120px); }
+  #exhibit .card-actions .button-primary { min-height: 52px; }
+  .participate-card .card-actions .button-primary { min-height: 46px; }
+  .participate .section-subtitle { display: inline-block; }
+}
+@media screen and (min-width: 951px) {
+  .participate .section-heading > div { display: grid; grid-template-columns: auto 1fr; grid-template-areas: "eb eb" "h2 sub"; align-items: end; column-gap: 28px; }
+  .participate .section-heading .eyebrow { grid-area: eb; }
+  .participate .section-heading h2 { grid-area: h2; }
+  .participate .section-heading .section-subtitle { grid-area: sub; margin: 0 0 22px; }
+  .participate-card { padding: 18px 22px !important; }
+  .participate-card > p { line-height: 1.6; }
+  .participate-card .card-actions { margin-bottom: 12px; }
+}
+@media screen and (min-width: 951px) {
+  main > section.participate:not(.hero):not(.page-head):not(.updates) { padding-block: 24px 18px !important; }
+  .participate-card .card-image { height: clamp(76px, 12vh, 150px); }
+  .participate .reg-help { margin-top: 10px; }
+}
