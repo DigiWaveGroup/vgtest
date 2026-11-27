@@ -2132,10 +2132,8 @@ main .article-aside-title::after { display: none; }
 }
 @media print { .map-route .mr-base { stroke-dashoffset: 0; } }
 
-/* 導覽列：游標移入時不出現十字與對焦框，改為紅點；連結前方顯示紅點 */
+/* 導覽列：游標移入時只留十字，不出現對焦框；連結前方顯示紅點 */
 .cam-af.is-nav { opacity: 0 !important; }
-.cam-dot.is-nav::before { left: -4px; top: -4px; width: 8px; height: 8px; border-radius: 50%; background: #F12B20; box-shadow: 0 0 0 2px rgba(8,11,16,.7); }
-.cam-dot.is-nav::after { display: none; }
 @media screen and (min-width: 901px) {
   .nav-list a::before, .nav-list a[href="#exhibit"]::before, .nav-list a[href$="index.html#exhibit"]::before { width: 6px; height: 6px; border-radius: 50%; background: #F12B20; box-shadow: none; vertical-align: 1px; }
 }
