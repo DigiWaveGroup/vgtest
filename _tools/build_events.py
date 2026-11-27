@@ -201,8 +201,8 @@ def event_row(r):
         big = f'<time class="ev-date" datetime="{r["date"]}">{d.month:02d}.{d.day:02d}.{d.year}</time>'
         sub = (r["start"] + (f'–{r["end"]}' if r.get("end") else "")) if r.get("start") else ""
     else:
-        big = '<span class="ev-date ev-date-tba" aria-hidden="true">--.--.----</span>'
-        sub = TBA
+        big = f'<span class="ev-date ev-date-tba" aria-hidden="true">--.--.----</span><span class="visually-hidden">{TBA}</span>'
+        sub = ""
     meta = [TYPES[r["type"]]] + ([r["venue_zh"]] if r.get("venue_zh") else [])
     return (f'<li class="ev-row"><a href="{EVENTS_PAGE}#event-{r["id"]}">'
             f'<span class="ev-when">{big}' + (f'<span class="ev-sub">{e(sub)}</span>' if sub else "") + '</span>'
