@@ -43,7 +43,7 @@
   var x = 0, y = 0, tx = 0, ty = 0, raf = 0, label = t.querySelector('.trk-label');
   function pad(n) { n = Math.max(0, Math.round(n)); return ('0000' + n).slice(-4); }
   function step() {
-    x += (tx - x) * 0.18; y += (ty - y) * 0.18;
+    x += (tx - x) * 0.35; y += (ty - y) * 0.35;
     t.style.setProperty('--x', x.toFixed(1) + 'px');
     t.style.setProperty('--y', y.toFixed(1) + 'px');
     label.textContent = 'TRK ' + pad(x) + ' / ' + pad(y);
@@ -189,7 +189,9 @@
     dot.style.transform = 'translate(' + mx + 'px,' + my + 'px)';
     if (!fr.classList.contains('is-on')) { cur = { x: mx - W / 2, y: my - H / 2, w: W, h: H }; fr.classList.add('is-on'); dot.classList.add('is-on'); }
     var el = e.target.closest ? e.target.closest(SEL) : null;
-    if (el && el.closest('.site-header')) el = null;   // no lock on the top nav
+    if (el && el.closest('.site-header, section.follow')) el = null;   // no lock on the top nav or in 追蹤我們
+    var inFollow = !!(e.target.closest && e.target.closest('section.follow'));
+    fr.classList.toggle('is-away', inFollow); dot.classList.toggle('is-away', inFollow);
     if (el !== lockEl) {
       if (ro) { if (lockEl) ro.unobserve(box(lockEl)); if (el) ro.observe(box(el)); }
       lockEl = el;
@@ -203,7 +205,7 @@
   addEventListener('scroll', function () {
     var el = document.elementFromPoint(mx, my);
     el = el && el.closest ? el.closest(SEL) : null;
-    if (el && el.closest('.site-header')) el = null;
+    if (el && el.closest('.site-header, section.follow')) el = null;
     if (el !== lockEl) { lockEl = el; fr.classList.toggle('is-lock', !!el); }
     kick();
   }, { passive: true });
