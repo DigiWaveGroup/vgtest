@@ -203,7 +203,6 @@
     kick();
   }, { passive: true });
   document.addEventListener('click', function () { kick(); });
-  document.addEventListener('pointerdown', function () { fr.classList.remove('is-shot'); void fr.offsetWidth; fr.classList.add('is-shot'); });
   addEventListener('scroll', function () {
     var el = document.elementFromPoint(mx, my);
     el = el && el.closest ? el.closest(SEL) : null;

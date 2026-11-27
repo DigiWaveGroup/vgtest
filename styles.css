@@ -2288,3 +2288,7 @@ main .article-aside-title::after { display: none; }
   .ev-when, .ev-info { align-items: baseline; }
   .ev-title { line-height: 1.2; }
 }
+
+/* 點擊時不要亮光：移除對焦框快門閃光與手機點擊反光 */
+.cam-af.is-shot, .cam-af.is-shot i { animation: none !important; }
+html { -webkit-tap-highlight-color: transparent; }
