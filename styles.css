@@ -2406,3 +2406,22 @@ html { -webkit-tap-highlight-color: transparent; }
 /* 評審類別按鈕的紅色焦點框：畫在按鈕內側並疊在評審卡片之上，展開後不會被卡片蓋住 */
 .judge-toggle { position: relative; z-index: 2; }
 .judge-toggle:focus-visible { outline: 2px solid var(--neon); outline-offset: -3px; }
+
+/* 主題活動：反白不超出列背景；狀態標籤固定同寬、右側切齊 */
+@media screen {
+  .ev-row a, .ev-row-in { padding-left: 14px !important; padding-right: 14px !important; }
+  .ev-date, .ev-title { margin-left: 0 !important; }
+  .ev-date { padding: 0 4px; }
+  .ev-title { padding: 2px 4px; }
+  .ev-tag { display: inline-block; justify-self: end; box-sizing: border-box; min-width: 6.4em; padding: 3px 8px; text-align: center; border: 1px solid transparent !important; }
+  .ev-tag.state-open { border-color: rgba(241,43,32,.6) !important; }
+  .ev-tag.state-upcoming { border-color: #5A656D !important; }
+  .ev-row a:hover .ev-tag, .ev-row a:focus-visible .ev-tag { border-color: #D7E9EF !important; }
+}
+@media screen and (min-width: 651px) and (max-width: 1200px) { .ev-when { width: 290px; } }
+@media screen and (min-width: 1201px) {
+  .ev-when { width: 330px; }
+  .ev-info { grid-template-columns: 7em minmax(0, 1fr); }
+  .ev-row a, .ev-row-in { gap: 0 18px; }
+  .ev-tag { min-width: 6em; }
+}
