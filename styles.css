@@ -2353,3 +2353,12 @@ html { -webkit-tap-highlight-color: transparent; }
   .ev-date .ch { display: inline-block; width: .6em; text-align: center; }
   .ev-date .ch-dot { width: .3em; }
 }
+
+/* 主題活動日期：改用 Russo One（粗壯機體編號感） */
+@font-face { font-family: "Russo One"; src: url("vgw_website_assets/8_fonts/RussoOne-Regular.ttf") format("truetype"); font-weight: 400; font-style: normal; font-display: swap; }
+@media screen {
+  .ev-date, .ev-sub { font-family: "Russo One", "Oxanium", ui-monospace, monospace; font-weight: 400; }
+  .ev-date .ch { width: .64em; }
+  .ev-date .ch-dot { width: .32em; }
+}
+@media screen and (min-width: 1201px) { .ev-date { font-size: clamp(2.2rem, 3.2vw, 3rem); } }
