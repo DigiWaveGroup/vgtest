@@ -2385,3 +2385,15 @@ html { -webkit-tap-highlight-color: transparent; }
 @media screen and (min-width: 1201px) { .ev-date { font-size: clamp(2rem, 2.7vw, 2.6rem); } }
 @media screen and (min-width: 651px) and (max-width: 1200px) { .ev-date { font-size: clamp(1.9rem, 3.2vw, 2.4rem); } }
 @media screen and (max-width: 650px) { .ev-date { font-size: clamp(1.6rem, 8vw, 2.2rem); } }
+
+/* 主題活動日期：改回全站一致的 Chakra Petch */
+@media screen {
+  .ev-date, .ev-sub { font-family: "Chakra Petch", var(--mono); }
+  .ev-date { font-weight: 300; }
+  .ev-sub { font-weight: 400; font-size: .9rem; }
+  .ev-date .ch { width: .6em; }
+  .ev-date .ch-dot { width: .3em; }
+}
+@media screen and (min-width: 1201px) { .ev-date { font-size: clamp(2.4rem, 3.4vw, 3.2rem); } }
+@media screen and (min-width: 651px) and (max-width: 1200px) { .ev-date { font-size: clamp(2.1rem, 3.6vw, 2.7rem); } }
+@media screen and (max-width: 650px) { .ev-date { font-size: clamp(1.9rem, 9vw, 2.6rem); } }
